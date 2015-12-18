@@ -5,14 +5,15 @@ Prerequisitos
  - Composer
  - NODEJS y NPM
  - Instalar GULP y GULP-CLI
+ 
 ```shell
 npm install -g gulp
 npm install - gulp-cli
 ```
 - Instalar BOWER
+
 ```shell
 npm install -g bower
-npm install - gulp-cli
 ```
 
 Pasos a seguir para instalar dependencias
@@ -21,6 +22,10 @@ Pasos a seguir para instalar dependencias
 composer install
 npm install
 bower install
+```
+
+Ejecutar el comando GULP para minificar codigo cliente
+```shell
 gulp
 ```
 
