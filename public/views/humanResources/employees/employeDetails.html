@@ -1,0 +1,16 @@
+<div class="inmodal">
+  <div class="modal-header">
+      <h3 class="modal-title">Detalles Empleado</h3>
+      <button type="button" class="close" data-dismiss="modal" ng-click="close()" aria-hidden="true">&times;</button>
+  </div>
+
+  <form ng-submit="update()">
+    <div class="modal-body" style="overflow: auto;">
+     <div ng-include="'views/humanResources/employees/employeForm.html'" scope="" onload=""></div>
+    </div>
+    <div class="modal-footer" ng-if="!validateStatus()">
+      <input type="submit" class="btn btn-primary btn-sm" id="update" value="Actualizar"/>
+      <input type="button"  class="btn btn-danger btn-sm" id="delete" ng-click="delete()" value="Eliminar"/>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,28 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Bancos</a></li>
+  <li><a href="javascript:;">Cobro Clientes</a></li>
+</ol>
+<h1 class="page-header">Cobro Clientes</h1>
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a ng-mousedown="maximize()" href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+    </div>
+    <h4 class="panel-title">Cobro Clientes</h4>
+  </div>
+  <div class="panel-body">
+    <form ng-submit="save()" name="supplierInvoice">
+      <div id="supplierInvoice" ng-include="'views/banks/customerCollect/form.html'"
+      scope="" onload="" ></div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="btn-group">
+            <input type="submit" class="btn btn-default btn-sm" value="Ingresar"/>
+            <input type="button" class="btn btn-white btn-sm" value="Limpiar" ng-click="clean()"/>
+          </div>
+        </div>
+      </div>
+    </form>
+   </div>
+</div>

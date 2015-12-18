@@ -1,0 +1,155 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Configuracion</a></li>
+    <li><a href="javascript:;">Flujo de Aprobaci&oacute;n de Documentos</a></li>
+</ol>
+<h1 class="page-header">Flujo de Aprobaci&oacute;n de Documentos</h1>
+
+<div class="row">
+    <div class="col-lg-8 col-md-8">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title" ng-show="!isUpdate">Nuevo Flujo de Aprobaci&oacute;n de Documento</h4>
+                <h4 class="panel-title" ng-show="isUpdate">Actualizar Flujo de Aprobaci&oacute;n de Documento</h4>
+            </div>
+            <div class="panel-body">
+
+                <form ng-submit="save(documentApprovalFlowForm.$valid)" novalidate="novalidate" name="documentApprovalFlowForm">
+                    <div class="row">
+
+                      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group" ng-class="{'has-error' : documentApprovalFlowForm.document.$invalid && billingTaxForm.$submitted}">
+                              <label class="control-label"><u>D</u>ocumento</label>
+                              <div class="input-group input-group-sm">
+                                <select class="form-control" tabindex="5" ng-model="documentApprovalFlow.documentCode" ng-required="true"
+                                  ng-options="document.code as document.name for document in documents"
+                                  id="document" name="document">
+                                  <option value="" disabled selected></option>
+                                </select>
+                                  <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                              </div>
+                              <p ng-show="documentApprovalFlowForm.document.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                          </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+
+                      <div class="panel panel-default">
+
+                        <div class="panel-heading clearfix lesspadding">
+                          <h5 class="panel-title col-xs-8"><u>F</u>lujo</h5>
+                          <div class="pull-right input-group-sm">
+                            <button type="button" class="btn btn-default btn-xs" ng-click="addFlowElement()" id="addFlowElement">
+                              <span class="glyphicon glyphicon-plus nopadding"></span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+
+                          <div class="row" ng-repeat="flowElement in documentApprovalFlow.flow">
+
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                <div class="form-group" ng-class="{'has-error' : documentApprovalFlowForm.order.$invalid && documentApprovalFlowForm.$submitted}">
+                                    <label class="control-label"></label>
+                                    <div class="input-group input-group-sm">
+                                      <button class="btn btn-default btn-sm" type="button" ng-click="deleteFlowElement($index)"><span class="glyphicon glyphicon-minus"></span></button>
+                                    </div>
+                                    <p ng-show="documentApprovalFlowForm.order.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                <div class="form-group" ng-class="{'has-error' : documentApprovalFlowForm.order{{$index}}.$invalid && documentApprovalFlowForm.$submitted}">
+                                    <label class="control-label"><u>O</u>rden</label>
+                                    <div class="input-group-sm">
+                                      <select class="form-control" tabindex="5" ng-model="flowElement.order" ng-required="true"
+                                        ng-options="order for order in orders" ng-change="validateOrderSelected($index)"
+                                        id="order{{$index}}" name="order{{$index}}">
+                                          <option value="" disabled selected></option>
+                                      </select>
+                                    </div>
+                                    <p ng-show="documentApprovalFlowForm.order{{$index}}.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group" ng-class="{'has-error' : documentApprovalFlowForm.rol{{$index}}.$invalid && documentApprovalFlowForm.$submitted}">
+                                    <label class="control-label"><u>R</u>oles</label>
+                                    <div class="input-group-sm">
+                                      <selectize tabindex="{{tabindex}}" ng-model="flowElement.rol_ids" ng-required="true"
+                                        config="configSelectedRoles" options="allRoles.roles" ng-change="validateRolesSelected($index)"
+                                        id="rol{{$index}}" name="rol{{$index}}"></selectize>
+                                    </div>
+                                    <p ng-show="documentApprovalFlowForm.rol{{$index}}.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group" ng-class="{'has-error' : documentApprovalFlowForm.approvalStatus{{$index}}.$invalid && documentApprovalFlowForm.$submitted}">
+                                    <label class="control-label"><u>E</u>stado Aprobado</label>
+                                    <div class="input-group-sm">
+                                      <input type="text" class="form-control" ng-model="flowElement.approvalStatus" ng-required="true"
+                                       id="approvalStatus{{$index}}" name="approvalStatus{{$index}}" text/>
+                                    </div>
+                                    <p ng-show="documentApprovalFlowForm.approvalStatus{{$index}}.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group" ng-class="{'has-error' : documentApprovalFlowForm.rejectedStatus{{$index}}.$invalid && documentApprovalFlowForm.$submitted}">
+                                    <label class="control-label"><u>E</u>stado Rechazado</label>
+                                    <div class="input-group-sm">
+                                      <input type="text" class="form-control" ng-model="flowElement.rejectedStatus" ng-required="true"
+                                       id="rejectedStatus{{$index}}" name="rejectedStatus{{$index}}" text/>
+                                    </div>
+                                    <p ng-show="documentApprovalFlowForm.rejectedStatus{{$index}}.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                                </div>
+                            </div>
+
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+
+
+                    <div class="btn-group">
+                        <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="7" ng-show="!isUpdate"/>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="7" ng-show="isUpdate"/>
+                        <input type="button" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="8" ng-click="clean()">
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title">Resumen</h4>
+            </div>
+            <div class="panel-body">
+
+              <table datatable dt-options="dtOptions" dt-columns="tableColumns" dt-instance="getTableInstance" class="row-border hover"></table>
+
+            </div>
+        </div>
+    </div>
+</div>

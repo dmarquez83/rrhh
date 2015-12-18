@@ -1,0 +1,115 @@
+<div class="inmodal">
+  <div class="modal-header">
+    <h3 class="modal-title">Detalles de Pago</h3>
+    <button type="button" class="close" data-dismiss="modal" ng-click="close()" aria-hidden="true">&times;</button>
+  </div>
+  <div class="modal-body">
+  	 <div class="row">
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.expireDate | date : 'yyyy-MM-dd'}}</h4>
+              <small>Fecha de Vencimiento</small>
+          </div>
+      </div>
+
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.supplierInvoiceNumber}}</h4>
+              <small>N&uacute;mero de Factura</small>
+          </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+          <div class="ibox-content">
+              <h4 class="no-margins">{{delayDays}}</h4>
+              <small>Dias de Retraso</small>
+          </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.total | currency}}</h4>
+              <small>Monto Cuota</small>
+          </div>
+      </div>
+
+    </div>
+    <br/>
+    <div class="row">
+
+      <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.quotaNumber}}</h4>
+              <small>N de Cuota</small>
+          </div>
+
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.totalQuotaNumbers}}</h4>
+              <small>N Total de Cuota</small>
+          </div>
+
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.paid | currency}}</h4>
+              <small>Monto Pagado</small>
+          </div>
+
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+          <div class="ibox-content">
+              <h4 class="no-margins">{{supplierPay.pendingPayment | currency}}</h4>
+              <small>Monto Pendiente</small>
+          </div>
+
+      </div>
+
+    </div>
+    <br/>
+     
+    <fieldset ng-disabled="validateStatus()">
+	  <span class="ibox-title ">Registrar Prorroga</span>
+	  <div class="hr-line-dashed"></div>
+	  <div class="row"> 
+
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+	    <div class="form-group" ng-class="{'has-error' : supplierPayForm.documentDate.$invalid && supplierPayForm.$submitted}">
+	      <label class="control-label">Nueva Fecha de Pago</label>
+	        <div class="input-group input-group-sm"
+	          input-date ng-model="supplierPay.newPayDate" date-id="newPayDate" date-name="newPayDate"
+	          ng-required="true" min-date="today">
+	        </div>
+	    </div>
+	  </div>
+
+	  <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+	    <div class="form-group" ng-class="{'has-error' : supplierPayForm.documentDate.$invalid && supplierPayForm.$submitted}">
+	      <label class="control-label">Comentario</label>
+	        <div class="input-group input-group-sm">
+	        	<input type="text" class="form-control" ng-model="supplierPay.comment" tabindex="3" ng-required="true" id="comment" name="comment"/>
+            	<span class="input-group-addon"><i class="fa fa-commenting-o"></i></span>
+	        </div>
+	    </div>
+	  </div>
+	  </div>
+	</fieldset>  
+
+
+    
+  </div>
+  <div class="modal-footer">
+        <input class="btn btn-primary btn-sm" type="button" ng-disabled="serverProcess"
+          ng-if="supplierPay.newPayDate" value="Registrar Prorroga" ng-click="registerExtensionDate()"/>
+        <input class="btn btn-danger btn-sm" type="button" ng-click="close()" value="Cerrar"/>
+    </div>
+</div>

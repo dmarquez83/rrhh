@@ -1,0 +1,299 @@
+<ol class="breadcrumb pull-right" xmlns="http://www.w3.org/1999/html">
+  <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+  <li><a href="javascript:;">Informaci&oacute;n Empresa</a></li>
+</ol>
+<h1 class="page-header">Informaci&oacute;n Empresa</h1>
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+    </div>
+    <h4 class="panel-title">Informaci&oacute;n Empresa</h4>
+  </div>
+  <div class="panel-body">
+      <form ng-submit="save(companyInfoForm.$valid)" novalidate="novalidate" name="companyInfoForm">
+    <form ng-submit="save()">
+      <div class="row">
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <label><u>L</u>ogo</label>
+            <div class="input-group input-group-sm">
+              <input type="file" name="myImage" image-with-preview ng-model="companyInfo.logo" accept="image/jpeg,image/png">
+              <img ng-show="companyInfo.logo.src" ng-src="{{companyInfo.logo.src}}" class="img-responsive" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : companyInfoForm.identification.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label"><u>R</u>uc</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.identification"
+                ng-blur="validateIdentification()" required tabindex="1" id="identification" name="identification"
+                number ng-disabled="isCreated">
+                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+              </div>
+                <p ng-show="companyInfoForm.identification.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.businessName.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label" ><u>R</u>az&oacute;n Social</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.businessName" id="businessName" name="businessName" required tabindex="2">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.businessName.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.telephone.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label"><u>T</u>el&eacute;fono</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.telephone" id="telephone" name="telephone"
+                required tabindex="3" ui-mask="(99) 9999-999">
+                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.telephone.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.email.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label"><u>C</u>orreo Electr&oacute;nico</label>
+              <div class="input-group input-group-sm">
+                <input type="email" class="form-control" ng-model="companyInfo.email" id="email" name="email"
+                required tabindex="4">
+                <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.email.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-12 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.address.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label"><u>D</u>irecci&oacute;n</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.address" id="address" name="address"
+                required tabindex="5">
+                <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.address.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.country.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label"><u>P</u>a&iacute;s</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.country" id="country" name="country"
+                required tabindex="6">
+                <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.country.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.city.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label"><u>C</u>iudad</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.city" id="city" name="city"
+                required tabindex="7">
+                <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.city.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : companyInfoForm.web.$invalid && companyInfoForm.$submitted}">
+              <label class="control-label">Web</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="companyInfo.web" id="web" name="web" tabindex="8">
+                <span class="input-group-addon"><i class="fa fa-newspaper-o"></i></span>
+                </span>
+              </div>
+                  <p ng-show="companyInfoForm.web.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <br><br>
+
+    <fieldset ng-if="SAEACCOUNTING == 1">
+        <span class="ibox-title ">Información Tributaria</span>
+        <div class="hr-line-dashed"></div>
+        <div class="row">
+
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+                <div class="form-group" ng-class="{'has-error' : companyInfoForm.specialContributor.$invalid && companyInfoForm.$submitted}">
+                    <label>Contribuyente Especial</label>
+                    <div class="input-group input-group-sm">
+                        <input type="radio" tabindex="9" ng-model="companyInfo.specialContributor" ng-required="true"
+                               id="specialContributorYes" name="specialContributor" ng-value="true"/>Si
+                        <input type="radio" tabindex="10" ng-model="companyInfo.specialContributor" ng-required="true"
+                               id="specialContributorNo" name="specialContributor" ng-value="false"/>No
+                    </div>
+                    <p ng-show="companyInfoForm.specialContributor.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                 <div class="form-group">
+                    <label>Código Contribuyente Especial</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="companyInfo.specialContributorCode" tabindex="11" text-number/>
+                        <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                    </div>
+                 </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{'has-error' : companyInfoForm.accountingForced.$invalid && companyInfoForm.$submitted}">
+                    <label>Obligado a llevar contabilidad:</label>
+                    <div class="input-group input-group-sm">
+                        <input type="radio" tabindex="12" ng-model="companyInfo.accountingForced" ng-required="true"
+                               id="accountingForcedYes" name="accountingForced" ng-value="true"
+                               ng-change="setIsAccountingForced()"/>Si
+                        <input type="radio" tabindex="13" ng-model="companyInfo.accountingForced" ng-required="true"
+                               id="accountingForcedNo" name="accountingForced" ng-value="false"
+                               ng-change="setIsAccountingForced()"/>No
+                    </div>
+                    <p ng-show="companyInfoForm.accountingForced.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{'has-error' : companyInfoForm.companyCode.$invalid && companyInfoForm.$submitted}">
+                    <label class="control-label">Código del Establecimiento</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="companyInfo.companyCode" required id="companyCode" name="companyCode"
+                               tabindex="14" text-number/>
+                        <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                    </div>
+                    <p ng-show="companyInfoForm.identification.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{'has-error' : companyInfoForm.accountantIdentification.$invalid && companyInfoForm.$submitted}">
+                    <label class="control-label">Identificaci&oacute;n del Contador</label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="companyInfo.accountant.identification"
+                               ng-blur="validateIdentification()" required tabindex="15" id="accountantIdentification" name="accountantIdentification"
+                               number>
+                        <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                    </div>
+                    <p ng-show="companyInfoForm.accountantIdentification.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <label>Nombre del Contador </label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="companyInfo.accountant.name" tabindex="16" text-number/>
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+    </fieldset>
+
+    <fieldset ng-if="SAEBASIC == 0">
+      <span class="ibox-title ">Información Representante Legal</span>
+      <div class="hr-line-dashed"></div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : companyInfoForm.legalAgentIdentification.$invalid && companyInfoForm.$submitted}">
+            <label class="control-label"><u>C</u>&eacute;dula</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" ng-model="companyInfo.legalAgent.identification" id="legalAgentIdentification" name="legalAgentIdentification"
+                     ng-blur="validateIdentification()" required tabindex="17" number>
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              </span>
+            </div>
+                <p ng-show="companyInfoForm.legalAgentIdentification.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : companyInfoForm.legalAgentName.$invalid && companyInfoForm.$submitted}">
+            <label class="control-label"><u>N</u>ombres</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" ng-model="companyInfo.legalAgent.name" id="legalAgentName" name="legalAgentName"
+              required tabindex="18" text>
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              </span>
+            </div>
+                <p ng-show="companyInfoForm.legalAgentName.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : companyInfoForm.legalAgentSurname.$invalid && companyInfoForm.$submitted}">
+            <label class="control-label"><u>A</u>pellidos</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" ng-model="companyInfo.legalAgent.surname" id="legalAgentSurname" name="legalAgentSurname"
+              required tabindex="19" text>
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              </span>
+            </div>
+                <p ng-show="companyInfoForm.legalAgentSurname.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : companyInfoForm.legalAgentEmail.$invalid && companyInfoForm.$submitted}">
+            <label class="control-label"><u>C</u>orreo Electr&oacute;nico</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" ng-model="companyInfo.legalAgent.email" id="legalAgentEmail" name="legalAgentEmail"
+              required tabindex="20">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              </span>
+            </div>
+                <p ng-show="companyInfoForm.legalAgentEmail.$invalid && companyInfoForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+        <span class="ibox-title ">Facturaci&oacute;n Electr&oacute;nica</span>
+        <div class="hr-line-dashed"></div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Firma Electr&oacute;nica</label>
+                    <input type="file" name="electronicSignature" image-with-preview ng-model="companyInfo.electronicSignature">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="form-group">
+                    <label><u>C</u>lave firma electr&oacute;nica</label>
+                    <div class="input-group input-group-sm">
+                        <input type="password" class="form-control" ng-model="companyInfo.signaturePassword" tabindex="22">
+                        <span class="input-group-addon"><i class="fa fa-align-center"></i></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+      <div class="btn-group">
+        <input type="submit" class="btn btn-primary btn-sm" value="Guardar" ng-disabled="serverProcess" tabindex="16" ng-show="!isCreated"/>
+        <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" ng-disabled="serverProcess" tabindex="17" ng-show="isCreated"/>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Recursos Humanos</a></li>
+  <li><a href="javascript:;">Resumen de Empleados</a></li>
+</ol>
+<h1 class="page-header">Resumen de Empleados</h1>
+
+
+
+<div class="row">
+
+  <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="form-group">
+      <div class="input-group input-group-sm">
+        <input type="text" class="form-control" ng-model="search" placeholder="Buscar..."
+        tabindex="1" id="search" name="search" id="search">
+        <span class="input-group-btn">
+        <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+        </span>
+      </div>
+    </div>
+  </div>  
+
+</div>
+
+<div class="row">
+
+  <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-repeat="employee in employees | filter : search">
+      <div class="contact-box transform animated fadeInRight" ng-click="openProfile(employee)">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div class="text-center">
+                <img alt="image" class="img-circle img-responsive" ng-src="{{employee.photo.src}}" width="120px" height="120px">
+                <div class="m-t-xs font-bold">{{employee.office.name}}</div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
+            <h5><strong>{{employee.names}} {{employee.surnames}}</strong></h5>
+            <p><i class="fa fa-map-marker"></i> {{employee.addressCity}}</p>
+                <strong>Departamento:</strong> {{employee.department.name}}<br/>
+                <strong>Cargo:</strong> {{employee.office.name}}<br/>
+                <strong>Celular:</strong> {{employee.cellphone}}<br/>
+                <strong>Correo:</strong> {{employee.email}}<br/>
+                <strong>Estado:</strong> {{employee.status}}
+        </div>
+        <div class="clearfix"></div> 
+      </div>
+  </div>
+
+</div>

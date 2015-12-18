@@ -1,0 +1,106 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+    <li><a href="javascript:;">Tabla de Estados</a></li>
+</ol>
+<h1 class="page-header">Estados</h1>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title" ng-show="!isUpdate">Nuevo Estado</h4>
+                <h4 class="panel-title" ng-show="isUpdate">Actualizar Estado</h4>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="save(stateForm.$valid)" novalidate="novalidate" name="stateForm">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
+                            <div class="form-group" ng-class="{ 'has-error' : stateForm.code.$invalid && stateForm.$submitted}">
+                                <label class="control-label"><u>C</u>&oacute;digo</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" tabindex="1" ng-model="state.code" ng-required="true"
+                                           id="code" name="code" text-number>
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                </div>
+                                <p ng-show="stateForm.code.$invalid && stateForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-16">
+                            <div class="form-group" ng-class="{ 'has-error' : stateForm.name.$invalid && stateForm.$submitted}">
+                                <label><u>N</u>ombre</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" tabindex="2" ng-model="state.name" ng-required="true"
+                                           id="name" name="name">
+                                    <span class="input-group-addon"><i class="fa fa-navicon"></i></span>
+                                </div>
+                                <p ng-show="stateForm.name.$invalid && stateForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-sm-12 col-xs-24">
+                            <div class="form-group" ng-class="{ 'has-error' : stateForm.document_id.$invalid && stateForm.$submitted}">
+                                <label><u>D</u>ocumentos</label>
+                                <div class="input-group col-lg-12 col-sm-12 col-xs-12">
+                                    <selectize config="configSelectedDocuments" options="allDocuments.documentsConfiguration" ng-model="state.document_id"
+                                               ng-required="true" id="document_id" name="document_id"></selectize>
+                                    <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                </div>
+                                <p ng-show="stateForm.document_id.$invalid && stateForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label>Descripción</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" ng-model="state.description" tabindex="4" id="description" >
+                                    <span class="input-group-addon"><i class="fa fa-navicon"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="5" ng-show="!isUpdate"/>
+                        <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="6" ng-show="isUpdate"/>
+                        <input type="reset" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="7" ng-click="clean()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title">Resumen de Estados</h4>
+            </div>
+            <div class="panel-body">
+                <table datatable="ng" class="table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th width="15px"></th>
+                        <th>C&oacute;digo</th>
+                        <th>Nombre</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="state in states" ng-click="selectState(state)">
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="deleteState($index)" id="delete">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </td>
+                        <td>{{state.code}}</td>
+                        <td>{{state.name}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

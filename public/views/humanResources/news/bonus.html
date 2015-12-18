@@ -1,0 +1,124 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Recursos Humanos</a></li>
+  <li><a href="javascript:;">Bonos</a></li>
+</ol>
+<h1 class="page-header">Bonos</h1>
+
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
+      <h4 class="panel-title">Nuevo Bono</h4>
+    </div>
+    <div class="panel-body">
+        <form ng-submit="save(bonusForm.$valid)" novalidate="novalidate" name="bonusForm">
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : bonusForm.code.$invalid && bonusForm.$submitted}">
+              <label class="control-label"><u>C</u>&oacute;digo</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="bond.code" ng-required="true" tabindex="1" name="code" id="code">
+                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+              </div>
+                <p ng-show="bonusForm.code.$invalid && bonusForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>  
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : bonusForm.name.$invalid && bonusForm.$submitted}">
+              <label class="control-label"><u>N</u>ombre</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="bond.name" ng-required="true" tabindex="2"  name="name" id="name">
+                <span class="input-group-addon"><i class="fa fa-file-text-o"></i></span>
+              </div>
+                <p ng-show="bonusForm.name.$invalid && bonusForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>  
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : bonusForm.value.$invalid && bonusForm.$submitted}">
+              <label class="control-label"><u>V</u>alor</label>
+              <div class="input-group input-group-sm">
+                <div class="input-group-btn input-group-sm">
+                  <select class="btn btn-default dropdown-toggle" ng-model="bond.type" name="type" id="type" ng-change="validateTypeBond()"
+                          ng-required="true" tabindex="3">
+                    <option value="" disabled></option>
+                    <option value="Porcentaje">Porcentaje</option>
+                    <option value="Valor">Valor</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control" ng-model="bond.value" ng-change="validateTypeBond()" ng-required="true"
+                       name="value" id="value" tabindex="4" ui-money-mask>
+                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+              </div>
+                <p ng-show="bonusForm.value.$invalid && bonusForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>  
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="form-group">
+              <label class="control-label">Descripci&oacute;n</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="bond.description" name="description" id="description" tabindex="5">
+                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+              </div>
+            </div>  
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+           <input type="submit" class="btn btn-default btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="5" ng-show="!isUpdate"/>
+            <input type="submit" class="btn btn-default btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="6" ng-show="isUpdate"/>
+            <input type="button" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="7" ng-click="clean()"/>
+          </div> 
+        </div>
+      </form>
+    </div> 
+  </div>
+</div>   
+
+
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
+      <h4 class="panel-title">Resumen Bonos</h4>
+    </div>
+    <div class="panel-body">
+      <table datatable="ng" class="table-hover table-condensed">
+        <thead>
+          <tr>
+            <th width="15px"></th>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="bond in bonus" ng-click="selectBond(bond)">
+            <td>
+              <button type="button" class="btn btn-primary btn-sm" ng-click="delete($index)" id="delete">
+              <span class="glyphicon glyphicon-minus"></span>
+              </button>
+            </td>
+            <td>{{bond.code}}</td>
+            <td>{{bond.name}}</td>
+            <td>{{bond.type}}</td>
+            <td>{{bond.value}}</td>
+          </tr>
+        </tbody>
+      </table>      
+    </div>
+  </div> 
+</div>
+

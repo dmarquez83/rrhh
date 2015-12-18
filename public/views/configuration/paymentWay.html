@@ -1,0 +1,96 @@
+<ol class="breadcrumb pull-right">
+    <li>
+        <a href="javascript:;">Configuraci&oacute;n</a>
+    </li>
+    <li>
+        <a href="javascript:;">Formas de Pago</a>
+    </li>
+</ol>
+<h1 class="page-header">Formas de Pago</h1>
+
+<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" href="javascript:;">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" href="javascript:;">
+                    <i class="fa fa-minus"></i>
+                </a>
+            </div>
+            <h4 class="panel-title">Nueva Forma de Pago</h4>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="save(paymentWayForm.$valid)" novalidate="novalidate" name="paymentWayForm">
+                <div class="row">
+
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : paymentWayForm.code.$invalid && paymentWayForm.$submitted}">
+                            <label class="control-label"><u>C</u>&oacute;digo :</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" tabindex="1" ng-model="paymentWay.code" ng-required="true"
+                                       id="code" name="code"/>
+                                <span class="input-group-addon"><i class="fa fa-navicon"></i></span>
+                            </div>
+                            <p ng-show="paymentWayForm.code.$invalid && paymentWayForm.$submitted" class="help-block">Campo Obligatorio</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : paymentWayForm.name.$invalid && paymentWayForm.$submitted}">
+                            <label class="control-label"><u>N</u>ombre :</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" tabindex="2" ng-model="paymentWay.name" ng-required="true"
+                                       id="name" name="name"/>
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                            </div>
+                            <p ng-show="paymentWayForm.name.$invalid && paymentWayForm.$submitted" class="help-block">Campo Obligatorio</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : paymentWayForm.description.$invalid && paymentWayForm.$submitted}">
+                            <label class="control-label">Descripci&oacute;n :</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" tabindex="3" ng-model="paymentWay.description"
+                                       id="description" name="description"/>
+                                <span class="input-group-addon"><i class="fa fa-navicon"></i></span>
+                            </div>
+                            <p ng-show="paymentWayForm.name.$invalid && paymentWayForm.$submitted" class="help-block">Campo Obligatorio</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="submit" class="btn btn-primary btn-sm" id="save" value="Guardar" ng-disabled="isServerProcess" ng-if="!isUpdate"/>
+                        <input type="submit" class="btn btn-primary btn-sm" id="update" value="Actualizar" ng-if="isUpdate"/>
+                        <input type="button" class="btn btn-white btn-sm"   id="clean" value="Limpiar" ng-click="clean()"/>
+                        <input type="button" class="btn btn-danger btn-sm pull-right"  id="delete" value="Eliminar" ng-click="delete()" ng-if="isUpdate"/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse animated {{panelExpand}}" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <button ng-click="maximize()" class="btn btn-xs btn-icon btn-circle btn-default"><i class="fa fa-expand"></i></button>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </a>
+            </div>
+            <h4 class="panel-title">Resumen Formas de Pago</h4>
+        </div>
+        <div class="panel-body">
+            <table class="row-border hover table-striped" datatable dt-options="dtOptions" dt-columns="tableColumns"
+                   dt-instance="getTableInstance"></table>
+        </div>
+    </div>
+</div>

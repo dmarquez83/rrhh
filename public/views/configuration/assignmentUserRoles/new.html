@@ -1,0 +1,119 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+    <li><a href="javascript:;">Usuarios</a></li>
+</ol>
+<h1 class="page-header">Usuarios</h1>
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title" ng-if="!isUpdate">Nuevo Usuario</h4>
+            <h4 class="panel-title" ng-if="isUpdate">Editar Usuario</h4>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="save()">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 ">
+                        <div class="form-group">
+                            <label>Usuario</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Nombre" ng-model="user.username"
+                                       id="username" required name="username">
+                                <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 ">
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <div class="input-group input-group-sm">
+                                <input type="password" class="form-control" placeholder="Contrase&ntilde;a" ng-model="user.password"
+                                       pattern=".{6,}" title="M&iacute;nimo 6 caracteres"
+                                       ng-required="!isUpdate" id="password" name="password">
+                                <span class="input-group-addon"><i class="fa fa-align-center"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Empleado</label>
+                            <div class="input-group input-group-sm col-lg-12 col-sm-12 col-xs-12">
+                                <selectize config='configSelectEmployees' options='employees' name="employee"
+                                           ng-model="user.configuration[0].employee_id" id="employee" required></selectize>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Rol</label>
+                            <div class="input-group input-group-sm col-lg-12 col-sm-12 col-xs-12" ng-click="print()">
+                                <selectize config="configSelectRoles" options="roles" ng-model="user.configuration[0].role_id" id="role"
+                                           required name="role"></selectize>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" id="colEnable">
+                        <div class="form-group">
+                            <label>Habilitado</label>
+                            <div class="input-group">
+                                <checkbox ng-model="user.isSelected">
+                                </checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Bodegas</label>
+                            <div class="input-group input-group-sm col-lg-12 col-sm-12 col-xs-12">
+                                <selectize config="configSelectWarehouses" options="warehouses" name="companies"
+                                           ng-model="user.configuration[0].selected_warehouses" id="companies" required
+                                        ></selectize>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label>Bodega por Defecto</label>
+                            <div class="input-group input-group-sm col-lg-12 col-sm-12 col-xs-12">
+                                <selectize config="configSelectWarehouse" options="selectedWarehouses" name="warehouse"
+                                           ng-model="user.configuration[0].default_warehouse_id" id="defaultWarehouse" required></selectize>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="btn-group">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-if="!isUpdate">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-if="isUpdate">
+                            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" ng-click="clean()">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Resumen de Usuarios</h4>
+        </div>
+        <div class="panel-body">
+          <table datatable dt-options="dtOptions" dt-columns="tableColumns" id="summaryAssigmentUserRoles"
+            name="summaryAssigmentUserRoles" class="row-border hover" dt-instance="getTableInstance"></table>
+        </div>
+    </div>
+</div>

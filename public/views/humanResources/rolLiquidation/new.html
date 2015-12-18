@@ -1,0 +1,72 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Recursos Humanos</a></li>
+  <li><a href="javascript:;">Liquidaci&oacute;n de Rol</a></li>
+</ol>
+<h1 class="page-header">Liquidaci&oacute;n de Rol</h1>
+
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+    </div>
+    <h4 class="panel-title">Liquidaci&oacute;n de Rol</h4>
+  </div>
+  <div class="panel-body">
+    <form ng-submit="save()">
+
+      <div class="row">
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>Fecha Inicio</label>
+            <div class="input-group input-group-sm">
+              <input class="form-control inputborderless" type="text" ng-datepicker ng-options="datepickerOptions"
+              ng-model="filter.startDate" tabindex="3" ng-required="true"/>
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <label>Fecha Fin</label>
+            <div class="input-group input-group-sm">
+              <input class="form-control inputborderless" type="text" ng-datepicker ng-options="datepickerOptions" 
+              ng-model="filter.endDate" tabindex="4" required/>
+              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <input type="button" class="btn btn-default btn-sm" value="Buscar" ng-disabled="serverProcess" tabindex="14" ng-click="reloadData()"/>
+        <input type="reset" class="btn btn-white btn-sm" value="Limpiar"/>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+    </div>
+    <h4 class="panel-title">Resumen de Rol</h4>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="btn-group">
+          <input type="button" class="btn btn-default btn-sm" value="Liquidar" ng-disabled="serverProcess" tabindex="14" ng-click="save()"/>
+        </div>
+      </div>  
+    </div> 
+    <br/> 
+    <table datatable dt-options="dtOptions" dt-columns="tableColumns" class="row-border hover"></table>    
+  </div>
+</div>

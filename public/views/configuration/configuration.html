@@ -1,0 +1,422 @@
+<header class="head">
+  <div class="main-bar">
+    <h3>
+      <i class="fa fa-building"></i>&nbsp; Configuración</h3>
+  </div>
+</header>
+<div class="content">
+  <div class="outer">
+    <div class="inner bg-light lter">
+      <br/> 
+      <tabset justified="true">
+
+        <tab heading="Bodegas">
+          <div class="panel panel-default">
+            <div class="panel-heading">KARDEX</div>
+            <div class="panel-body">
+
+              <div class="row form-horizontal">
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label for="cash" class="col-lg-4 control-label">Método De Valoración</label>
+                    <div class="col-lg-8 input-group-sm">
+                      <select class="form-control" placeholder="tipo" ng-model="configuration.inventories.valuationMethod">
+                        <option value="FIFO">Primero en entrar Primero en salir (FIFO)</option>
+                        <option value="PP">Promedio Ponderado (PP)</option>
+                      </select>
+                    </div>
+                  </div>  
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-lg-5 col-lg-offset-4">
+                  <div class="btn-group">
+                    <input type="submit" class="btn btn-default" value="Guardar" ng-click="save()"/>
+                    <input type="button" class="btn btn-default" value="Cancelar"/>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </tab>
+
+        <tab heading="Asignación de Cuentas">
+
+          <tabset>
+
+            <tab heading="Facturación">
+
+              <div class="panel panel-default">
+                <div class="panel-body">
+
+                  <div class="col-lg-8 col-md-8 col-xs-12 col-lg-offset-2 col-md-offset-2">
+
+                    <table class="table table-bordered table-condensed" id="invoicingConfigurationTable">
+                      <thead>
+                        <tr>
+                          <th>Tipo de Cuenta</th>
+                          <th>Codigo</th>
+                          <th>Nombre Cuenta</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Pago en Efectivo</td>
+                          <td>{{configuration.invoicing.cash.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.cash"
+                              ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Pago con Cheque</td>
+                          <td>{{configuration.invoicing.checks.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.checks"
+                              ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Pago a Crédito Documentos</td>
+                          <td>{{configuration.invoicing.creditDocument.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.creditDocument"
+                              ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Pago a Crédito Cuenta</td>
+                          <td>{{configuration.invoicing.creditAccount.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.creditAccount"
+                              ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Iva en ventas</td>
+                          <td>{{configuration.invoicing.iva.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.iva"
+                              ng-options="liabilitie as liabilitie.name group by liabilitie.parent for liabilitie in liabilities 
+                              track by liabilitie.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Ventas</td>
+                          <td>{{configuration.invoicing.salesRevenue.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.salesRevenue"
+                              ng-options="saleRevenue as saleRevenue.name group by saleRevenue.parent for saleRevenue in salesRevenue 
+                              track by saleRevenue.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Descuento</td>
+                          <td>{{configuration.invoicing.salesdiscount.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.invoicing.salesdiscount"
+                              ng-options="saleRevenue as saleRevenue.name group by saleRevenue.parent for saleRevenue in salesRevenue 
+                              track by saleRevenue.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>    
+
+                </div>
+              </div>
+            </tab>  
+
+            <tab heading="Compras">
+              <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <table class="table table-bordered table-condensed" id="invoicingConfigurationTable">
+                      <thead>
+                        <tr>
+                          <th>Tipo de Cuenta</th>
+                          <th>Codigo</th>
+                          <th>Nombre Cuenta</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Pago en Efectivo</td>
+                          <td>{{configuration.purchasing.cash.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.purchasing.cash"
+                                ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                  <option value="" disabled selected>Cuenta Contable</option>
+                                </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Pago con Cheque</td>
+                          <td>{{configuration.purchasing.checks.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.purchasing.checks"
+                                ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                  <option value="" disabled selected>Cuenta Contable</option>
+                                </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Pago a Crédito Documentos</td>
+                          <td>{{configuration.purchasing.creditDocument.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.purchasing.creditDocument"
+                              ng-options="liabilitie as liabilitie.name group by liabilitie.parent for liabilitie in liabilities
+                              track by liabilitie.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Pago a Crédito Cuenta</td>
+                          <td>{{configuration.purchasing.creditAccount.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.purchasing.creditAccount"
+                              ng-options="liabilitie as liabilitie.name group by liabilitie.parent for liabilitie in liabilities
+                              track by liabilitie.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Iva en Compras</td>
+                          <td>{{configuration.purchasing.iva.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.purchasing.iva"
+                              ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                <option value="" disabled selected>Cuenta Contable</option>
+                              </select>
+                            </div>  
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                </div>
+              </div>
+            </tab>
+
+            <tab heading="Inventario">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <table class="table table-bordered table-condensed" id="invoicingConfigurationTable">
+                      <thead>
+                        <tr>
+                          <th>Tipo de Cuenta</th>
+                          <th>Codigo</th>
+                          <th>Nombre Cuenta</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Inventario Mercaderia</td>
+                          <td>{{configuration.stocktaking.goods.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.stocktaking.goods"
+                                ng-options="asset as asset.name group by asset.parent for asset in assets track by asset.code">
+                                  <option value="" disabled selected>Cuenta Contable</option>
+                                </select>
+                            </div>  
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Costo De Venta</td>
+                          <td>{{configuration.stocktaking.salesCost.code}}</td>
+                          <td>
+                            <div class="input-group-sm">
+                              <select class="form-control" ng-model="configuration.stocktaking.salesCost"
+                                ng-options="saleCost as saleCost.name group by saleCost.parent for saleCost in salesCost track by saleCost.code">
+                                  <option value="" disabled selected>Cuenta Contable</option>
+                                </select>
+                            </div>  
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>  
+            </tab>
+            
+            <tab heading="Impuestos">  
+              <div class="panel panel-default">
+                <div class="panel-heading">IMPUESTO A LA RENTA (IRF)</div>
+                <div class="panel-body">
+                  <input type="button" class="form-control" ng-click="automaticaSelection()" value="Seleccion Automatica"/>
+                  <table class="table table-bordered" id="incomeTaxesTable">
+                    <thead>
+                      <tr>
+                        <th>Concepto</th>
+                        <th>Porcentaje</th>
+                        <th>Cuenta Anticipo</th>
+                        <th>Cuenta Por Pagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="tax in incomeIRFTaxTable | orderBy : 'Porcentaje'">
+                        <td width="600px">{{tax.Concepto}}</td>
+                        <td align="center" width="50px">{{tax.Porcentaje * 100}}</td>
+                        <td>
+                          <div class="input-group-sm">
+                            <select class="form-control" ng-model="configuration.receivableIRFTaxes[tax._id]"
+                            ng-options="IRFTax as IRFTax.name group by IRFTax.parent for IRFTax in receivableIRFTaxesAccounts track by IRFTax.code">
+                              <option value="" disabled selected>Cuenta Contable</option>
+                            </select>
+                          </div>  
+                        </td>
+                        <td>
+                          <div class="input-group-sm">
+                            <select class="form-control" ng-model="configuration.payableIRFTaxes[tax._id]"
+                            ng-options="IRFTax as IRFTax.name group by IRFTax.parent for IRFTax in payableIRFTaxesAccounts track by IRFTax.code">
+                              <option value="" disabled selected>Cuenta Contable</option>
+                            </select>
+                          </div>  
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </tab>  
+
+             <tab heading="Impuestos">  
+              <div class="panel panel-default">
+                <div class="panel-heading">RETENCION IVA</div>
+                <div class="panel-body">
+                  <table class="table table-bordered" id="incomeTaxesTable">
+                    <thead>
+                      <tr>
+                        <th>Concepto</th>
+                        <th>Porcentaje</th>
+                        <th>Cuenta Anticipo</th>
+                        <th>Cuenta Por Pagar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="tax in incomeIVATaxTable | orderBy : 'Porcentaje'">
+                        <td width="600px">{{tax.Concepto}}</td>
+                        <td align="center" width="50px">{{tax.Porcentaje  * 100}}</td>
+                        <td>
+                          <div class="input-group-sm">
+                            <select class="form-control" ng-model="configuration.retainerIvaAccounts[tax._id]"
+                            ng-options="tax as tax.name group by asset.parent for tax in retainerIvaAccounts track by tax.code">
+                              <option value="" disabled selected>Cuenta Contable</option>
+                            </select>
+                          </div>  
+                        </td>
+                        <td>
+                          <div class="input-group-sm">
+                            <select class="form-control" ng-model="configuration.payableIvaAccounts[tax._id]"
+                            ng-options="tax as tax.name group by asset.parent for tax in payableIvaAccounts track by tax.code">
+                              <option value="" disabled selected>Cuenta Contable</option>
+                            </select>
+                          </div>  
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                </div>
+              </div>
+            </tab>
+
+
+          </tabset>    
+
+          <div class="row">
+            <div class="col-lg-5 col-lg-offset-4">
+              <div class="btn-group">
+                <input type="submit" class="btn btn-default" value="Guardar" ng-click="save()"/>
+                <input type="button" class="btn btn-default" value="Cancelar"/>
+              </div>
+            </div>
+          </div>
+
+
+        </tab>
+        <tab heading="Inventarios">
+          <div class="panel panel-default">
+            <div class="panel-heading">KARDEX</div>
+            <div class="panel-body">
+
+              <div class="row form-horizontal">
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label for="cash" class="col-lg-4 control-label">Método De Valoración</label>
+                    <div class="col-lg-8 input-group-sm">
+                      <select class="form-control" placeholder="tipo" ng-model="configuration.inventories.valuationMethod">
+                        <option value="FIFO">Primero en entrar Primero en salir (FIFO)</option>
+                        <option value="PP">Promedio Ponderado (PP)</option>
+                      </select>
+                    </div>
+                  </div>  
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-lg-5 col-lg-offset-4">
+                  <div class="btn-group">
+                    <input type="submit" class="btn btn-default" value="Guardar" ng-click="save()"/>
+                    <input type="button" class="btn btn-default" value="Cancelar"/>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </tab>
+        <tab heading="Usuarios">Long Labeled Justified content</tab>
+      </tabset>
+    </div>
+  </div>
+</div>

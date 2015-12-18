@@ -1,0 +1,226 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+  <li><a href="javascript:;">Contabilidad</a></li>
+</ol>
+<h1 class="page-header">Contabilidad</h1>
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title" ng-if="!isUpdate">Nuevo Documento</h4>
+                <h4 class="panel-title" ng-if="isUpdate">Actualizar Documento</h4>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="save(accountingConfigurationForm.$valid)" name="accountingConfigurationForm" novalidate="novalidate">
+
+                  <div class="row">
+
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.document.$invalid && accountingConfigurationForm.$submitted}">
+                            <label class="control-label"><u>D</u>ocumento</label>
+                            <div class="input-group-sm">
+                              <select class="form-control" tabindex="1" ng-model="accountingConfiguration.documentCode" ng-required="true"
+                                ng-options="document.code as document.name for document in documents"
+                                id="document" name="document" ng-change="validateDocument()">
+                                <option value="" disabled selected></option>
+                              </select>
+                            </div>
+                            <p ng-show="documentApprovalFlowForm.document.$invalid && documentApprovalFlowForm.$submitted" class="help-block">Campo Obligatorio</p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" ng-if="accountingConfiguration.documentCode != '015' && accountingConfiguration.documentCode != '004'">
+                      <div class="form-group">
+                        <label><u>T</u>iene asiento de costo</label>
+                        <div class="input-group input-group-sm">
+                          <checkbox ng-model="accountingConfiguration.haveCostEntry"></checkbox>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <fieldset ng-disabled="validateStatus()">
+                  <span class="ibox-title ">Asiento Principal</span>
+                  <div class="hr-line-dashed"></div>
+                  
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.total.$invalid && accountingConfigurationForm.$submitted}">
+                            <label class="control-label"><u>T</u>otal</label>
+                            <div class="input-group input-group-sm">
+                            </div>
+                          </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row">    
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                          <table class="table table-bordered table-condensed">
+
+                            <tr>
+                              <td  ng-repeat="paymentWay in paymentWays" width="50%">{{paymentWay.name}}</td>
+                            </tr>
+
+                            <tr>
+                              <td ng-repeat="paymentMethods in groupPaymentMethods">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="paymentMethod in paymentMethods">
+                                  <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.total.$invalid && accountingConfigurationForm.$submitted}">
+                                    <label class="control-label">{{paymentMethod.name}}</label>
+                                    <div class="input-group input-group-sm">
+                                      <select class="form-control" tabindex="2" ng-model="accountingConfiguration.paymentMethods[paymentMethod.name]"
+                                        ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                                        id="total" name="total">
+                                        <option disabled value=""></option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </td>
+                            </tr>
+
+                          </table>
+
+                          
+
+                        </div>  
+
+                    </div> 
+                    
+
+                    <div class="row" ng-if="accountingConfiguration.documentCode != '015' && accountingConfiguration.documentCode != '004'">
+                    
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.subtotal.$invalid && accountingConfigurationForm.$submitted}">
+                            <label class="control-label"><u>S</u>ubtotal</label>
+                            <div class="input-group input-group-sm">
+                              <select class="form-control" tabindex="3" ng-model="accountingConfiguration.subtotal_id"
+                                ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                                id="subtotal" name="subtotal">
+                                <option disabled value=""></option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.iva.$invalid && accountingConfigurationForm.$submitted}">
+                            <label class="control-label"><u>I</u>va</label>
+                            <div class="input-group input-group-sm">
+                              <select class="form-control" tabindex="4" ng-model="accountingConfiguration.iva_id"
+                                ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                                id="iva" name="iva">
+                                <option disabled value=""></option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.service.$invalid && accountingConfigurationForm.$submitted}">
+                            <label class="control-label"><u>S</u>ervicio</label>
+                            <div class="input-group input-group-sm">
+                              <select class="form-control" tabindex="4" ng-model="accountingConfiguration.service_id"
+                                      ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                                      id="service" name="service">
+                                <option disabled value=""></option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!--
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                          <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.discount.$invalid && accountingConfigurationForm.$submitted}">
+                            <label class="control-label"><u>D</u>escuento</label>
+                            <div class="input-group input-group-sm">
+                              <select class="form-control" tabindex="5" ng-model="accountingConfiguration.discount_id"
+                                ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                                id="discount" name="discount">
+                                <option disabled value=""></option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        -->
+                        
+                    </div>
+
+                  </fieldset>  
+
+                  <fieldset ng-if="accountingConfiguration.haveCostEntry">
+                  <span class="ibox-title ">Asiento de Costo</span>
+                  <div class="hr-line-dashed"></div>
+
+                    <div class="row">
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.total.$invalid && accountingConfigurationForm.$submitted}">
+                          <label class="control-label"><u>C</u>uenta de costo de ventas</label>
+                          <div class="input-group input-group-sm">
+                            <select class="form-control" tabindex="2" ng-model="accountingConfiguration.cost_id"
+                              ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                              id="total" name="total">
+                              <option disabled value=""></option>
+                            </select>
+                          </div>
+                        </div>
+                      </div> 
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : accountingConfigurationForm.total.$invalid && accountingConfigurationForm.$submitted}">
+                          <label class="control-label"><u>C</u>uenta de mercadería</label>
+                          <div class="input-group input-group-sm">
+                            <select class="form-control" tabindex="2" ng-model="accountingConfiguration.goods_id"
+                              ng-options="account._id as account.name group by account.parent for account in ledgerAccounts" ng-required="true"
+                              id="total" name="total">
+                              <option disabled value=""></option>
+                            </select>
+                          </div>
+                        </div>
+                      </div> 
+                      
+
+                    </div>
+
+
+                  </fieldset>
+
+                  <div class="btn-group">
+
+                    <input type="submit" class="btn btn-default btn-sm" value="Guardar" tabindex="8" ng-if="!isUpdate"/>
+                    <input type="submit" class="btn btn-default btn-sm" value="Actualizar" tabindex="8" ng-if="isUpdate"/>
+                    <input type="button" class="btn btn-white btn-sm" value="Limpiar" ng-disabled="serverProcess" tabindex="9" ng-click="clean()"/>
+
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title">Resumen Documentos</h4>
+            </div>
+            <div class="panel-body">
+              <table class="row-border hover table-striped" datatable dt-options="dtOptions" dt-columns="tableColumns" 
+                    dt-instance="getTableInstance"></table>
+            </div>
+        </div>
+    </div>
+</div>                    

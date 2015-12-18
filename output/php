@@ -1,0 +1,15 @@
+Rolled back: 2015_04_13_044248_create_customers_collection
+Nothing to rollback.
+Migrated: 2015_04_13_044248_create_customers_collection
+Seeded: WarehouseSeeder
+Seeded: ModuleSeeder
+Seeded: RoleSeeder
+Seeded: UserSeeder
+Seeded: DocumentConfigurationSeeder
+Seeded: PaymentSeeder
+Seeded: ProvinceSeeder
+Seeded: IncomeSourceSeeder
+ Seeded: MaritalStatusSeeder
+Seeded: BankSeeder
+Seeded: GeneralParameterSeeder
+Seeded: CustomerSeeder

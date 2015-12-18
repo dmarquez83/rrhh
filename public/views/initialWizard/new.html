@@ -1,0 +1,217 @@
+<div class="inmodal">
+  <div class="modal-header">
+    <h3 class="modal-title">Asistente de Configuraci&oacute;n</h3>
+  </div>
+  <div class="modal-body">
+      <div id="page-loader" class="fade in {{loading}}"><span class="spinner"></span></div>
+      <div id="wizard">
+        <ol>
+          <li>Empresa/Persona<small>Informaci&oacute;n legal</small></li>
+          <li>Documentos Electr&oacute;nicos<small>Datos para los documentos Electr&oacute;nicos</small></li>
+          <li>Finalizar<small>Confirmaci&oacute;n</small></li>
+        </ol>
+
+        <div id="stepOne">
+          <p style="font-size:16px;font-weight: 200;">
+            Ingresa la informaci&oacute;n legal acerca de tu negocio, esta informaci&oacute;n sera utilizada para emitir tus documentos
+          </p>
+          <br/><br/>
+          <div class="row">
+
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label">Ruc</label>
+                    <input type="text" class="form-control" ng-model="companyInfo.identification"
+                      ng-blur="validateIdentification()" required tabindex="1" id="identification" name="identification"
+                      number tabindex="1"/>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label" >Raz&oacute;n Social / Nombre y Apellidos</label>
+                    <input type="text" class="form-control" ng-model="companyInfo.businessName" id="businessName" n
+                      ame="businessName" required tabindex="2">
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label" >Direcci&oacute;n</label>
+                  <input type="text" class="form-control" ng-model="companyInfo.address" id="address" name="address"
+                  required tabindex="3">
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label" >Email</label>
+                  <input type="email" class="form-control" ng-model="companyInfo.email" id="email" name="email"
+                      required tabindex="4">
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="form-group">
+                  <label class="control-label">Tel&eacute;fono</label>
+                  <input type="text" class="form-control" ng-model="companyInfo.telephone" id="telephone" name="telephone"
+                  required tabindex="5" ui-mask="(99) 9999-999">
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                      <label>Obligado a llevar contabilidad:</label>
+                      <div class="input-group input-group-sm">
+                          <input type="radio" tabindex="6" ng-model="companyInfo.accountingForced" ng-required="true"
+                                 id="accountingForcedYes" name="accountingForced" ng-value="true"
+                                 ng-change="setIsAccountingForced()"/>Si
+                          <input type="radio" tabindex="7" ng-model="companyInfo.accountingForced" ng-required="true"
+                                 id="accountingForcedNo" name="accountingForced" ng-value="false"
+                                 ng-change="setIsAccountingForced()"/>No
+                      </div>
+                  </div>
+               </div>
+
+             </div>
+
+             <div class="row">
+               <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                   <div class="form-group">
+                       <label class="control-label">C&oacute;digo del Establecimiento</label>
+                       <input type="text" class="form-control" ng-model="companyInfo.companyCode" required id="companyCode" name="companyCode"
+                              tabindex="8" text-number/>
+                   </div>
+               </div>
+
+               <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                   <div class="form-group">
+                       <label class="control-label">Punto de emisi&oacute;n</label>
+                       <input type="text" class="form-control" ng-model="companyInfo.emisionPoint" required id="emisionPoint" name="emisionPoint"
+                              tabindex="9" text-number/>
+                   </div>
+               </div>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-md-offset-4">
+              <div class="form-group logo-wizard">
+                <label><u>L</u>ogo</label>
+                <div class="input-group input-group-sm">
+                  <input type="file" name="myImage" image-with-preview ng-model="companyInfo.logo" accept="image/jpeg,image/png"
+                  tabindex="10">
+                  <img ng-show="companyInfo.logo.src" ng-src="{{companyInfo.logo.src}}" height="180px" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div id="stepTwo">
+          <div class="row">
+
+            <div class="col-lg-6 col-md-6">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                      <label>Firma Electr&oacute;nica</label>
+                      <input type="file" name="electronicSignature" ng-model="companyInfo.electronicSignature"
+                      tabindex="11" file-reader max-file-size="250" accept="application/x-pkcs12" />
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-xs-12">
+                  <div class="form-group">
+                      <label><u>C</u>lave firma electr&oacute;nica</label>
+                      <div class="input-group input-group-sm">
+                          <input type="password" class="form-control" ng-model="companyInfo.signaturePassword" tabindex="12">
+                          <span class="input-group-addon"><i class="fa fa-align-center"></i></span>
+                          </span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-xs-12">
+                <br/><br/><br/>
+                <p class="text-center" id="Verificando" ng-if="cheking">
+                  <i class="spinner-gray"></i>
+                  <h3 class="text-center" style="color: #707478">Verificando Firma</h3>
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <div class="col-lg-12 col-md-12 col-xs-12">
+                <table class="table table-condensed table-bordered">
+                  <thead>
+                    <tr>
+                      <td>Documento</td>
+                      <td>Establecimiento - Punto de Emisi&oacute;n</td>
+                      <td>Secuencial</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td>FACTURA</td>
+                      <td>{{companyInfo.companyCode}}-{{companyInfo.emisionPoint}}-{{secuencialDocuments.invoice.secuencial}}</td>
+                      <td><input type="text" class="form-control" ng-model="secuencialDocuments.invoice.number"
+                        tabindex="13" ng-change="completeSecuencial('invoice')" number maxlength="9"></td>
+                    </tr>
+                    <tr>
+                      <td>NOTA DE CREDITO</td>
+                      <td>{{companyInfo.companyCode}}-{{companyInfo.emisionPoint}}-{{secuencialDocuments.creditNote.secuencial}}</td>
+                      <td><input type="text" class="form-control" ng-model="secuencialDocuments.creditNote.number"
+                        tabindex="14" ng-change="completeSecuencial('creditNote')" number maxlength="9"></td>
+                    </tr>
+                    <tr>
+                      <td>NOTA DE DEBITO</td>
+                      <td>{{companyInfo.companyCode}}-{{companyInfo.emisionPoint}}-{{secuencialDocuments.debitNote.secuencial}}</td>
+                      <td><input type="text" class="form-control" ng-model="secuencialDocuments.debitNote.number"
+                        tabindex="15" ng-change="completeSecuencial('debitNote')" number maxlength="9"></td>
+                    </tr>
+                    <tr>
+                      <td>RETENCIÓN</td>
+                      <td>{{companyInfo.companyCode}}-{{companyInfo.emisionPoint}}-{{secuencialDocuments.retention.secuencial}}</td>
+                      <td><input type="text" class="form-control" ng-model="secuencialDocuments.retention.number"
+                        tabindex="16" ng-change="completeSecuencial('retention')" number maxlength="9"></td>
+                    </tr>
+                    <tr>
+                      <td>GUIA DE REMISIÓN</td>
+                      <td>{{companyInfo.companyCode}}-{{companyInfo.emisionPoint}}-{{secuencialDocuments.remisionGuide.secuencial}}</td>
+                      <td><input type="text" class="form-control" ng-model="secuencialDocuments.remisionGuide.number"
+                        tabindex="17" ng-change="completeSecuencial('remisionGuide')" number maxlength="9"></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+          <br/><br/>
+          <p style="font-size:14px;font-weight: 200;">
+            Si no ingresas esta informaci&oacute;n la facturaci&oacute;n electr&oacute;nica ser&aacute; desactivada, puedas editar esta informaci&oacute;n
+            posteriormente
+          </p>
+        </div>
+
+        <div id="stepThree">
+          <div class="jumbotron">
+            <h1 class="text-center">Felicidades!</h1>
+            <p class="text-center">Ya puedes empezar a utilizar SAE</p>
+          </div>
+        </div>
+
+
+	   </div>
+  </div>
+  <div class="modal-footer" ng-if="isFinalStep">
+    <input class="btn btn-danger btn-sm" type="button" ng-click="submit()" value="Anular"/>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<ol class="breadcrumb pull-right">
+  <li>
+    <a href="javascript:;">Configuraci&oacute;n</a>
+  </li>
+  <li>
+    <a href="javascript:;">Impuestos</a>
+  </li>
+</ol>
+<h1 class="page-header">Impuestos</h1>
+
+<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" href="javascript:;">
+          <i class="fa fa-expand"></i>
+        </a>
+        <a class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" href="javascript:;">
+          <i class="fa fa-minus"></i>
+        </a>
+      </div>
+      <h4 class="panel-title">Nuevo tipo de impuestos</h4>
+    </div>
+    <div class="panel-body">
+      <form ng-submit="save(taxTypeForm.$valid)" novalidate="novalidate" name="taxTypeForm">
+        <div class="row">
+
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : taxTypeForm.code.$invalid && taxTypeForm.$submitted}">
+              <label class="control-label">C&oacute;digo :</label>
+              <div class="input-group-sm">
+                <input type="text" class="form-control" tabindex="2" ng-model="taxType.code" ng-required="true"
+                id="code" name="code"/>
+              </div>
+              <p ng-show="taxTypeForm.name.$invalid && taxTypeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : taxTypeForm.name.$invalid && taxTypeForm.$submitted}">
+              <label class="control-label">Nombre :</label>
+              <div class="input-group-sm">
+                <input type="text" class="form-control" tabindex="2" ng-model="taxType.name" ng-required="true"
+                id="name" name="name"/>
+              </div>
+              <p ng-show="taxTypeForm.name.$invalid && taxTypeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : taxTypeForm.description.$invalid && taxTypeForm.$submitted}">
+              <label class="control-label">Descripci&oacute;n :</label>
+              <div class="input-group-sm">
+                <input type="text" class="form-control" tabindex="3" ng-model="taxType.description" ng-required="true"
+                id="description" name="description"/>
+              </div>
+              <p ng-show="taxTypeForm.name.$invalid && taxTypeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" ng-disabled="isServerProcess" ng-if="!isUpdate"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" ng-if="isUpdate"/>
+            <input type="button" class="btn btn-white btn-sm" value="Limpiar" ng-click="clean()"/>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" href="javascript:;">
+          <i class="fa fa-expand"></i>
+        </a>
+        <a class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" href="javascript:;">
+          <i class="fa fa-minus"></i>
+        </a>
+      </div>
+      <h4 class="panel-title">Resumen de tipos impuestos</h4>
+    </div>
+    <div class="panel-body">
+      <table class="table-hover table-condensed" datatable="ng">
+        <thead>
+          <tr>
+            <th width="15px"></th>
+            <th>Code</th>
+            <th>Nombre</th>
+            <th>Descripci&oacute;n</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="taxType in taxTypes track by $index" ng-click="selectTaxType(taxType)">
+            <td>
+              <button class="btn btn-primary btn-sm" id="delete" ng-click="delete(taxType._id)" ng-if="list.name != 'Lista Base'" type="button">
+                <span class="glyphicon glyphicon-minus"></span>
+              </button>
+            </td>
+            <td>
+              {{taxType.code}}
+            </td>
+            <td>
+              {{taxType.name}}
+            </td>
+            <td>
+              {{taxType.description}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

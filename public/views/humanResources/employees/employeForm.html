@@ -1,0 +1,601 @@
+
+<fieldset ng-disabled="validateStatus()">
+  <span class="ibox-title ">Informaci&oacute;n General</span>
+  <div class="hr-line-dashed"></div>
+  <div class="row">
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+      <div class="form-group">
+        <div class="input-group input-group-sm">
+          <input type="file" name="myImage" image-with-preview ng-model="employee.photo" accept="image/jpeg,image/png">
+          <img ng-show="employee.photo.src" ng-src="{{employee.photo.src}}" class="img-responsive" />
+        </div> 
+      </div>
+    </div>    
+    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
+            <div class="form-group" ng-class="{'has-error' : employeeForm.isPassport.$invalid && employeeForm.$submitted}">
+                <label class="control-label"><u>E</u>s Pasaporte</label>
+                <div class="input-group input-group-sm">
+                    <input type="radio" tabindex="1" ng-model="employee.isPassport" ng-required="true"
+                           id="isPassportYes" name="isPassport" ng-disabled="isDisabled || isUpdate" ng-value="true"
+                           ng-change="cleanIdentification()"/>Si
+                    <input type="radio" tabindex="1" ng-model="employee.isPassport" ng-required="true"
+                           id="isPassportNo" name="isPassport" ng-disabled="isDisabled || isUpdate" ng-value="false"
+                           ng-change="cleanIdentification()"/>No
+                </div>
+            </div>
+        </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-if="employee.isPassport == false">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.identificationC.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>C</u>&eacute;dula</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.identification" ng-required="employee.isPassport == false"
+                   ng-blur="validateIdentification()" tabindex="2" ng-disabled="isUpdate" id="identification" name="identification"
+                   number maxlength="13">
+            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+          </div>
+            <p ng-show="employeeForm.identificationC.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-if="employee.isPassport == true">
+            <div class="form-group" ng-class="{ 'has-error' : employeeForm.identification.$invalid && employeeForm.$submitted}">
+                <label class="control-label"><u>P</u>asaporte</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" tabindex="2" ng-model="employee.identification" ng-required="employee.isPassport == true"
+                           id="identification" name="identification"  ng-disabled="isUpdate" text-number/>
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-credit-card"></i></span>
+                </div>
+                <p ng-show="employeeForm.identification.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+        </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.code.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>C</u>&oacute;digo</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.code" tabindex="3" ng-disabled="isUpdate" ng-required="true" id="code" name="code"/>
+            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+          </div>
+            <p ng-show="employeeForm.code.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+  <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.names.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>N</u>ombres</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.names" ng-required="true" id="names" name="names"
+                   tabindex=4 text/>
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          </div>
+            <p ng-show="employeeForm.names.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.surnames.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>A</u>pellidos</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.surnames" ng-required="true" id="surnames" name="surnames"
+                   tabindex="5" text/>
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          </div>
+            <p ng-show="employeeForm.surnames.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.birthProvince.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>P</u>rovincia De Nacimiento</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.birthProvince" ng-required="true" id="birthProvince" name="birthProvince"
+                   tabindex="6" text/>
+            <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+          </div>
+            <p ng-show="employeeForm.birthProvince.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.birthCity.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>C</u>iudad de Nacimiento</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.birthCity" ng-required="true" id="birthCity" name="birthCity"
+                   tabindex="7" text/>
+            <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+          </div>
+            <p ng-show="employeeForm.birthCity.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+        <div class="col-lg-4 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : employeeForm.birthday.$invalid && employeeForm.$submitted}">
+                <label class="control-label"><u>F</u>echa de Nacimiento</label>
+                <div class="input-group input-group-sm"
+                     input-date ng-model="employee.birthday" date-id="birthday" date-name="birthday" ng-required="true">
+                </div>
+                <p ng-show="employeeForm.birthday.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+        </div>
+  </div>
+
+  <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ 'has-error' : employeeForm.addressCity.$invalid && employeeForm.$submitted}">
+              <label class="control-label"><u>C</u>iudad de Domicilio</label>
+              <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="employee.addressCity" ng-required="true" id="addressCity" name="addressCity"
+                         tabindex="9" text/>
+                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+              </div>
+              <p ng-show="employeeForm.addressCity.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+      </div>
+
+        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : employeeForm.address.$invalid && employeeForm.$submitted}">
+                <label class="control-label"><u>D</u>irecci&oacute;n Domicilio</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" ng-model="employee.address" ng-required="true" id="address" name="address"
+                           tabindex="10" text-number>
+                    <span class="input-group-addon"><i class="fa fa-home"></i></span>
+                </div>
+                <p ng-show="employeeForm.address.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+        </div>
+  </div>
+
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix lesspadding">
+                    <h5 class="panel-title col-xs-8"><u>T</u>el&eacute;fono</h5>
+                    <div class="pull-right input-group-sm">
+                        <button type="button" class="btn btn-default btn-xs" ng-click="addTelephone()" id="addTelephone ">
+                            <span class="glyphicon glyphicon-plus nopadding"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-12 col-sm-6 col-xs-12" ng-repeat="(key, telephone) in employee.telephones track by $index">
+                        <div class="input-group input-group-sm" ng-class="{ 'has-error' : employeeForm.telephone{{key}}.$invalid && employeeForm.$submitted}">
+              <span class="input-group-btn" ng-click="deleteTelephone($index)">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+              </span>
+                            <input type="text" class="form-control" tabindex="11" ng-model="employee.telephones[key]" ng-required="true"
+                                   id="telephone{{key}}" name="telephone{{key}}" ui-mask="(99) 9999-999"/>
+                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix lesspadding">
+                    <h5 class="panel-title col-xs-8"><u>C</u>elular</h5>
+                    <div class="pull-right input-group-sm">
+                        <button type="button" class="btn btn-default btn-xs" ng-click="addCellphone()" id="addCellphone">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-lg-12 col-sm-6 col-xs-12" ng-repeat="(key, cellphones) in employee.cellphones track by $index">
+                        <div class="input-group input-group-sm" ng-class="{ 'has-error' : employeeForm.cellphone{{key}}.$invalid && employeeForm.$submitted}">
+              <span class="input-group-btn" ng-click="deleteCellphone($index)">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+              </span>
+                            <input type="text" class="form-control" tabindex="12" ng-model="employee.cellphones[key]" ng-required="true"
+                                   id="cellphone{{key}}" name="cellphone{{key}}"ui-mask="(999) 999-999-999"/>
+                            <span class="input-group-addon"><i class="fa fa-mobile-phone"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix lesspadding">
+                    <h5 class="panel-title col-xs-8"><u>C</u>orreo Electr&oacute;nico</h5>
+                    <div class="pull-right input-group-sm">
+                        <button type="button" class="btn btn-default btn-xs" ng-click="addEmail()" id="addEmail">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="col-lg-12 col-sm-6 col-xs-12" ng-repeat="(key, email) in employee.emails track by $index">
+                        <div class="input-group input-group-sm" ng-class="{ 'has-error' : employeeForm.email{{key}}.$invalid && employeeForm.$submitted}">
+              <span class="input-group-btn" ng-click="deleteEmail($index)">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+              </span>
+                            <input type="email" class="form-control" tabindex="13" ng-model="employee.emails[key]" ng-required="true"
+                                   id="email{{key}}" name="email{{key}}"/>
+                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.gender.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>S</u>exo</label>
+          <div class="input-group input-group-sm">
+            <select class="form-control" placeholder="" ng-model="employee.gender" ng-required="true" id="gender" name="gender"
+                    tabindex="14">
+              <option value="" disabled selected></option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+            </select>
+            <span class="input-group-addon"><i class="fa fa-venus-mars"></i></span>
+          </div>
+            <p ng-show="employeeForm.gender.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+        <div class="form-group" ng-class="{ 'has-error' : employeeForm.disability.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>T</u>iene Discapacidad</label>
+          <div class="input-group input-group-sm">
+            <select class="form-control" placeholder="" ng-model="employee.disability" ng-required="true" ng-change = "cleanDisability()"
+                    id="disability" name="disability" tabindex="15">
+              <option value="" disabled></option>
+              <option value="true">Si</option>
+              <option value="false">No</option>
+            </select>
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          </div>
+            <p ng-show="employeeForm.disability.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" ng-if="employee.disability == 'true'">
+        <div class="form-group">
+          <label class="control-label">Carn&eacute; Conadis</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" ng-model="employee.conadis" tabindex="16" number/>
+            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</fieldset>
+
+
+<br/>
+<fieldset ng-disabled="validateStatus()">
+  <span class="ibox-title ">Informaci&oacute;n Marital</span>
+  <div class="hr-line-dashed"></div>
+  <div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.maritalStatus.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>E</u>stado Civil</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" ng-options="maritalStatus._id as maritalStatus.name for maritalStatus in maritalsStatus" ng-change="cleanMaritalStatus()"
+                  ng-required="true" id="maritalStatus" name="maritalStatus" tabindex="17" ng-model="employee.maritalStatus_id">
+          <option disabled value=""></option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+        </div>
+          <p ng-show="employeeForm.maritalStatus.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-if="isMarried()">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.spouseName.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>N</u>ombre Conyugue</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" ng-model="employee.spouseName" ng-required="true" id="spouseName" name="spouseName"
+                 tabindex="18" text/>
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        </div>
+          <p ng-show="employeeForm.spouseName.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.sonNumber.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>N</u>&uacute;mero Hijos</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" ng-model="employee.sonNumber" ng-required="true" id="sonNumber" name="sonNumber"
+                 tabindex="19" ui-number-mask="0"/>
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        </div>
+          <p ng-show="employeeForm.sonNumber.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.responsibilities.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>N</u>&uacute;mero Cargas Totales</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" ng-model="employee.responsibilities" ng-required="true" id="responsibilities" name="responsibilities"
+                 tabindex="20" ui-number-mask="0"/>
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+        </div>
+          <p ng-show="employeeForm.responsibilities.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+  </div>
+</fieldset> 
+
+  
+<br/>
+<fieldset ng-disabled="validateStatus()">
+  <span class="ibox-title ">Informaci&oacute;n Financiera</span>
+  <div class="hr-line-dashed"></div>
+  <div class="row">
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.paymentMethod.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>F</u>orma de Pago</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" placeholder="" ng-model="employee.paymentMethod" ng-required="true" id="paymentMethod" name="paymentMethod"
+                  ng-change="cleanPaymentMethod()" tabindex="21">
+            <option value="Cheque">Cheque</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia">Transferencia</option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+        </div>
+          <p ng-show="employeeForm.paymentMethod.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-if="employee.paymentMethod == 'Transferencia'">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.bank_id.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>B</u>anco</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" ng-model="employee.bank_id" ng-required="employee.paymentMethod == 'Transferencia'" id="bank_id" name="bank_id"
+                  tabindex="22" ng-options="bank._id as bank.name for bank in banks">
+            <option disabled value=""></option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-university"></i></span>
+        </div>
+          <p ng-show="employeeForm.bank_id.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-if="employee.paymentMethod == 'Transferencia'">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.bankAcountNumber.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>N</u>&uacute;mero De Cuenta</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" ng-model="employee.bankAcountNumber" ng-required="employee.paymentMethod == 'Transferencia'"
+                 id="bankAcountNumber" name="bankAcountNumber" tabindex="23" number/>
+          <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+        </div>
+          <p ng-show="employeeForm.bankAcountNumber.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" ng-if="employee.paymentMethod == 'Transferencia'">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.bankAccountType.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>T</u>ipo De Cuenta</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" placeholder="" ng-model="employee.bankAccountType" ng-required="employee.paymentMethod == 'Transferencia'"
+                  id="bankAccountType" name="bankAccountType" tabindex="24">
+            <option value="Ahorros" selected>Ahorros</option>
+            <option value="Corriente">Corriente</option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-cc-visa"></i></span>
+        </div>
+          <p ng-show="employeeForm.bankAccountType.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.grossSalary.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>S</u>ueldo Bruto</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control text-right" ng-model="employee.grossSalary" ng-disabled="isUpdate"
+                 ng-required="true" id="grossSalary" name="grossSalary" tabindex="25" ui-money-mask/>
+          <span class="input-group-addon"><i class="fa fa-money"></i></span>
+        </div>
+          <p ng-show="employeeForm.grossSalary.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.discountValue.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>D</u>escuentos:</label>
+        <div class="input-group input-group-sm">
+          <div class="input-group-btn input-group-sm">
+            <select class="btn btn-default dropdown-toggle" ng-model="employee.discount" ng-change="cleanDiscounts()"
+                    ng-disabled="isUpdate" tabindex="26" ng-options="boolOption.value as boolOption.name for boolOption in boolOptions">
+              <option value="" disabled></option>
+            </select>
+          </div>
+          <input type="text" class="form-control" ng-model="employee.discountValue"
+                 ng-disabled="!employee.discount || employee.discount == 'false' || isUpdate" ui-money-mask ng-required="employee.discount == true"
+                 name="discountValue" id="discountValue"/>
+        </div>
+          <p ng-show="employeeForm.discount.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.bonusValue.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>B</u>onos:</label>
+        <div class="input-group input-group-sm">
+          <div class="input-group-btn input-group-sm">
+            <select class="btn btn-default dropdown-toggle" ng-model="employee.bonus" ng-change = "cleanBonus()" ng-required="true"
+                    ng-disabled="isUpdate" tabindex="27" ng-options="boolOption.value as boolOption.name for boolOption in boolOptions">
+              <option value="" disabled></option>
+            </select>
+          </div>
+          <input type="text" class="form-control" ng-model="employee.bonusValue"
+                 ng-disabled="!employee.bonus || employee.bonus == 'false' || isUpdate " ui-money-mask ng-required="employee.bonus == true"
+                 name="bonusValue" id="bonusValue" >
+        </div>
+          <p ng-show="employeeForm.bonus.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>  
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.reserveFounds.$invalid && employeeForm.$submitted}">
+         <label class="control-label"><u>M</u>ensualizaci&oacute;n Fondo de Reserva:</label>
+         <div class="input-group input-group-sm">
+            <select class="form-control" placeholder="" ng-model="employee.reserveFounds" ng-required="true" name="reserveFounds" id="reserveFounds"
+                    tabindex="28">
+               <option value="true">Si</option>
+               <option value="false">No</option>
+            </select>
+            <span class="input-group-addon"><i class="fa fa-list"></i></span>
+         </div>
+            <p ng-show="employeeForm.reserveFounds.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.thirteenthPayment.$invalid && employeeForm.$submitted}">
+         <label class="control-label"><u>M</u>ensualizaci&oacute;n D&eacute;cimo Tercero:</label>
+         <div class="input-group input-group-sm">
+            <select class="form-control" placeholder="" ng-model="employee.thirteenthPayment" ng-required="true" name="thirteenthPayment" id="thirteenthPayment"
+                    tabindex="29">
+               <option value="true">Si</option>
+               <option value="false">No</option>
+            </select>
+            <span class="input-group-addon"><i class="fa fa-list"></i></span>
+         </div>
+            <p ng-show="employeeForm.thirteenthPayment.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.fourteenthPayment.$invalid && employeeForm.$submitted}">
+         <label class="control-label"><u>M</u>ensualizaci&oacute;n D&eacute;cimo Cuarto:</label>
+         <div class="input-group input-group-sm">
+            <select class="form-control" placeholder="" ng-model="employee.fourteenthPayment" ng-required="true" name="fourteenthPayment" id="fourteenthPayment"
+                    tabindex="30">
+               <option value="true">Si</option>
+               <option value="false">No</option>
+            </select>
+            <span class="input-group-addon"><i class="fa fa-list"></i></span>
+         </div>
+            <p ng-show="employeeForm.fourteenthPayment.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</fieldset>    
+
+<br/>
+<fieldset ng-disabled="validateStatus()">
+  <span class="ibox-title ">Informaci&oacute;n Laboral</span>
+  <div class="hr-line-dashed"></div>
+  <div class="row">
+
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group">
+              <label class="control-label">Raz&oacute;n Social IESS</label>
+              <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="employee.iessBusinessName" tabindex="31">
+                  <span class="input-group-addon"><i class="fa fa-list"></i></span>
+              </div>
+          </div>
+      </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.department_id.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>D</u>epartamento</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" ng-options="department._id as department.name for department in departments" ng-disabled="isUpdate"
+                  ng-model="employee.department_id" ng-change="getOffices()" ng-required="true" name="department_id" id="department_id" tabindex="32" >
+          <option value=""></option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-building"></i></span>
+        </div>
+          <p ng-show="employeeForm.department_id.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.office_id.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>C</u>argo</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" ng-options="office._id as office.name for office in offices" ng-disabled="isUpdate" ng-model="employee.office_id"
+                  ng-required="true" name="office_id" id="office_id" tabindex="33" >
+            <option disabled value=""></option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
+        </div>
+          <p ng-show="employeeForm.office_id.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.profession.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>P</u>rofesi&oacute;n</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control" ng-model="employee.profession" ng-required="true" name="profession" id="profession"
+                 tabindex="34">
+          <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
+        </div>
+          <p ng-show="employeeForm.profession.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.status.$invalid && employeeForm.$submitted}">
+        <label class="control-label"><u>E</u>stado</label>
+        <div class="input-group input-group-sm">
+          <select class="form-control" placeholder="" ng-model="employee.status" id="status" ng-required="true" id="status" name="status"
+                  ng-disabled="isUpdate" tabindex="35">
+            <option value="Activo">Activo</option>
+          </select>
+          <span class="input-group-addon"><i class="fa fa-list"></i></span>
+        </div>
+          <p ng-show="employeeForm.status.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+    </div>
+
+  <div class="col-lg-3 col-sm-6 col-xs-12">
+      <div class="form-group" ng-class="{ 'has-error' : employeeForm.lastStateDate.$invalid && employeeForm.$submitted}">
+          <label class="control-label"><u>F</u>echa de Estado</label>
+          <div class="input-group input-group-sm"
+               input-date ng-model="employee.lastStateDate" date-id="lastStateDate" date-name="lastStateDate" ng-disabled="isUpdate" ng-required="true">
+          </div>
+          <p ng-show="employeeForm.lastStateDate.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+      </div>
+  </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ 'has-error' : employeeForm.dependencyRelationship.$invalid && employeeForm.$submitted}">
+              <label class="control-label"><u>R</u>elaci&oacute;n de Dependencia</label>
+              <div class="input-group input-group-sm">
+                  <input type="radio" tabindex="37" ng-model="employee.isDependencyRelationship" ng-required="true"
+                         id="isDependencyRelationshipYes" name="isDependencyRelationship" ng-value="true"/>Si
+                  <input type="radio" tabindex="38" ng-model="employee.isDependencyRelationship" ng-required="true"
+                         id="isDependencyRelationshipNo" name="isDependencyRelationship" ng-value="false"/>No
+              </div>
+          </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{'has-error' : employeeForm.isDriver.$invalid && employeeForm.$submitted}">
+              <label class="control-label"><u>T</u>ransportista para Log&iacute;stica</label>
+              <div class="input-group input-group-sm">
+                  <input type="radio" tabindex="39" ng-model="employee.isDriver" ng-required="true"
+                         id="isDriverYes" name="isDriver" ng-value="true"/>Si
+                  <input type="radio" tabindex="40" ng-model="employee.isDriver" ng-required="true"
+                         id="isDriverNo" name="isDriver" ng-value="false"/>No
+              </div>
+          </div>
+      </div>
+  
+  </div>
+</fieldset>  

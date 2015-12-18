@@ -1,0 +1,104 @@
+<ol class="breadcrumb pull-right">
+    <li><a>Configuraci&oacute;n</a></li>
+    <li><a>Usuarios</a></li>
+</ol>
+<h1 class="page-header">Usuarios</h1>
+<div class="col-md-4 col-lg-4 col-sm-6 col-xs-12">
+    <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title" ng-if="!isUpdate">Nuevo Usuario</h4>
+            <h4 class="panel-title" ng-if="isUpdate">Editar Usuario</h4>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="submit(newUserForm.$valid)" name="newUserForm" novalidate="novalidate">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="SAEBASIC">
+                      <div class="form-group" ng-class="{'has-error' : newUserForm.newEmail.$invalid && newUserForm.$submitted}">
+                          <label class="control-label">Correo</label>
+                          <div class="input-group input-group-sm">
+                              <input type="text" class="form-control" placeholder="Correo" ng-model="newUser.email"
+                                     id="newEmail" required name="newEmail">
+                              <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="!SAEBASIC">
+                        <div class="form-group" ng-class="{'has-error' : newUserForm.newUser.$invalid && newUserForm.$submitted}">
+                            <label class="control-label">Usuario</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Nombre" ng-model="newUser.username"
+                                       id="newUser" required name="newUser">
+                                <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : newUserForm.password.$invalid && newUserForm.$submitted}">
+                            <label class="control-label">Contraseña</label>
+                            <div class="input-group input-group-sm">
+                                <input type="password" class="form-control" placeholder="Contrase&ntilde;a" ng-model="newUser.password"
+                                       pattern=".{6,}" title="M&iacute;nimo 6 caracteres"
+                                       ng-required="!isUpdate" id="password" name="password">
+                                <span class="input-group-addon"><i class="fa fa-align-center"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : newUserForm.companies.$invalid && newUserForm.$submitted}">
+                            <label class="control-label">Empresas</label>
+                            <div class="input-group input-group-sm col-lg-12 col-sm-12 col-xs-12">
+                                <selectize config="configSelectCompanies" options="companies" name="companies"
+                                           ng-model="newUser.companies" id="companies" ng-required="true"></selectize>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group" ng-class="{'has-error' : newUserForm.defaultCompany.$invalid && newUserForm.$submitted}">
+                            <label class="control-label">Empresa por Defecto</label>
+                            <div class="input-group input-group-sm col-lg-12 col-sm-12 col-xs-12">
+                                <selectize config="configSelectCompany" options="selectedCompanies" name="defaultCompany"
+                                  ng-model="newUser.default_company_id" id="defaultCompany" ng-required="true"></selectize>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="btn-group">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-if="!isUpdate">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-if="isUpdate">
+
+                            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" ng-click="clean()">
+                        </div>
+                        <input type="button" class="btn btn-danger btn-sm pull-right" value="Eliminar" id="delete" ng-if="isUpdate"
+                          ng-click="delete()"/>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-md-8 col-lg-8 col-sm-6 col-xs-12">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Resumen de Usuarios</h4>
+        </div>
+        <div class="panel-body">
+          <table datatable dt-options="dtOptions" dt-columns="tableColumns" id="summarCompanies"
+            name="summarySalesOfferTable" class="row-border hover" dt-instance="getTableInstance"></table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+  <li><a href="javascript:;">Documentos</a></li>
+</ol>
+<h1 class="page-header">Documentos</h1>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title" ng-show="!isUpdate">Nuevo Documento</h4>
+        <h4 class="panel-title" ng-show="isUpdate">Actualizar Documento</h4>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="save()">
+          <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label><u>C</u>&oacute;digo</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newDocument.code"
+                  required tabindex="1" id="code" number/>
+                  <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label><u>N</u>ombre</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newDocument.name"
+                  required tabindex="1" id="name" text/>
+                  <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label><u>S</u>ecuencial</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newDocument.secuencial"
+                  required tabindex="2" id="secuencial" number/>
+                  <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label><u>C</u>ontable</label>
+                <div class="input-group input-group-sm">
+                  <checkbox ng-model="newDocument.isContable"></checkbox>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="btn-group">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" ng-disabled="serverProcess" tabindex="8" ng-show="!isUpdate"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" ng-disabled="serverProcess" tabindex="8" ng-show="isUpdate"/>
+            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" ng-disabled="serverProcess" tabindex="9" ng-click="reset()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Resumen Documentos</h4>
+      </div>
+      <div class="panel-body">
+        <table datatable="ng" class="table-hover table-condensed">
+          <thead>
+            <tr>
+              <th>C&oacute;digo</th>
+              <th>Nombre</th>
+              <th>Serie Empresa</th>
+              <th>Serie Bodega</th>
+              <th>Secuencial</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="document in documents" ng-click="selectDocument(document)">
+              <td>{{document.code}}</td>
+              <td>{{document.name}}</td>
+              <td>{{document.companySerie}}</td>
+              <td>{{document.warehouseSerie}}</td>
+              <td>{{document.secuencial}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>     
+</div>

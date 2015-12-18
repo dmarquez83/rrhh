@@ -1,0 +1,99 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Bancos</a></li>
+    <li><a href="javascript:;">Tarjetas de Cr&eacute;dito</a></li>
+</ol>
+<h1 class="page-header">Tarjetas de Cr&eacute;dito</h1>
+
+<div class="row">
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title" ng-show="!isUpdate">Nueva Tarjeta de Cr&eacute;dito</h4>
+                <h4 class="panel-title" ng-show="isUpdate">Actualizar Tarjeta de Cr&eacute;dito</h4>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="save(creditCardForm.$valid)" novalidate="novalidate" name="creditCardForm">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="form-group" ng-class="{'has-error' : creditCardForm.name.$invalid && creditCardForm.$submitted}">
+                                <label class="control-label"><u>N</u>ombre Tarjeta</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" tabindex="1" ng-model="creditCard.name" ng-required="true"
+                                           id="name" name="name"/>
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                </div>
+                                <p ng-show="creditCardForm.name.$invalid && creditCardForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="form-group" ng-class="{'has-error' : creditCardForm.number.$invalid && creditCardForm.$submitted}">
+                                <label class="control-label"><u>N</u>&uacute;mero Tarjeta</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" tabindex="2" ng-model="creditCard.number" ng-required="true"
+                                           id="number" name="number"/>
+                                    <span class="input-group-addon"><i class="fa fa-cc-mastercard"></i></span>
+                                </div>
+                                <p ng-show="creditCardForm.name.$invalid && creditCardForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                            <div class="form-group" ng-class="{'has-error' : creditCardForm.employee_id.$invalid && creditCardForm.$submitted}">
+                                <label class="control-label"><u>R</u>esponsable Asignado</label>
+                                <div class="input-group col-lg-12 col-sm-12 col-xs-12">
+                                    <selectize-employee ng-model="creditCard.employee_id" employees-data="employees"
+                                                        id="employee_id" name="employee_id" tabindex="3"></selectize-employee>
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                </div>
+                                <p ng-show="creditCardForm.employee_ids.$invalid && creditCardForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                            <div class="form-group" ng-class="{'has-error' : creditCardForm.documentsLedgerAccountId.$invalid && creditCardForm.$submitted}">
+                                <label class="control-label"><u>C</u>uenta Contable Asignada</label>
+                                <div class="input-group-sm">
+                                    <selectize-statement tabindex="4" ng-model="creditCard.documentsLedgerAccount_id"
+                                                         id="documentsLedgerAccountId" name="documentsLedgerAccountId" ng-required="true" ></selectize-statement>
+                                </div>
+                                <p ng-show="creditCardForm.documentsLedgerAccountId.$invalid && creditCardForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="3" ng-show="!isUpdate"/>
+                            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="4" ng-show="isUpdate"/>
+                            <input type="button" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="5" ng-click="clean()">
+                            <input type="button" class="btn btn-danger btn-sm pull-right"  id="delete" value="Eliminar" ng-click="delete()" ng-if="isUpdate"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse animated fadeInRight {{panelExpand}}" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <button ng-click="maximize()" class="btn btn-xs btn-icon btn-circle btn-default"><i class="fa fa-expand"></i></button>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title">Resumen de Tarjetas de Cr&eacute;dito</h4>
+            </div>
+            <div class="panel-body">
+                <table class="row-border hover table-striped" datatable dt-options="dtOptions" dt-columns="tableColumns"
+                       dt-instance="getTableInstance"></table>
+            </div>
+        </div>
+    </div>
+</div>

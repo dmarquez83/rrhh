@@ -1,0 +1,287 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+    <li><a href="javascript:;">M&oacute;dulos</a></li>
+</ol>
+<h1 class="page-header">Edici&oacute;n de M&oacute;dulos</h1>
+
+
+
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title" 
+                ng-if="!isModuleUpdate">Nuevo M&oacute;dulo</h4>
+            <h4 class="panel-title" 
+                ng-if="isModuleUpdate">Editar M&oacute;dulo</h4>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="save()">  
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3">
+                        <label>Nombre M&oacute;dulo</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Nombre" ng-model="module.name" required>
+                                <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-xs-12">
+                        <label>Ruta</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Ruta" ng-model="module.route" required>
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Nombre Estado</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Estado" ng-model="module.state" required>
+                                <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Clase css</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Clase CSS" ng-model="module.cssClass">
+                                <span class="input-group-addon"><i class="fa fa-css3"></i></span>
+                            </div>
+                        </div>  
+                    </div> 
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3">
+                        <label>Nombre Controlador</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Controlador" ng-model="module.controller">
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label>Url Vista</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Ruta plantilla" ng-model="module.templateUrl">
+                                <span class="input-group-addon"><i class="fa fa-align-justify"></i></span>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Visible</label>
+                        <input type="checkbox" class="js-switch" title="Agregar subm&oacute;dulo"
+                               ui-switch="{color: '#348fe2', secondaryColor: '#ff5b57', size: 'small'}"
+                               checked 
+                               ng-model="module.isVisible" ng-value="module.isVisible"/>                        
+                    </div>
+
+
+                </div>
+                
+
+
+                <div class="col-lg-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="15px"></th>
+                                <th>Nombre</th>
+                                <th>Ruta</th>
+                            </tr>  
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="submodule in module.submodules track by $index"
+                                ng-click="selectSubmodule($index)"
+                                ng-class="{'active': $index === indexSubmodule}"
+                                class="cursorPointer">
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                            ng-click="deleteSubmodule($index)" title="Eliminar subm&oacute;dulo">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                </td>
+                                <td>{{ submodule.name}}</td>
+                                <td>{{ submodule.route}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br/>
+
+                <span>Edici&oacute;n subm&oacute;dulo</span>
+                <div class="hr-line-dashed"></div>
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3">
+                        <label>Nombre submodulo</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Nombre" ng-model="submodule.name">
+                                <span class="input-group-addon"><i class="fa fa-align-center"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Ruta</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Ruta" ng-model="submodule.route">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Nombre Estado</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Estado" ng-model="submodule.state">
+                                <span class="input-group-addon"><i class="fa fa-check-square-o"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <label>Nombre Controlador</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Controlador" ng-model="submodule.controller">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-6 col-md-6">
+                        <label>Url de la Vista</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Ruta plantilla"
+                                       ng-model="submodule.templateUrl">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3">
+                        <label>Visible</label>
+                        <input type="checkbox" class="js-switch"
+                               ui-switch="{color: '#348fe2', secondaryColor: '#ff5b57', size: 'small'}"
+                               checked
+                               ng-model="submodule.isVisible" ng-value="submodule.isVisible"/>
+                        <label>Es Reporte</label>
+                        <input type="checkbox" class="js-switch" title="Agregar subm&oacute;dulo"
+                               ui-switch="{color: '#348fe2', secondaryColor: '#ff5b57', size: 'small'}"
+                               checked
+                               ng-model="submodule.isReport" ng-value="submodule.isReport"/>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <label>Nombre Modelo</label>
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control"
+                                       ng-model="submodule.modelName" ng-disabled="!submodule.isReport">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-1 col-md-1">
+                        <button type="button" class="btn btn-primary btn-sm" title="Guardar subm&oacute;dulo"
+                                ng-disabled="!submodule.name ||
+                                             !submodule.route ||
+                                             !submodule.state"
+                                ng-click="addSubmodule()">
+                            <span class="glyphicon glyphicon-plus tableInput"></span>
+                        </button>
+                    </div>
+                    <div class="col-lg-1 col-md-1" ng-show="submodule.name">
+                        <button type="button" class="btn btn-primary btn-sm" title="Actualizar subm&oacute;dulo"
+                                ng-disabled="!submodule.name ||
+                                             !submodule.route ||
+                                             !submodule.state"
+                                ng-click="updateSubmodule()">
+                            <span class="glyphicon glyphicon-refresh tableInput"></span>
+                        </button>
+                    </div>
+
+                </div>
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-4">
+                        <div class="btn-group">
+                            <input type="submit" class="btn btn-default btn-sm" value="Guardar"
+                                   ng-disabled="!module.name || 
+                                                !module.route || 
+                                                !module.state" 
+                                   ng-if="!module._id">
+                            <input type="submit" class="btn btn-default btn-sm" value="Actualizar" 
+                                   ng-disabled="!module.name || 
+                                                !module.route || 
+                                                !module.state" 
+                                   ng-if="module._id">                            
+                            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" 
+                                   ng-click="init()">
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4 col-lg-4 col-sm-10 col-xs-10">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Resumen de M&oacute;dulos</h4>
+        </div>
+        <div class="panel-body">
+            <table datatable="ng" class="table table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th width="15px"></th>
+                    <th>Nombre</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="module in modules track by $index"
+                    ng-click="selectModule($index)"
+                    ng-class="{'active': $index === indexModule}"
+                    class="cursorPointer">
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm"
+                                ng-click="deleteModule($index)" title="Eliminar m&oacute;dulo">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </td>
+                    <td>{{ module.name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

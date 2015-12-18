@@ -1,0 +1,156 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+  <li><a href="javascript:;">Bodegas</a></li>
+</ol>
+<h1 class="page-header">Bodegas</h1>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title" ng-show="!isUpdate">Nueva Bodega</h4>
+        <h4 class="panel-title" ng-show="isUpdate">Actualizar Bodegas</h4>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="save(warehouseForm.$valid)" novalidate="novalidate" name="warehouseForm">
+          <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : warehouseForm.series.$invalid && warehouseForm.$submitted}">
+                <label class="control-label"><u>S</u>erie</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="1" ng-model="newWarehouse.series" ng-required="true"
+                    id="series" name="series"/>
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                </div>
+                <p ng-show="warehouseForm.series.$invalid && warehouseForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : warehouseForm.code.$invalid && warehouseForm.$submitted}">
+                <label class="control-label"><u>C</u>&oacute;digo</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="2" ng-model="newWarehouse.code" ng-required="true"
+                  id="code" name="code" text-number/>
+                  <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+                <p ng-show="warehouseForm.code.$invalid && warehouseForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : warehouseForm.name.$invalid && warehouseForm.$submitted}">
+                <label class="control-label"><u>N</u>ombre</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="3" ng-model="newWarehouse.name" ng-required="true"
+                    id="name" name="name" text/>
+                  <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+                </div>
+                <p ng-show="warehouseForm.name.$invalid && warehouseForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : warehouseForm.address.$invalid && warehouseForm.$submitted}">
+                <label class="control-label"><u>D</u>irecci&oacute;n</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="4" ng-model="newWarehouse.address" ng-required="true"
+                    id="address" name="address"/>
+                  <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                </div>
+                <p ng-show="warehouseForm.address.$invalid && warehouseForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group" ng-class="{'has-error' : warehouseForm.telephone.$invalid && warehouseForm.$submitted}">
+                <label class="control-label"><u>T</u>el&eacute;fono</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="5" ng-model="newWarehouse.telephone" ng-required="true"
+                    id="telephone" name="telephone" ui-mask="(99) 9999-999"/>
+                  <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                </div>
+                <p ng-show="warehouseForm.telephone.$invalid && warehouseForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label class="control-label"><u>P</u>a&iacute;s</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="6" ng-model="newWarehouse.country" ng-required="true"
+                    id="country" name="country" text/>
+                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="form-group">
+                <label class="control-label"><u>C</u>iudad</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="7" ng-model="newWarehouse.city" ng-required="true"
+                    id="city" name="city" text/>
+                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="btn-group">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" ng-disabled="serverProcess" tabindex="8" id="save"
+                   ng-if="!isUpdate"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" ng-disabled="serverProcess" tabindex="8" id="update"
+                   ng-if="isUpdate"/>
+            <input type="button" class="btn btn-white btn-sm" value="Limpiar" ng-disabled="serverProcess" tabindex="9" id="clean"
+                   ng-click="clean()"/>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Resumen Bodegas</h4>
+      </div>
+      <div class="panel-body">
+        <table datatable="ng" class="table-hover table-condensed">
+          <thead>
+            <tr>
+              <th width="15px"></th>
+              <th>C&oacute;digo</th>
+              <th>Nombre</th>
+              <th>Pa&iacute;s</th>
+              <th>Ciudad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="warehouse in warehouses" ng-click="selectWarehouse(warehouse)">
+              <td>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="delete($index)" id="delete">
+                <span class="glyphicon glyphicon-minus"></span>
+                </button>
+              </td>
+              <td>{{warehouse.code}}</td>
+              <td>{{warehouse.name}}</td>
+              <td>{{warehouse.country}}</td>
+              <td>{{warehouse.city}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

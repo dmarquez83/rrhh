@@ -1,0 +1,172 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Recursos Humanos</a></li>
+    <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+</ol>
+<h1 class="page-header">Configuraci&oacute;n</h1>
+
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Configuraci&oacute;n</h4>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="save(humanResourcesConfigurationForm.$valid)" novalidate="novalidate" name="humanResourcesConfigurationForm">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>S</u>alario B&aacute;sico</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" ng-model="configuration.basicSalary" ng-required="true" id="basicSalary" name="basicSalary"
+                                       tabindex="1" ui-money-mask>
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>S</u>alario Digno</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" ng-model="configuration.whortySalary" ng-required="true" id="whortySalary" name="whortySalary"
+                                       tabindex="2" ui-money-mask>
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>T</u>ipo de liquidaci&oacute;n</label>
+                            <div class="input-group input-group-sm">
+                                <select class="form-control" ng-model="configuration.liquidationType" ng-required="true" id="liquidationType" name="liquidationType"
+                                        tabindex="3">
+                                    <option disabled></option>
+                                    <option>Quincenal</option>
+                                    <option>Mensual</option>
+                                </select>
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>F</u>echa Inicio D&eacute;cimo Tercero</label>
+                            <div class="input-group input-group-sm">
+                                <input class="form-control inputborderless" type="text" ng-datepicker ng-options="datepickerOptions"
+                                       ng-model="configuration.thirteenthSalary.startDate" ng-required="true" id="thirteenthSalary" name="thirteenthSalary"
+                                       tabindex="4">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="form-group" ng-class="{ 'has-error' : employeeForm.lastStateDate.$invalid && employeeForm.$submitted}">
+                            <label class="control-label"><u>F</u>echa de Estado</label>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="dropdownLastStateDate" role="button" data-toggle="dropdown">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" tabindex="3" ng-model="employee.lastStateDate"
+                                               id="lastStateDate" name="lastStateDate" date-format="YYYY-MM-DD"/>
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <p ng-show="employeeForm.lastStateDate.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker ng-model="employee.lastStateDate"
+                                                    data-datetimepicker-config="{ startView:'day', minView:'day', dropdownSelector: '#dropdownLastStateDate'}"/>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>F</u>echa Fin D&eacute;cimo Tercero</label>
+                            <div class="input-group input-group-sm">
+                                <input class="form-control inputborderless" type="text" ng-datepicker ng-options="datepickerOptions"
+                                       ng-model="configuration.thirteenthSalary.endDate" required tabindex="6">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>F</u>echa Inicio D&eacute;cimo Cuarto</label>
+                            <div class="input-group input-group-sm">
+                                <input class="form-control inputborderless" type="text" ng-datepicker ng-options="datepickerOptions"
+                                       ng-model="configuration.fourteenthSalary.startDate" required tabindex="6">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>F</u>echa Fin D&eacute;cimo Cuarto</label>
+                            <div class="input-group input-group-sm">
+                                <input class="form-control inputborderless" type="text" ng-datepicker ng-options="datepickerOptions"
+                                       ng-model="configuration.fourteenthSalary.endDate" required tabindex="7">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>P</u>orcentaje Utilidad Trabajadores</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" ng-model="configuration.percentageUtilitiesWorkers" required tabindex="1" decimal decimal-min="1" decimal-max="100">
+                                <span class="input-group-addon"><i>%</i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label"><u>P</u>orcentaje Utilidad Cargas</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" ng-model="configuration.percentageUtilitiesBurden" required tabindex="1" decimal decimal-min="1" decimal-max="100">
+                                <span class="input-group-addon"><i>%</i></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <input type="submit" class="btn btn-default btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="4" ng-show="!isUpdate"/>
+                        <input type="submit" class="btn btn-default btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="5" ng-show="isUpdate"/>
+                        <input type="reset" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="6" ng-click="clean()"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

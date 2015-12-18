@@ -1,0 +1,24 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Recursos Humanos</a></li>
+  <li><a href="javascript:;">Nuevo Empleado</a></li>
+</ol>
+<h1 class="page-header">Nuevo Empleado</h1>
+
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+    </div>
+    <h4 class="panel-title">Nuevo Empleado</h4>
+  </div>
+  <div class="panel-body">
+    <form ng-submit="save(employeeForm.$valid)" novalidate="novalidate" name="employeeForm">
+      <div ng-include="'views/humanResources/employees/employeForm.html'" scope="" onload=""></div>
+          <div class="btn-group">
+            <input type="submit" class="btn btn-primary btn-sm" id="save" value="Guardar" ng-disabled="serverProcess" tabindex="34" />
+            <input type="reset" class="btn btn-white btn-sm" id="clean" value="Limpiar" ng-click="clean()" tabindex="35"/>
+          </div>
+    </form>
+  </div>
+</div>

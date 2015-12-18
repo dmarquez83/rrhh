@@ -1,0 +1,140 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Bancos</a></li>
+  <li><a href="javascript:;">Registro de Chequeras</a></li>
+</ol>
+<h1 class="page-header">Chequeras</h1>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title" ng-show="!isUpdate">Nueva Chequera</h4>
+        <h4 class="panel-title" ng-show="isUpdate">Actualizar Chequera</h4>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="save(checkbookRegisterForm.$valid)" novalidate="novalidate" name="checkbookRegisterForm">
+          <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : checkbookRegisterForm.bankAccount_id.$invalid && checkbookRegisterForm.$submitted}">
+                <label class="control-label"><u>C</u>uenta Bancaria</label>
+                <div class="input-group input-group-sm">
+                  <select class="form-control" ng-options="bankAccount._id as bankAccount.number  group by bankAccount.bank_name for bankAccount in bankAccounts"
+                          tabindex="1" ng-model="newCheckbookRegister.bankAccount_id" id="bankAccount_id" name="bankAccount_id" ng-required="true">
+                  <option value="" disabled selected></option>                  
+                  </select>
+                  <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                </div>
+                <p ng-show="checkbookRegisterForm.bankAccount_id.$invalid && checkbookRegisterForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : checkbookRegisterForm.checkbookNumber.$invalid && checkbookRegisterForm.$submitted}">
+                <label class="control-label"><u>N</u>&uacute;mero Chequera</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newCheckbookRegister.checkbookNumber"
+                  tabindex="2" id="checkbookNumber" name="checkbookNumber" ng-required="true" number>
+                  <span class="input-group-addon"><i class="fa fa-cc"></i></span>
+                </div>
+                <p ng-show="checkbookRegisterForm.checkbookNumber.$invalid && checkbookRegisterForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : checkbookRegisterForm.checkNumber1.$invalid && checkbookRegisterForm.$submitted}">
+                <label class="control-label"><u>D</u>esde</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newCheckbookRegister.checkNumber1"
+                  tabindex="3" id="checkNumber1" name="checkNumber1" ng-required="true" number>
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                </div>
+                  <p ng-show="checkbookRegisterForm.checkNumber1.$invalid && checkbookRegisterForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : checkbookRegisterForm.checkNumber2.$invalid && checkbookRegisterForm.$submitted}">
+                <label class="control-label"><u>H</u>asta</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newCheckbookRegister.checkNumber2"
+                  tabindex="4" id="checkNumber2" name="checkNumber2" ng-required="true" number>
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-desc"></i></span>
+                </div>
+                  <p ng-show="checkbookRegisterForm.checkNumber2.$invalid && checkbookRegisterForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : checkbookRegisterForm.status.$invalid && checkbookRegisterForm.$submitted}">
+                <label class="control-label"><u>E</u>stado</label>
+                <div class="input-group input-group-sm">
+                  <select class="form-control" tabindex="5" ng-model="newCheckbookRegister.status" id="status" name="status"
+                          tabindex="5" ng-required="true">
+                  <option value="" disabled selected></option>
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                  </select>
+                  <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
+                </div>
+                  <p ng-show="checkbookRegisterForm.status.$invalid && checkbookRegisterForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="8" ng-show="!isUpdate"/>
+            <input type="submit" class="btn btn-default btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="8" ng-show="isUpdate"/>
+            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="9" ng-click="clean()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Resumen Chequeras</h4>
+      </div>
+      <div class="panel-body">
+        <table datatable="ng" class="table-hover table-condensed">
+          <thead>
+            <tr>
+              <th width="15px"></th>
+              <th>Banco</th>
+              <th>N. Cuenta</th>
+              <th>N. Chequera</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="checkbookRegister in checkbookRegisters" ng-click="selectCheckbookRegister(checkbookRegister)">
+              <td>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="delete($index)" id="delete">
+                <span class="glyphicon glyphicon-minus"></span>
+                </button>
+              </td>
+              <td>{{checkbookRegister.bank_account.bank.name}}</td>
+              <td>{{checkbookRegister.bank_account.number}}</td>
+              <td>{{checkbookRegister.checkbookNumber}}</td>
+              <td>{{checkbookRegister.status}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>    
+</div>

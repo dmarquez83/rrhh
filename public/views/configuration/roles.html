@@ -1,0 +1,109 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+  <li><a href="javascript:;">Roles</a></li>
+</ol>
+<h1 class="page-header">Roles</h1>
+
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
+        <h4 class="panel-title" ng-if="!isUpdate">Nuevo Rol</h4>
+        <h4 class="panel-title" ng-if="isUpdate">Actualizar Rol</h4>
+    </div>
+    <div class="panel-body">
+      <form ng-submit="save()">  
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6">
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" placeholder="Nombre" ng-model="newRole.name" required>
+                <span class="input-group-addon"><i class="fa fa-tag"></i></span>
+              </div>
+            </div>  
+          </div>
+            
+        </div>
+        M&oacute;dulos           
+        <div class="col-lg-12">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th width="15px"></th>
+                  <th>Modulo</th>
+                  <th>Submódulos</th>
+                  <th>Ruta</th>
+                </tr>  
+              </thead>
+              <tbody>
+                <tr ng-repeat="module in newRole.modules | orderBy : 'order'">
+                  <td  id="{{module.route}}">
+                      <checkbox ng-model="module.isSelected"
+                                ng-change="switchModule(module, $index, module.isSelected)">
+                              </checkbox>
+                  </td>
+                  <td>{{ module.name }}</td>
+                  <td>
+                      <table>
+                          <tr ng-repeat="submodule in module.submodules" ng-if="submodule.isVisible != false">
+                              <td>
+                                  <checkbox ng-model="submodule.isSelected" ng-if="module.isSelected">
+                                  </checkbox>
+                              </td>
+                              <td>{{submodule.name}}</td>
+                          </tr>
+                      </table>
+                  </td>
+                  <td>{{ module.route }}</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+        <br/>
+        <div class="btn-group">
+          <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-if="!isUpdate" ng-disabled="isServerProcessing">
+          <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-if="isUpdate" ng-disabled="isServerProcessing">
+          <input type="reset" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-click="clean()"/>
+        </div>
+      </form>   
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
+      <h4 class="panel-title">Resumen de Roles</h4>
+    </div>
+    <div class="panel-body">
+      <table datatable="ng" class="table-condensed">
+        <thead>
+          <tr>
+            <th width="15px"></th>
+            <th>Nombre</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="role in roles track by $index" 
+                ng-click="selectRole(role)"
+                class="table-hover" ng-if="role.name != 'root'">
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm" id="deleteRole"
+                            ng-click="delete($index)" ng-if="role.name != 'root'">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </td>
+                <td>{{ role.name }}</td>
+            </tr>
+        </tbody>
+      </table> 
+     </div>
+  </div>
+</div>  

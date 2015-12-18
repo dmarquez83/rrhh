@@ -1,0 +1,122 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Bancos</a></li>
+  <li><a href="javascript:;">Cuentas de Bancos</a></li>
+</ol>
+<h1 class="page-header">Cuentas de Bancos</h1>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title" ng-show="!isUpdate">Nueva Cuenta Bancaria</h4>
+        <h4 class="panel-title" ng-show="isUpdate">Actualizar Cuenta Bancaria</h4>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="save(bankAccountForm.$valid)" novalidate="novalidate" name="bankAccountForm">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : bankAccountForm.bank_id.$invalid && bankAccountForm.$submitted}">
+                <label class="control-label"><u>N</u>ombre Banco</label>
+                <div class="input-group input-group-sm">
+                  <select class="form-control" ng-options="bank._id as bank.name for bank in banks" tabindex="1"
+                  ng-model="newBankAccount.bank_id" ng-change="setBankName()" id="bank_id" name="bank_id" ng-required="true">
+                  <option value="" disabled selected></option>                      
+                  </select>
+                  <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                </div>
+                  <p ng-show="bankAccountForm.bank_id.$invalid && bankAccountForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : bankAccountForm.type.$invalid && bankAccountForm.$submitted}">
+                <label class="control-label"><u>T</u>ipo Cuenta</label>
+                <div class="input-group input-group-sm">
+                  <select class="form-control" ng-model="newBankAccount.type" id="type" name="type" ng-required="true" tabindex="2">
+                  <option value="" disabled selected></option>
+                  <option value="Ahorro">Ahorro</option>
+                  <option value="Corriente">Corriente</option>
+                  </select>
+                  <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+                  <p ng-show="bankAccountForm.type.$invalid && bankAccountForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : bankAccountForm.number.$invalid && bankAccountForm.$submitted}">
+                <label class="control-label"><u>N</u>&uacute;mero Cuenta</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newBankAccount.number" id="number" name="number"
+                         ng-required="true" tabindex="3"  number>
+                  <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                </div>
+                  <p ng-show="bankAccountForm.number.$invalid && bankAccountForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : bankAccountForm.ledgerAccount.$invalid && bankAccountForm.$submitted}">
+                <label class="control-label"><u>C</u>uenta Contable del Banco</label>
+                <div class="input-group-sm">
+                  <select class="form-control" ng-model="newBankAccount.ledgerAccount_id" id="ledgerAccount" name="ledgerAccount" ng-required="true"
+                    ng-options="asset._id as asset.name group by asset.parent for asset in assets" tabindex="4">
+                  <option value="" disabled selected></option>
+                  </select>
+                </div>
+                    <p ng-show="bankAccountForm.ledgerAccount.$invalid && bankAccountForm.$submitted" class="help-block">Campo Obligatorio</p>
+              </div>  
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="8" ng-show="!isUpdate"/>
+            <input type="submit" class="btn btn-default btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="8" ng-show="isUpdate"/>
+            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="9" ng-click="clean()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Resumen Cuentas Bancarias</h4>
+      </div>
+      <div class="panel-body">
+        <table datatable="ng" class="table-hover table-condensed">
+          <thead>
+            <tr>
+              <th width="15px"></th>
+              <th>Nombre Banco</th>
+              <th>Tipo Cuenta</th>
+              <th>N&uacute;mero Cuenta</th>
+              <th>Cuenta Contable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="bankAccount in bankAccounts" ng-click="selectBankAccount(bankAccount)">
+              <td>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="delete($index)" id="delete">
+                <span class="glyphicon glyphicon-minus"></span>
+                </button>
+              </td>
+              <td>{{bankAccount.bank.name}}</td>
+              <td>{{bankAccount.type}}</td>
+              <td>{{bankAccount.number}}</td>
+              <td>{{bankAccount.ledger_account.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>     
+</div>

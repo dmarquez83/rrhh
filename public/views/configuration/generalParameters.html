@@ -1,0 +1,109 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+  <li><a href="javascript:;">Par&aacute;metros Generales</a></li>
+</ol>
+<h1 class="page-header">Par&aacute;metros Generales</h1>
+
+<div class="row">
+  <div class="col-lg-3 col-md-3">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title" ng-show="!isUpdate">Nuevo Par&aacute;metro</h4>
+        <h4 class="panel-title" ng-show="isUpdate">Actualizar Par&aacute;metro</h4>
+      </div>
+      <div class="panel-body">
+        <form ng-submit="save()">
+          <div class="row">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label><u>C</u>&oacute;digo</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newParemeter.code" required tabindex="1" id="series" text-number>
+                  <span class="input-group-addon"><i class="fa fa-barcode"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label><u>D</u>escripci&oacute;n</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newParemeter.description" required tabindex="2" id="code" text-number>
+                  <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label><u>V</u>alor Num&eacute;rico</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newParemeter.numericValue" ng-required="newParemeter.alfanumericValue == ''" tabindex="3" id="name" money>
+                  <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label><u>V</u>alor Alfanum&eacute;rico</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" ng-model="newParemeter.alfanumericValue" ng-required="newParemeter.numericValue == ''" tabindex="4" id="address">
+                  <span class="input-group-addon"><i class="fa fa-at"></i></span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="btn-group">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" ng-disabled="serverProcess" tabindex="8" ng-show="!isUpdate"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" ng-disabled="serverProcess" tabindex="8" ng-show="isUpdate"/>
+            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" ng-disabled="serverProcess" tabindex="9" ng-click="clean()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+  <div class="col-lg-9 col-md-9">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Resumen Par&aacute;metros</h4>
+      </div>
+      <div class="panel-body">
+        <table datatable="ng" class="table-hover table-condensed">
+          <thead>
+            <tr>
+              <th width="15px"></th>
+              <th>C&oacute;digo</th>
+              <th>Descripci&oacute;n</th>
+              <th>Num&eacute;rico</th>
+              <th>Alfanum&eacute;rico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="paremeter in paremeters" ng-click="selectParemeter(paremeter)">
+              <td>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="deleteparemeter($index)">
+                <span class="glyphicon glyphicon-minus"></span>
+                </button>
+              </td>
+              <td>{{paremeter.code}}</td>
+              <td>{{paremeter.description}}</td>
+              <td>{{paremeter.numericValue}}</td>
+              <td>{{paremeter.alfanumericValue}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>     
+</div>

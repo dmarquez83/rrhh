@@ -1,0 +1,86 @@
+<ol class="breadcrumb pull-right">
+  <li>
+    <a href="javascript:;">Configuraci&oacute;n</a>
+  </li>
+  <li>
+    <a href="javascript:;">Formularios Tributación</a>
+  </li>
+</ol>
+<h1 class="page-header">Formularios Tributación</h1>
+<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand" href="javascript:;">
+          <i class="fa fa-expand"></i>
+        </a>
+        <a class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse" href="javascript:;">
+          <i class="fa fa-minus"></i>
+        </a>
+      </div>
+      <h4 class="panel-title">Formularios Tributación</h4>
+    </div>
+    <div class="panel-body">
+      <form ng-submit="save(configurationTributationFormForm.$valid)" novalidate="novalidate" name="configurationTributationFormForm" id="configurationTributationFormForm">
+        <div class="row">
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : configurationTributationFormForm.name.$invalid && configurationTributationFormForm.$submitted}">
+              <label class="control-label"><u>N</u>ombre :</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" tabindex="1" ng-model="configurationTributationForm.name" ng-required="true"
+                id="name" name="name"/>
+                <span class="input-group-addon"><i class="fa fa-sort-numeric-desc"></i></span>
+              </div>
+              <p ng-show="configurationTributationFormForm.name.$invalid && configurationTributationFormForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : configurationTributationFormForm.description.$invalid && configurationTributationFormForm.$submitted}">
+              <label class="control-label"><u>D</u>escripción :</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" tabindex="2" ng-model="configurationTributationForm.description" ng-required="true"
+                id="description" name="description"/>
+                <span class="input-group-addon"><i class="fa fa-navicon"></i></span>
+              </div>
+              <p ng-show="configurationTributationFormForm.description.$invalid && configurationTributationFormForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : configurationTributationFormForm.file.$invalid && configurationTributationFormForm.$submitted}">
+              <label class="control-label"><u>A</u>rchivo XML</label>
+              <div class="input-group input-group-sm">
+                <input type="file" class="form-control" tabindex="2" ng-model="configurationTributationForm.file" ng-required="true"
+                id="file" name="file" file-reader max-file-size="250" accept="application/xml"/>
+                <span class="input-group-addon"><i class="fa fa-file"></i></span>
+              </div>
+              <p ng-show="configurationTributationFormForm.file.$invalid && configurationTributationFormForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <input type="submit" class="btn btn-primary btn-sm" id="save" value="Guardar" ng-disabled="isServerProcess" ng-if="!isUpdate"/>
+            <input type="submit" class="btn btn-primary btn-sm" id="update" value="Actualizar" ng-if="isUpdate"/>
+            <input type="button" class="btn btn-white btn-sm"   id="clean" value="Limpiar" ng-click="clean()"/>
+            <input type="button" class="btn btn-danger btn-sm pull-right"  id="delete" value="Eliminar" ng-click="delete()" ng-if="isUpdate"/>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight {{panelExpand}}" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <button ng-click="maximize()" class="btn btn-xs btn-icon btn-circle btn-default"><i class="fa fa-expand"></i></button>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </a>
+    </div>
+    <h4 class="panel-title">Resumen Formularios Tributación</h4>
+  </div>
+  <div class="panel-body">
+  <table datatable dt-options="dtOptions" dt-columns="tableColumns" dt-instance="getTableInstance" class="row-border hover"></table>
+</div>
+</div>
+</div>

@@ -1,0 +1,86 @@
+@page{
+  size: 'a4';
+  margin-left: 1.06cm;
+  margin-right: 1.06cm;
+  margin-top: 1.06cm;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.colum-middle{
+  width: 8cm;
+}
+
+.box{
+  border-radius: 5px;
+  border: 1px solid #ebebeb;
+  padding: 0.6cm;
+}
+
+.logo{
+  height: 5cm;
+}
+
+.company-info{
+  height: 3cm;
+  font-size: 7;
+
+}
+
+.center {
+  font-size: 10;
+  margin: auto;
+  width: 50%;
+}
+
+.company-info span{
+  line-height: 25px;
+}
+
+.max-line{
+  line-height: 25px;
+}
+
+.document-info{
+  font-size: 9;
+  height: 8cm
+}
+
+.customer-info{
+  font-size: 8;
+}
+
+.table-details{
+  border-collapse: collapse;
+}
+
+.table-details, .table-details td{
+  border: 1px solid #ebebeb;
+}
+
+.td-auto{
+  width: 15px;
+  white-space: nowrap;
+}
+
+.table-header, .table-header td{
+  font-size: 8;
+  background-color: #ebebeb;
+  border: 2px solid #ebebeb;
+  height: 10px;
+  padding: 5px;
+  text-align: center;
+}
+
+.table-row-info{
+  font-size: 7;
+}
+
+.table-totals{
+  border-collapse: collapse;
+  font-size: 7;
+}
+
+.table-totals, .table-totals td{
+  white-space: nowrap;
+  border: 1px solid #ebebeb;
+}

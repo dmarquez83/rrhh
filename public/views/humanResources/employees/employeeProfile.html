@@ -1,0 +1,322 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Recursos Humanos</a></li>
+  <li><a href="javascript:;">Perfil del Empleado</a></li>
+</ol>
+<h1 class="page-header">Perfil del Empleado</h1>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Detalles Empleado</h4>
+      </div>
+      <div class="panel-body">
+
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+          <img  style="height: 170px; width: 180px; display: block;" class="img-circle img-responsive" src="{{employee.photo.src}}"/>
+            <h5 class="text-center"><strong>{{employee.names}} {{employee.surnames}}</strong></h5>
+        </div> 
+
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 nopadding">
+
+          <span class="ibox-title">Información General</span>
+          <div class="hr-line-dashed"></div>
+
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 nopadding">
+            <strong>C&eacute;dula:</strong> {{employee.identification}}<br/>
+            <strong>C&oacute;digo:</strong> {{employee.code}}<br/>
+            <strong>Celular:</strong> {{employee.cellphone}}<br/>
+            <strong>Correo:</strong> {{employee.email}}
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 nopadding">
+            <strong>Cumpleaños: </strong> {{employee.birthday}}<br/>
+            <strong>Sexo: </strong> {{employee.sex}}<br/>
+            <strong>Estado Civil: </strong> {{employee.maritalStatus.name}}<br/>
+          </div>
+
+        </div>  
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 nopadding">
+          <span class="ibox-title">Información Laboral</span>
+          <div class="hr-line-dashed"></div>
+
+          <div class="col-lg-6 nopadding">
+            <strong>Profesión:</strong> {{employee.profession}}<br/>
+            <strong>Departamento:</strong> {{employee.department.name}}<br/>
+            <strong>Cargo:</strong> {{employee.office.name}}<br/>
+            <strong>Sueldo:</strong> {{employee.grossSalary | currency}}
+          </div>
+
+        </div> 
+
+      </div>
+    </div> 
+  </div>
+  <div class="col-lg-12">
+    <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Acciones</h4>
+      </div>
+      <div class="panel-body">
+        <tabset justified="true">
+          <tab heading="Modificaci&oacute;n de Sueldo" ng-click="reloadStatement()">
+            <form id="registerSalary" ng-submit="registerNewSalary()" ng-if="validateStatus()">
+              <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label><u>N</u>uevo Sueldo</label>
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control text-right" placeholder="" ng-model="newSalary.salary" required
+                      money>
+                      <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label><u>O</u>bservaci&oacute;n</label>
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" placeholder="" ng-model="newSalary.observation" required>
+                      <span class="input-group-addon"><i class="fa fa-align-justify"></i></span>
+                    </div>
+                  </div>
+                </div>
+
+                </div>
+
+                <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <input type="submit" value="Registrar" class="btn btn-default btn-sm">
+                  <input type="reset" value="Limpiar" class="btn btn-default btn-sm">
+                </div>
+              </div> 
+            </form>  
+
+            <div class="row">
+              <table class="table table-bordered tableProducts table-condensed">
+                <thead>
+                  <th>N&uacute;mero</th>
+                  <th>Fecha</th>
+                  <th>Sueldo Asignado</th>
+                  <th>Observaci&oacute;n</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="salary in employee.salaryHistory track by $index" >
+                    <td align="center" class="nopadding">{{$index + 1}}</td>
+                    <td align="left">{{salary.date | date: 'y-MM-dd'}}</td>
+                    <td align="right">{{salary.salary | number: 2}}</td>
+                    <td align="left">{{salary.observation}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </tab>
+          <tab heading="Cambios de Dpto y Cargo">
+
+            <form id="registerDepartment" ng-submit="registerDepartment()" ng-if="validateStatus()">
+              <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label><u>N</u>uevo Departamento</label>
+                    <div class="input-group input-group-sm">
+                      <select class="form-control" ng-model="newDepartment.department" tabindex="30" required
+                      name="department" id="department" ng-options="deparment as deparment.name for deparment in departments"
+                              ng-change="getOffices()">
+                        <option value=""></option>
+                      </select>
+                      <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label><u>N</u>uevo Cargo</label>
+                    <div class="input-group input-group-sm">
+                      <select class="form-control" ng-model="newDepartment.office" tabindex="30" required
+                      name="department" id="office" ng-options="office as office.name for office in offices">
+                        <option value=""></option>
+                      </select>
+                      <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label><u>O</u>bservaci&oacute;n</label>
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" placeholder="" ng-model="newDepartment.observation" required>
+                      <span class="input-group-addon"><i class="fa fa-align-justify"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                  <input type="submit" value="Registrar" class="btn btn-default btn-sm"/>
+                  <input type="reset" value="Limpiar" class="btn btn-default btn-sm"/>
+                </div>
+              </div> 
+            </form>  
+
+            <div class="row">
+              <table class="table table-bordered tableProducts">
+                <thead>
+                  <th>N&uacute;mero</th>
+                  <th>Fecha</th>
+                  <th>Departamento</th>
+                  <th>Cargo</th>
+                  <th>Observación</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="department in employee.departmentHistory track by $index" >
+                    <td align="center" class="nopadding">{{$index + 1}}</td>
+                    <td align="left">{{department.date | date: 'y-MM-dd'}}</td>
+                    <td align="left">{{department.department.name}}</td>
+                    <td align="left">{{department.office.name}}</td>
+                    <td align="left">{{department.observation}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </tab>
+          <tab heading="Asignación de Bonos" >
+
+            <form id="registerBonus" ng-submit="registerBonus()" ng-if="validateStatus()">
+            
+              <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Bonos</label>
+                    <div class="input-group input-group-sm">
+                      <select class="form-control" ng-model="assignedBonus.bonus" tabindex="30" required
+                      name="bonus" id="bonus" ng-options="bond as bond.name for bond in bonus">
+                        <option value=""></option>
+                      </select>
+                      <span class="input-group-addon"><i>B</i></span>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                  <input type="submit" value="Registrar" class="btn btn-default btn-sm"/>
+                  <input type="reset" value="Limpiar" class="btn btn-default btn-sm"/>
+                </div>
+
+              </div>
+            </form>   
+
+            <div class="row">
+              <table class="table table-bordered tableProducts">
+                <thead>
+                  <th width="20px" class="nopadding"></th>
+                  <th>N</th>
+                  <th>Fecha</th>
+                  <th>Nombre bono</th>
+                  <th>Tipo</th>
+                  <th>Valor</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="bond in employee.bonus track by $index" >
+                    <td class="nopadding">
+                      <button type="button" class="btn btn-default btn-sm" id="deleteBonus" ng-click="deleteBonus($index)" ng-disabled="isDisabled">
+                      <span class="glyphicon glyphicon-minus"></span>
+                      </button>
+                    </td>
+                    <td align="center" class="nopadding">{{$index + 1}}</td>
+                    <td align="left">{{bond.date | date: 'y-MM-dd'}}</td>
+                    <td align="left">{{bond.bonus.name}}</td>
+                    <td align="left">{{bond.bonus.type}}</td>
+                    <td align="left">{{bond.bonus.value}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </tab>
+          <tab heading="Asignación de Descuentos" ng-if="employee.discount == 1">
+
+             <form id="registerDiscount" ng-submit="registerDiscount()" ng-if="validateStatus()">
+            
+              <div class="row">
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                  <div class="form-group">
+                    <label>Descuento</label>
+                    <div class="input-group input-group-sm">
+                      <select class="form-control" ng-model="assignedDiscounts.discount" tabindex="30" required
+                      name="discount" id="discount" ng-options="discount as discount.name + ' ( ' + discount.maskedValue + ')' for discount in discounts"
+                              ng-change="validateDiscountValue()">
+                        <option value=""></option>
+                      </select>
+                      <span class="input-group-addon"><i>B</i></span>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                  <input type="submit" value="Registrar" class="btn btn-default btn-sm"/>
+                  <input type="reset" value="Limpiar" class="btn btn-default btn-sm"/>
+                </div>
+
+              </div>
+            </form>   
+
+            <div class="row">
+              <table class="table table-bordered tableProducts">
+                <thead>
+                  <th width="20px" class="nopadding"></th>
+                  <th>N</th>
+                  <th>Fecha</th>
+                  <th>Nombre Descuento</th>
+                  <th>Tipo</th>
+                  <th>Valor</th>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="discount in employee.discounts track by $index" >
+                    <td class="nopadding">
+                      <button type="button" class="btn btn-default btn-sm" id="deleteDiscount" ng-click="deleteDiscount($index)" ng-disabled="isDisabled">
+                      <span class="glyphicon glyphicon-minus"></span>
+                      </button>
+                    </td>
+                    <td align="center" class="nopadding">{{$index + 1}}</td>
+                    <td align="left">{{discount.date | date: 'y-MM-dd'}}</td>
+                    <td align="left">{{discount.discount.name}}</td>
+                    <td align="left">{{discount.discount.type}}</td>
+                    <td align="left">{{discount.discount.value}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>    
+</div>     
+

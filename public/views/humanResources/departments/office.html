@@ -1,0 +1,109 @@
+<ol class="breadcrumb pull-right">
+  <li><a href="javascript:;">Recursos Humanos</a></li>
+  <li><a href="javascript:;">Cargos</a></li>
+</ol>
+<h1 class="page-header">Cargos</h1>
+
+<div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
+      <h4 class="panel-title">Nuevo Cargo</h4>
+    </div>
+    <div class="panel-body">
+        <form ng-submit="save(officeForm.$valid)" novalidate="novalidate" name="officeForm">
+        <div class="row">
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : officeForm.code.$invalid && officeForm.$submitted}">
+              <label class="control-label"><u>C</u>&oacute;digo Sectorial</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="office.code" ng-required="true" tabindex="1"
+                       id="code" name="code">
+                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+              </div>
+                <p ng-show="officeForm.code.$invalid && officeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>  
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+             <div class="form-group" ng-class="{ 'has-error' : officeForm.department.$invalid && officeForm.$submitted}">
+                <label class="control-label"><u>D</u>epartamento</label>
+                <div class="input-group input-group-sm">
+                <select class="form-control" ng-model="office.department_id" ng-required="true" tabindex="2"
+                    name="department" id="department" ng-options="department._id as department.name for department in departments">
+                <option value=""></option>
+                </select>
+                <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                </div>
+                <p ng-show="officeForm.department.$invalid && officeForm.$submitted" class="help-block">Campo Obligatorio</p>
+             </div>
+          </div>
+
+          <div class="col-lg-12 col-md-12 col-xs-24">
+            <div class="form-group" ng-class="{ 'has-error' : officeForm.name.$invalid && officeForm.$submitted}">
+              <label class="control-label"><u>N</u>ombre Cargo</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="office.name" ng-required="true" tabindex="3"
+                       name="name" id="name">
+                <span class="input-group-addon"><i class="fa fa-user-md"></i></span>
+              </div>
+                <p ng-show="officeForm.name.$invalid && officeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>  
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <div class="form-group" ng-class="{'has-error' : officeForm.basicSalary.$invalid && officeForm.$submitted}">
+               <label class="control-label"><u>S</u>ueldo Básico</label>
+                  <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" tabindex="4" ng-model="office.basicSalary" ng-required="true"
+                  id="basicSalary" name="basicSalary" min="0.01" ui-money-mask/>
+                  <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                  </div>
+               <p ng-show="officeForm.basicSalary.$invalid && officeForm.$submitted" class="help-block">Campo Obligatorio</p>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-xs-12">
+            <label class="control-label">Descripci&oacute;n</label>
+            <div class="form-group">
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control" ng-model="office.description" tabindex="4" name="description" id="description">
+                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+              </div>
+            </div>  
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="5" ng-show="!isUpdate"/>
+            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="6" ng-show="isUpdate"/>
+            <input type="reset" class="btn btn-white btn-sm" value="Limpiar" id="clean" tabindex="7" ng-click="clean()"/>
+            <input type="button" class="btn btn-danger btn-sm pull-right"  id="delete" value="Eliminar" ng-click="delete()" ng-if="isUpdate"/>
+          </div> 
+        </div>
+      </form>
+    </div> 
+  </div>
+</div>   
+
+<div class="col-md-7 col-lg-7 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse animated fadeInRight {{panelExpand}}" data-sortable-id="form-plugins-9">
+        <div class="panel-heading">
+            <div class="panel-heading-btn">
+                <button ng-click="maximize()" class="btn btn-xs btn-icon btn-circle btn-default"><i class="fa fa-expand"></i></button>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+            </div>
+            <h4 class="panel-title">Resumen de Cargos</h4>
+        </div>
+        <div class="panel-body">
+            <table datatable dt-options="dtOptions" dt-columns="tableColumns" dt-instance="getTableInstance" class="row-border hover"></table>
+        </div>
+    </div>
+</div>
+

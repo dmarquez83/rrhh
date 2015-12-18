@@ -1,0 +1,149 @@
+@page{
+  size: 'a4';
+  margin-left: 1.06cm;
+  margin-right: 1.06cm;
+  margin-top: 1.06cm;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.colum-middle{
+  width: 8cm;
+}
+
+.box{
+  border-radius: 5px;
+  border: 1px solid #929ba1;
+  padding: 0.6cm;
+}
+
+.logo{
+  height: 5cm;
+  
+}
+
+.logo img {
+  max-width: 200px;
+}
+
+.company-info{
+  height: 4cm;
+  font-size: 7;
+}
+
+.center {
+  margin:0 auto;
+}
+
+.company-info span{
+  line-height: 25px;
+}
+
+.max-line{
+  line-height: 25px;
+}
+
+.document-info{
+  height: 150px;
+  border-radius: 5px;
+  border: 1px solid #929ba1;
+  padding: 15px;
+  height: 5cm;
+}
+
+.contact-info {
+  border-radius: 5px;
+  border: 1px solid #929ba1;
+  font-size: 8;
+  height: 0.8cm;
+}
+
+.document-description {
+  border-radius: 5px;
+  border: 1px solid #929ba1;
+  padding: 0.2cm 0.2cm 0 0;
+  font-size: 10px;
+  height: 5cm;
+  width: 100%;
+}
+
+.customer-info{
+  height: 60px;
+  border-radius: 5px;
+  border: 1px solid #929ba1;
+  font-size: 10px;
+  padding: 15px;
+}
+
+.table-details{
+  font-size: 10px;
+  border-collapse: collapse;
+  border-radius: 5px;
+}
+
+.table-details, .table-details td{
+  font-size: 10px;
+  border: 1px solid #ebebeb;
+}
+
+.td-auto{
+  width: 15px;
+  white-space: nowrap;
+}
+.td-blue{
+  background-color: #2a72b5;
+  font-size: 8px;
+  color: white;
+}
+
+.td-gray{
+  background-color: #ebebeb;
+  font-size: 8px;
+}
+
+.table-header th{
+  font-size: 10px;
+  background-color: #2a72b5;
+  color: white;
+  border: 1px solid #929ba1;
+  height: 15px;
+  padding: 5px;
+  text-align: center;
+}
+
+.table-details td {
+  height: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.table-row-info{
+  font-size: 8;
+}
+
+.table-totals {
+  width: 100%;
+}
+
+.table-totals, .table-totals td{
+  border: 1px solid #ebebeb;
+  padding-right: 5px;
+  border-collapse: collapse;
+}
+
+.table-totals td {
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.footer {
+  border-radius: 5px;
+  border: 1px solid #ebebeb;
+  position: absolute;
+  font-size: 10px;
+  bottom: 10;
+
+}

@@ -1,0 +1,93 @@
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Configuraci&oacute;n</a></li>
+    <li><a href="javascript:;">Condiciones de Pago</a></li>
+</ol>
+<h1 class="page-header">Condiciones de Pago</h1>
+
+<div class="row">
+    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title" ng-show="!isUpdate">Nueva Condici&oacute;n de Pago</h4>
+                <h4 class="panel-title" ng-show="isUpdate">Actualizar Condici&oacute;n de Pago</h4>
+            </div>
+            <div class="panel-body">
+                <form ng-submit="save(paymentConditionForm.$valid)" novalidate="novalidate" name="paymentConditionForm">
+
+                    <div class="row">
+
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="form-group" ng-class="{'has-error' : paymentConditionForm.name.$invalid && paymentConditionForm.$submitted}">
+                                <label class="control-label"><u>N</u>ombre de la Condici&oacute;n de Pago</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" tabindex="1" ng-model="paymentCondition.name" ng-required="true"
+                                           id="name" name="name"/>
+                                    <span class="input-group-addon"><i class="fa fa-align-center"></i></span>
+                                </div>
+                                <p ng-show="paymentConditionForm.name.$invalid && paymentConditionForm.$submitted" class="help-block">Campo Obligatorio</p>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-heading clearfix lesspadding">
+                                    <h5 class="panel-title col-xs-8"><u>N</u>&uacute;mero d&iacute;as</h5>
+                                    <div class="pull-right input-group-sm">
+                                        <button type="button" class="btn btn-default btn-xs" ng-click="addDays()" id="addDays">
+                                            <span class="glyphicon glyphicon-plus nopadding"></span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="col-lg-12 col-sm-6 col-xs-12" ng-repeat="(key, day) in paymentCondition.days track by $index">
+                                        <div class="input-group input-group-sm" ng-class="{ 'has-error' : paymentConditionForm.day{{key}}.$invalid && paymentConditionForm.$submitted}">
+                                          <span class="input-group-btn" ng-click="deleteDay($index)">
+                                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+                                          </span>
+                                            <input type="text" class="form-control" tabindex="2" ng-model="paymentCondition.days[key]" ng-required="true"
+                                                   id="day{{key}}" name="day{{key}}" ui-number-mask="0"/>
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="submit" class="btn btn-primary btn-sm" value="Guardar" id="save" ng-disabled="serverProcess" tabindex="3" ng-show="!isUpdate"/>
+                            <input type="submit" class="btn btn-primary btn-sm" value="Actualizar" id="update" ng-disabled="serverProcess" tabindex="4" ng-show="isUpdate"/>
+                            <input type="button" class="btn btn-white btn-sm" value="Limpiar" id="clean" ng-disabled="serverProcess" tabindex="5" ng-click="clean()">
+                            <input type="button" class="btn btn-danger btn-sm pull-right"  id="delete" value="Eliminar" ng-click="delete()" ng-if="isUpdate"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse animated fadeInRight {{panelExpand}}" data-sortable-id="form-plugins-9">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <button ng-click="maximize()" class="btn btn-xs btn-icon btn-circle btn-default"><i class="fa fa-expand"></i></button>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title">Resumen de Condiciones de Pago</h4>
+            </div>
+            <div class="panel-body">
+                <table class="row-border hover table-striped" datatable dt-options="dtOptions" dt-columns="tableColumns" 
+                    dt-instance="getTableIntance"></table>
+            </div>
+        </div>
+    </div>
+</div>

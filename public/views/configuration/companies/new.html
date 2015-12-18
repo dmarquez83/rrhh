@@ -1,0 +1,82 @@
+<ol class="breadcrumb pull-right">
+  <li><a>Configuraci&oacute;n</a></li>
+  <li><a>Empresas</a></li>
+</ol>
+
+<h1 class="page-header">Empresas</h1>
+<div id="page-loader" class="fade in {{loading}}"><span class="spinner"></span></div>
+<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
+      <h4 class="panel-title">Nueva Empresa</h4>
+    </div>
+
+    <div class="panel-body">
+      <form ng-submit="save(companyForm.$valid)" name="companyForm">
+          <fieldset ng-disabled="isUpdate">
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                      <label><u>C</u>odigo</label>
+                      <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" ng-model="newCompany.code" required tabindex="1" id="series" text-number/>
+                          <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                      <label><u>N</u>&oacute;mbre</label>
+                      <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" ng-model="newCompany.name" required tabindex="2" id="code"/>
+                          <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                      <label><u>N</u>&oacute;mbre Base de Datos</label>
+                      <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" ng-model="newCompany.databaseName" required tabindex="3" id="code" text-number/>
+                          <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="btn-group">
+              <input type="submit" class="btn btn-primary btn-sm" value="Guardar" ng-disabled="serverProcess" tabindex="4" id="save"
+                     ng-show="!isUpdate"/>
+              <input type="button" class="btn btn-danger btn-sm" value="Eliminar" ng-disabled="serverProcess" tabindex="5" id="delete"
+                     ng-show="isUpdate"/>
+              <input type="reset" class="btn btn-white btn-sm" value="Limpiar" ng-disabled="serverProcess" tabindex="6" id="clean"
+                     ng-click="clean()"/>
+          </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<div class="col-md-8 col-lg-8 col-sm-12 col-xs-12">
+    <div class="panel panel-inverse animated fadeInRight {{panelExpand}}" data-sortable-id="form-plugins-9">
+      <div class="panel-heading">
+        <div class="panel-heading-btn">
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+          <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+        </div>
+        <h4 class="panel-title">Resumen Empresas</h4>
+      </div>
+
+      <div class="panel-body">
+        <table datatable dt-options="dtOptions" dt-columns="tableColumns" id="summarCompanies"
+          name="summaryCompanies" class="row-border hover" dt-instance="getTableInstance"></table>
+      </div>
+
+    </div>
+</div>
