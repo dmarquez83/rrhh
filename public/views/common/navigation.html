@@ -1,0 +1,104 @@
+<!-- begin sidebar scrollbar -->
+<div data-scrollbar="true" data-height="100%">
+  <!-- begin sidebar user -->
+  <!-- end sidebar user -->
+  <!-- begin sidebar nav -->
+  <ul class="nav">
+    <li class="nav-header">Menú</li>
+    <li class="has-sub">
+      <a href="javascript:;">
+        <b class="caret pull-right"></b>
+        <i class="fa fa-laptop"></i>
+        <span>Inicio</span>
+      </a>
+      <ul class="sub-menu">
+        <li><a href="index.html">Dashboard v1</a></li>
+        <li class="active"><a href="index_v2.html">Dashboard v2</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('customers'), 'has-sub': !$state.includes('customers')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-user"></i><span>Clientes</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="customers.new">Nuevo Cliente</a></li>
+        <li ui-sref-active="active"><a ui-sref="customers.summaryMaintenace">Resumen/Mantenimiento</a></li>
+        <li ui-sref-active="active"><a ui-sref="customers.massiveLoad">Carga Masiva</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('suppliers'), 'has-sub': !$state.includes('suppliers')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-truck"></i><span>Proveedores</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="suppliers.new">Nuevo Proveedor</a></li>
+        <li ui-sref-active="active"><a ui-sref="suppliers.summaryMaintenace">Resumen/Mantenimiento</a></li>
+        <li ui-sref-active="active"><a ui-sref="suppliers.massiveLoad">Carga Masiva</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('customerAccount'), 'has-sub': !$state.includes('customerAccount')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-leanpub"></i><span>Mesas</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="customerAccount.newCustomerAccount">Registro de Cuentas</a></li>
+        <li ui-sref-active="active"><a ui-sref="customerAccount.filterCustomerAccountSummary">Resumen de cuentas</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('invoicing'), 'has-sub': !$state.includes('invoicing')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-list-alt"></i> <span>Facturación</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="invoicing.newInvoice">Facturar</a></li>
+        <li ui-sref-active="active"><a ui-sref="invoicing.filterInvoiceSummary">Resumen Facturas</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('purchase'), 'has-sub': !$state.includes('purchase')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-shopping-cart"></i> <span>Compras</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="purchase.purchaseQuotation">Solicitud de compra</a></li>
+        <li ui-sref-active="active"><a ui-sref="purchase.purchaseOrder">Pedido</a></li>
+        <li ui-sref-active="active"><a ui-sref="purchase.goodsReceipt">Entrada de Mercaderia</a></li>
+        <li ui-sref-active="active"><a ui-sref="purchase.goodsReturn">Devolución de Mercaderia</a></li>
+        <li ui-sref-active="active"><a ui-sref="purchase.supplierInvoice">Factura de proveedores</a></li>
+        <li ui-sref-active="active"><a ui-sref="purchase.retentions">Retenciones</a></li>
+        <li ui-sref-active="active"><a ui-sref="purchase.filterPurchaseSummary">Resumen de compras</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('bancos'), 'has-sub': !$state.includes('bancos')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-money"></i> <span>Bancos</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="purchase.pays">Pagos a proveedores</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('stocktaking'), 'has-sub': !$state.includes('stocktaking')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-cubes"></i><span class="nav-label">Inventario</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="kardex.filter">Kardex</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('products'), 'has-sub': !$state.includes('products')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-cube"></i> <span class="nav-label">Productos</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="products.new">Nuevo producto</a></li>
+        <li ui-sref-active="active"><a ui-sref="products.category">Categorias</a></li>
+        <li ui-sref-active="active"><a ui-sref="products.discountList">Lista de descuentos</a></li>
+        <li ui-sref-active="active"><a ui-sref="products.unitsGroup">Grupo de unidades</a></li>
+        <li ui-sref-active="active"><a ui-sref="products.priceList">Lista de precios</a></li>
+        <li ui-sref-active="active"><a ui-sref="products.summaryMaintenace">Resumen/Mantenimiento</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('accounting'), 'has-sub': !$state.includes('accounting')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-book"></i> <span class="nav-label">Contabilidad</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="accounting.transactionRegister">Ingreso de transaciones</a></li>
+        <li ui-sref-active="active"><a ui-sref="accounting.generalJournal">Diario general</a></li>
+        <li ui-sref-active="active"><a ui-sref="generalMajor.filter">Libro mayor</a></li>
+        <li ui-sref-active="active"><a ui-sref="accounting.statement">Estado de cuentas</a></li>
+      </ul>
+    </li>
+    <li ng-class="{'has-sub active': $state.includes('configuration'), 'has-sub': !$state.includes('configuration')}" class="has-sub">
+      <a href=""><b class="caret pull-right"></b><i class="fa fa-cogs"></i> <span class="nav-label">Configuración</span></a>
+      <ul class="sub-menu">
+        <li ui-sref-active="active"><a ui-sref="app.invoices">Bodegas</a></li>
+        <li ui-sref-active="active"><a ui-sref="app.invoices">Contabilidad</a></li>
+        <li ui-sref-active="active"><a ui-sref="app.invoices">Usuarios</a></li>
+      </ul>
+    </li>
+  </ul>
+  <!-- end sidebar nav -->
+</div>
+<!-- end sidebar scrollbar -->

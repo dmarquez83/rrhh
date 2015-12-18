@@ -8,11 +8,11 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 		$this->call('CompanySeeder');
+		$this->call('CompanyInfoSeeder');
 		$this->call('WarehouseSeeder');
 		$this->call('ModuleSeeder');
 		$this->call('RoleSeeder');
 		$this->call('UserSeeder');
-		$this->call('StatementSeeder');
 		$this->call('DocumentConfigurationSeeder');
 		$this->call('PaymentSeeder');
 		$this->call('ProvinceSeeder');

@@ -4,26 +4,16 @@ angular.module('app').controller('DepartmentsCtrl', [
   'server',
   'SweetAlert',
   'optionsDataTable',
-  'dataTablePDFMaker',
-  'dataTableXLSXMaker',
   'DTOptionsBuilder',
-  'DTColumnBuilder',
-  function ($scope, server, SweetAlert, optionsDataTable, dataTablePDFMaker,
-            dataTableXLSXMaker, DTOptionsBuilder,DTColumnBuilder) {
+  function ($scope, server, SweetAlert, optionsDataTable, DTOptionsBuilder) {
 
     $scope.serverProcess = false;
     $scope.isUpdate = false;
     $scope.department = {};
     $scope.panelExpand = '';
+    var title = 'Resumen Departamentos';
     var fileName = 'ResumenDepartamentos_' + moment().format('YYYYMMDD');
     var tableInstance = {};
-
-
-    var getDepartments = function () {
-      server.getAll('departments').success(function (data) {
-        $scope.departments = data;
-      });
-    };
 
     $scope.clean = function () {
       $scope.serverProcess = false;
@@ -70,88 +60,29 @@ angular.module('app').controller('DepartmentsCtrl', [
     var editDepartment = function(selectedDepartment){
       $scope.isUpdate = true;
       $scope.department = selectedDepartment;
+      $scope.$digest();
     };
 
-    $scope.tableColumns = [
-      DTColumnBuilder.newColumn('code').withTitle('Código').withOption('defaultContent', ''),
-      DTColumnBuilder.newColumn('name').withTitle('Nombre del Departamento').withOption('defaultContent', ''),
-      DTColumnBuilder.newColumn('description').withTitle('Descripción').withOption('defaultContent', '')
-    ];
+    $scope.tableColumns = optionsDataTable.createTableColumns([
+      {field: 'code', title: 'Código'},
+      {field: 'name', title: 'Nombre del Departamento'},
+      {field: 'description', title: 'Descripción'}
+    ]);
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-      .withOption('ajax', {
-        url: 'departmentsForTable',
-        type: 'POST',
-        headers: {'X-CSRF-Token': CSRF_TOKEN}
-      })
+    $scope.dtOptions = DTOptionsBuilder
+      .fromSource(optionsDataTable.fromSource('departmentsForTable'))
       .withDataProp('data')
       .withOption('serverSide', true)
-      .withOption('rowCallback', function (nRow, aData) {
-        $('td', nRow).unbind('click');
-        $('td', nRow).bind('dblclick', function () {
-          $scope.$apply(function () {
-            editDepartment(aData);
-          });
-        });
-        return nRow;
-      })
-      .withOption('order', [2, 'asc'])
-      .withOption('iDisplayLength', 10)
+      .withOption('rowCallback', optionsDataTable.rowCallback(editDepartment))
+      .withOption('iDisplayLength', 25)
       .withOption('deferRender', true)
       .withOption('scrollY', optionsDataTable.scrollY65)
-      .withTableTools(optionsDataTable.urlTableTools)
-      .withTableToolsButtons([
-        {
-          "sExtends":    "div",
-          "sDiv":        "copy",
-          "sButtonText": "PDF",
-          'sButtonClass': 'btn btn-white btn-sm',
-          "fnClick": function (nButton, oConfig, oFlash) {
-            dataTablePDFMaker.make('A4', 'landscape',
-              'Resumen Departamentos - ' + moment().format('YYYY-MM-DD HH:mm:ss'),
-              'resumen_departamentos_' + moment().format('YYYYMMDD_HHmmss'),
-              tableInstance.DataTable.context[0].aoColumns,
-              tableInstance.dataTable.fnGetData(),
-              'file'
-            );
-          }
-        },
-        {
-          "sExtends":    "div",
-          "sDiv":        "copy",
-          "sButtonText": "Excel",
-          'sButtonClass': 'btn btn-white btn-sm',
-          "fnClick": function (nButton, oConfig, oFlash) {
-            dataTableXLSXMaker.make(
-              'Resumen Departamentos'+ moment().format('YYYY-MM-DD HH:mm:ss'),
-              'resumen_departamentos_' + moment().format('YYYYMMDD_HHmmss'),
-              tableInstance.DataTable.context[0].aoColumns,
-              tableInstance.dataTable.fnGetData()
-            );
-          }
-        },
-        {
-          'sExtends': 'csv',
-          'sButtonText': 'CSV',
-          'sButtonClass': 'btn btn-white btn-sm',
-          'sFileName': fileName + '.csv'
-        },
-        {
-          "sExtends":    "div",
-          "sDiv":        "copy",
-          "sButtonText": "Imprimir",
-          'sButtonClass': 'btn btn-white btn-sm',
-          "fnClick": function (nButton, oConfig, oFlash) {
-            dataTablePDFMaker.make('A4', 'landscape',
-              'Resumen Departamentos - ' + moment().format('YYYY-MM-DD HH:mm:ss'),
-              'resumen_departamentos_' + moment().format('YYYYMMDD_HHmmss'),
-              tableInstance.DataTable.context[0].aoColumns,
-              tableInstance.dataTable.fnGetData(),
-              'print'
-            );
-          }
-        },
-      ]);
+      .withOption('dom', optionsDataTable.dom)
+      .withOption('bProcessing', true)
+      .withOption('buttons', optionsDataTable.buttons(fileName, title, 'landscape','A4'))
+      .withOption("stateSave", true)
+      .withOption('stateSaveCallback', optionsDataTable.saveState(title))
+      .withOption('stateLoadCallback', optionsDataTable.loadState(title));
 
     var reloadData = function(){
       tableInstance.reloadData();
@@ -199,7 +130,6 @@ angular.module('app').controller('DepartmentsCtrl', [
       }
     };
 
-    getDepartments();
     handlePanelAction();
   }
 ]);

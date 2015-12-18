@@ -57,8 +57,6 @@ class GeneralParametersController extends Controller {
     $company = CompanyInfo::first()->companyCode;
     $warehouseSerie = Session::get('currentWarehouse')['series'];
 
-
-
     $configParameters = [
       'IVATaxTypeId' => GeneralParameter::where('code', 'IVA')->first()->alfanumericValue,
       'ICE' => GeneralParameter::where('code', 'ICE')->first()->alfanumericValue,

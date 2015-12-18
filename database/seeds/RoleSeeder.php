@@ -14,6 +14,7 @@ class RoleSeeder extends Seeder {
       "_id"     => "54e15ee2b144fddc0d123456",
       "name"    => "root",
       "modules" => [
+        [
           '_id' => '54dd818db144fd340e000049',
           'name' => 'Recursos Humanos',
           'route' => 'recursosHumanos',
@@ -22,7 +23,7 @@ class RoleSeeder extends Seeder {
           'state' => 'humanResources',
           'order' => 12,
           'isVisible' => TRUE,
-          "isSelected"  => FALSE,
+          "isSelected"  => TRUE,
           'submodules' => [
             [
               'name' => 'Nuevo Empleado',
@@ -33,7 +34,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Resumen Empleado',
@@ -44,7 +45,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Reporte de Empleados',
@@ -55,7 +56,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 1,
               'modelName'=> 'Employee',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Perfil Empleado',
@@ -77,7 +78,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Cargos',
@@ -88,7 +89,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Bonos',
@@ -99,7 +100,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Descuentos',
@@ -110,7 +111,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Liquidación del Rol',
@@ -121,7 +122,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Impresión del Rol',
@@ -132,7 +133,7 @@ class RoleSeeder extends Seeder {
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ],
             [
               'name' => 'Configuración',
@@ -141,9 +142,10 @@ class RoleSeeder extends Seeder {
               'controller' => 'HumanResourcesConfiguration',
               'state' => 'HumanResourcesConfiguration',
               'isVisible' => TRUE,
-              "isSelected"  => FALSE
+              "isSelected"  => TRUE
             ]
           ]
+        ]
       ]
     ]);
   }

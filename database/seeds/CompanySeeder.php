@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Company;
-use App\Models\PricesList;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -30,12 +29,6 @@ class CompanySeeder extends Seeder  {
         "name"         => "SAE",
         "databaseName" => "sae",
         "companyUrl"   => "http://localhost:8000/",
-      ]);
-      PricesList::create([
-        "name" => "Lista Principal",
-        "factor" => 1.0,
-        'factorType' => 'multiply',
-        "description" => "Lista de precios creada por el sistema"
       ]);
     }
 

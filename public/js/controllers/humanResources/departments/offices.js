@@ -16,6 +16,7 @@ angular.module('app').controller('OfficeCtrl', [
     $scope.isUpdate = false;
     $scope.office = {};
     $scope.panelExpand = '';
+    var title = 'Resumen Cargos';
     var fileName = 'ResumenCargos_' + moment().format('YYYYMMDD');
     var tableInstance = {};
 
@@ -79,91 +80,30 @@ angular.module('app').controller('OfficeCtrl', [
     var editOffice = function(selectedOffice){
       $scope.isUpdate = true;
       $scope.office = selectedOffice;
+      $scope.$digest();
     };
 
-    $scope.tableColumns = [
-      DTColumnBuilder.newColumn('code').withTitle('Código Sectorial').withOption('defaultContent', ''),
-      DTColumnBuilder.newColumn('name').withTitle('Nombre Cargo').withOption('defaultContent', ''),
-      DTColumnBuilder.newColumn('department.name').withTitle('Departamento').withOption('defaultContent', ''),
-      DTColumnBuilder.newColumn('basicSalary').withTitle('Salario Básico').renderWith(function (data) {
-        return $filter('number')(data, 2);
-      }).withClass('text-right').withOption('defaultContent', '')
-    ];
+    $scope.tableColumns = optionsDataTable.createTableColumns([
+      {field: 'code', title: 'Código Sectorial'},
+      {field: 'name', title: 'Nombre Cargo'},
+      {field: 'department.name', title: 'Departamento'},
+      {field: 'basicSalary', title: 'Salario Básico', class: 'text-right'}
+    ]);
 
-    $scope.dtOptions = DTOptionsBuilder.newOptions()
-      .withOption('ajax', {
-        url: 'officesForTable',
-        type: 'POST',
-        headers: {'X-CSRF-Token': CSRF_TOKEN}
-      })
+    $scope.dtOptions = DTOptionsBuilder
+      .fromSource(optionsDataTable.fromSource('officesForTable'))
       .withDataProp('data')
       .withOption('serverSide', true)
-      .withOption('rowCallback', function (nRow, aData) {
-        $('td', nRow).unbind('click');
-        $('td', nRow).bind('dblclick', function () {
-          $scope.$apply(function () {
-            editOffice(aData);
-          });
-        });
-        return nRow;
-      })
-      .withOption('order', [2, 'asc'])
-      .withOption('iDisplayLength', 10)
+      .withOption('rowCallback', optionsDataTable.rowCallback(editOffice))
+      .withOption('iDisplayLength', 25)
       .withOption('deferRender', true)
       .withOption('scrollY', optionsDataTable.scrollY65)
-      .withTableTools(optionsDataTable.urlTableTools)
-      .withTableToolsButtons([
-        {
-          "sExtends":    "div",
-          "sDiv":        "copy",
-          "sButtonText": "PDF",
-          'sButtonClass': 'btn btn-white btn-sm',
-          "fnClick": function (nButton, oConfig, oFlash) {
-            dataTablePDFMaker.make('A4', 'landscape',
-              'Resumen Cargos - ' + moment().format('YYYY-MM-DD HH:mm:ss'),
-              'resumen_cargos_' + moment().format('YYYYMMDD_HHmmss'),
-              tableInstance.DataTable.context[0].aoColumns,
-              tableInstance.dataTable.fnGetData(),
-              'file'
-            );
-          }
-        },
-        {
-          "sExtends":    "div",
-          "sDiv":        "copy",
-          "sButtonText": "Excel",
-          'sButtonClass': 'btn btn-white btn-sm',
-          "fnClick": function (nButton, oConfig, oFlash) {
-            dataTableXLSXMaker.make(
-              'Resumen Cargos'+ moment().format('YYYY-MM-DD HH:mm:ss'),
-              'resumen_cargos_' + moment().format('YYYYMMDD_HHmmss'),
-              tableInstance.DataTable.context[0].aoColumns,
-              tableInstance.dataTable.fnGetData()
-            );
-          }
-        },
-        {
-          'sExtends': 'csv',
-          'sButtonText': 'CSV',
-          'sButtonClass': 'btn btn-white btn-sm',
-          'sFileName': fileName + '.csv'
-        },
-        {
-          "sExtends":    "div",
-          "sDiv":        "copy",
-          "sButtonText": "Imprimir",
-          'sButtonClass': 'btn btn-white btn-sm',
-          "fnClick": function (nButton, oConfig, oFlash) {
-            dataTablePDFMaker.make('A4', 'landscape',
-              'Resumen Cargos - ' + moment().format('YYYY-MM-DD HH:mm:ss'),
-              'resumen_cargos_' + moment().format('YYYYMMDD_HHmmss'),
-              tableInstance.DataTable.context[0].aoColumns,
-              tableInstance.dataTable.fnGetData(),
-              'print'
-            );
-          }
-        },
-      ]);
+      .withOption('dom', optionsDataTable.dom)
+      .withOption('bProcessing', true)
+      .withOption('buttons', optionsDataTable.buttons(fileName, title, 'landscape','A4'))
+      .withOption("stateSave", true)
+      .withOption('stateSaveCallback', optionsDataTable.saveState(title))
+      .withOption('stateLoadCallback', optionsDataTable.loadState(title));
 
     var reloadData = function(){
       tableInstance.reloadData();
