@@ -1,8 +1,19 @@
 ## SAE - RRHH
 
 Prerequisitos
-
-
+ - PHP 5.6 con modulos (php-gd, php-mcrypt, php-mongo)
+ - Composer
+ - NODEJS y NPM
+ - Instalar GULP y GULP-CLI
+```shell
+npm install -g gulp
+npm install - gulp-cli
+```
+- Instalar BOWER
+```shell
+npm install -g bower
+npm install - gulp-cli
+```
 
 Pasos a seguir para instalar dependencias
 
