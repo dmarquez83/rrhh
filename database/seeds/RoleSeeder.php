@@ -114,6 +114,28 @@ class RoleSeeder extends Seeder {
               "isSelected"  => TRUE
             ],
             [
+              'name' => 'Asignación Masiva de Bonos y Descuentos',
+              'route' => 'asignacionMasivaBonosDescuentos',
+              'templateUrl' => 'views/humanResources/massiveBonusDiscountLoad/new.html',
+              'controller' => 'MassiveBonusDiscountLoad',
+              'state' => 'massiveBonusDiscountLoad',
+              'isReport'=> 0,
+              'modelName'=> '',
+              'isVisible' => TRUE,
+              "isSelected"  => TRUE
+            ],
+            [
+              'name' => 'Carga Masiva de Atrasos',
+              'route' => 'cargaMasivaAtrasos',
+              'templateUrl' => 'views/humanResources/massiveArrearsLoad/new.html',
+              'controller' => 'MassiveArrearsLoad',
+              'state' => 'massiveArrearsLoad',
+              'isReport'=> 0,
+              'modelName'=> '',
+              'isVisible' => TRUE,
+              "isSelected"  => TRUE
+            ],
+            [
               'name' => 'Liquidación del Rol',
               'route' => 'liquidacionRol',
               'templateUrl' => 'views/humanResources/rolLiquidation/new.html',
@@ -125,11 +147,11 @@ class RoleSeeder extends Seeder {
               "isSelected"  => TRUE
             ],
             [
-              'name' => 'Impresión del Rol',
-              'route' => 'impresionRol',
-              'templateUrl' => 'views/humanResources/rolPrinting/new.html',
-              'controller' => 'RolPrinting',
-              'state' => 'rolPrinting',
+              'name' => 'Resumen de Liquidaciones',
+              'route' => 'resumenLiquidaciones',
+              'templateUrl' => 'views/humanResources/summaryLiquidations/summary.html',
+              'controller' => 'SummaryLiquidations',
+              'state' => 'summaryLiquidations',
               'isReport'=> 0,
               'modelName'=> '',
               'isVisible' => TRUE,
