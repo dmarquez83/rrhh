@@ -34,12 +34,6 @@ class BonusController extends Controller {
       ->orderBy($columOrderName, $columOrderDir)
       ->get();
 
-    $bonus = $bonus->map(function($department){
-      $newDepartment = $department;
-
-      return $newDepartment;
-    });
-
     if($searchValue!=''){
       $bonus = $bonus->filter(function($department) use($searchValue){
         if (stripos($department, $searchValue)) {return true;};
@@ -53,7 +47,7 @@ class BonusController extends Controller {
       'recordsTotal' => $totalRecords,
       'recordsFiltered' => $recordsFiltered,
       'data' => $bonus);
-    
+
     return $returnData;
   }
 

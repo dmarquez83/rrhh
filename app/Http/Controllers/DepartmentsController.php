@@ -40,12 +40,6 @@ class DepartmentsController extends Controller {
       ->orderBy($columOrderName, $columOrderDir)
       ->get();
 
-    $departments = $departments->map(function($department){
-      $newDepartment = $department;
-
-      return $newDepartment;
-    });
-
     if($searchValue!=''){
       $departments = $departments->filter(function($department) use($searchValue){
         if (stripos($department, $searchValue)) {return true;};

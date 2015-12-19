@@ -14,6 +14,43 @@ class DiscountsController extends Controller {
     return $discounts;
   }
 
+  public function forTable()
+  {
+    $params = Input::all();
+    $draw = $params['draw'];
+    $start = $params['start'];
+    $length = $params['length'];
+
+    $columOrderIndex = $params['order'][0]['column'];
+    $columOrderDir = $params['order'][0]['dir'];
+    $columOrderName = $params['columns'][$columOrderIndex]['data'];
+
+    $searchValue = $params['search']['value'];
+
+    $totalRecords = Discount::count();
+    $recordsFiltered = $totalRecords;
+    $discounts = Discount::skip($start)
+      ->take($length)
+      ->orderBy($columOrderName, $columOrderDir)
+      ->get();
+
+    if($searchValue!=''){
+      $discounts = $discounts->filter(function($department) use($searchValue){
+        if (stripos($department, $searchValue)) {return true;};
+        return false;
+      })->values();
+      $recordsFiltered = $discounts->count();
+    }
+
+    $returnData = array(
+      'draw' => $draw,
+      'recordsTotal' => $totalRecords,
+      'recordsFiltered' => $recordsFiltered,
+      'data' => $discounts);
+    
+    return $returnData;
+  }
+
   public function store()
   {
     $discount = Input::all();

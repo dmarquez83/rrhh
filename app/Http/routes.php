@@ -262,6 +262,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::resource('bonus', 'BonusController');
     Route::post('bonus/forTable', 'BonusController@forTable');
     Route::resource('discounts', 'DiscountsController');
+    Route::post('discounts/forTable', 'DiscountsController@forTable');
 
     Route::post('rolLiquidationForTable', 'RolLiquidationController@ForTable');
 

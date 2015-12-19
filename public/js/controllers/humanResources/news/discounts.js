@@ -3,11 +3,17 @@ angular.module('app').controller('DiscountsCtrl', [
   '$scope',
   'server',
   'SweetAlert',
-  function ($scope, server, SweetAlert) {
+  'optionsDataTable',
+  'DTOptionsBuilder',
+  function ($scope, server, SweetAlert, optionsDataTable, DTOptionsBuilder) {
+
     $scope.discount = {};
     $scope.discount.type = 'Valor';
     $scope.serverProcess = false;
     $scope.isUpdate = false;
+    var title = 'Resumen Descuentos';
+    var fileName = 'resumen_descuentos';
+    var tableInstance = {};
 
     var getDiscounts = function () {
       server.getAll('discounts').success(function (data) {
@@ -15,15 +21,17 @@ angular.module('app').controller('DiscountsCtrl', [
       });
     };
 
-    $scope.selectDiscount = function (selectedDiscount) {
+    var updateDiscount = function (selectedDiscount) {
       $scope.discount = selectedDiscount;
       $scope.isUpdate = true;
+      $scope.$digest();
     };
 
     $scope.clean = function () {
       $scope.isUpdate = false;
       $scope.discount = {};
       $scope.discount.type = 'Valor';
+      tableInstance.reloadData();
       getDiscounts();
       $scope.discountsForm.$setPristine();
     };
@@ -70,7 +78,37 @@ angular.module('app').controller('DiscountsCtrl', [
       }
     };
 
-    $scope.delete = function (index) {
+    $scope.tableColumns = optionsDataTable.createTableColumns([
+      {field: 'code', title: 'Código'},
+      {field: 'name', title: 'Nombre'},
+      {field: 'type', title: 'Tipo'},
+      {field: 'value', title: 'Valor', class: 'text-right', filter: 'number'}
+    ]);
+
+    $scope.dtOptions = DTOptionsBuilder
+      .fromSource(optionsDataTable.fromSource('discounts/forTable'))
+      .withDataProp('data')
+      .withOption('serverSide', true)
+      .withOption('rowCallback', optionsDataTable.rowCallback(updateDiscount))
+      .withOption('iDisplayLength', 25)
+      .withOption('deferRender', true)
+      .withOption('scrollY', optionsDataTable.scrollY65)
+      .withOption('dom', optionsDataTable.dom)
+      .withOption('bProcessing', true)
+      .withOption('buttons', optionsDataTable.buttons(fileName, title, 'landscape','A4'))
+      .withOption("stateSave", true)
+      .withOption('stateSaveCallback', optionsDataTable.saveState(title))
+      .withOption('stateLoadCallback', optionsDataTable.loadState(title));
+
+    var reloadData = function(){
+      tableInstance.reloadData();
+    };
+
+    $scope.getTableInstance = function(dtInstance){
+      tableInstance = dtInstance;
+    };  
+
+    $scope.delete = function () {
       $scope.serverProcess = true;
       SweetAlert.swal({
           title: "Está seguro de eliminar este descuento?",
@@ -83,7 +121,7 @@ angular.module('app').controller('DiscountsCtrl', [
           closeOnCancel: true },
         function(isConfirm){
           if (isConfirm) {
-            server.delete('discounts', $scope.discounts[index]._id).success(function(result){
+            server.delete('discounts', $scope.discount._id).success(function(result){
               if(result.type == 'success') {
                 $scope.serverProcess = false;
                 SweetAlert.swal("Eliminado!", result.msg, result.type);
