@@ -14,6 +14,49 @@ class BonusController extends Controller {
     return $bonus;
   }
 
+  public function forTable()
+  {
+    $params = Input::all();
+    $draw = $params['draw'];
+    $start = $params['start'];
+    $length = $params['length'];
+
+    $columOrderIndex = $params['order'][0]['column'];
+    $columOrderDir = $params['order'][0]['dir'];
+    $columOrderName = $params['columns'][$columOrderIndex]['data'];
+
+    $searchValue = $params['search']['value'];
+
+    $totalRecords = Bonus::count();
+    $recordsFiltered = $totalRecords;
+    $bonus = Bonus::skip($start)
+      ->take($length)
+      ->orderBy($columOrderName, $columOrderDir)
+      ->get();
+
+    $bonus = $bonus->map(function($department){
+      $newDepartment = $department;
+
+      return $newDepartment;
+    });
+
+    if($searchValue!=''){
+      $bonus = $bonus->filter(function($department) use($searchValue){
+        if (stripos($department, $searchValue)) {return true;};
+        return false;
+      })->values();
+      $recordsFiltered = $bonus->count();
+    }
+
+    $returnData = array(
+      'draw' => $draw,
+      'recordsTotal' => $totalRecords,
+      'recordsFiltered' => $recordsFiltered,
+      'data' => $bonus);
+    
+    return $returnData;
+  }
+
   public function store()
   {
     $bond = Input::all();

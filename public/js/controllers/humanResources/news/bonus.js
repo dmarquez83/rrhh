@@ -3,11 +3,16 @@ angular.module('app').controller('BonusCtrl', [
   '$scope',
   'server',
   'SweetAlert',
-  function ($scope, server, SweetAlert) {
+  'optionsDataTable',
+  'DTOptionsBuilder',
+  function ($scope, server, SweetAlert, optionsDataTable, DTOptionsBuilder) {
     $scope.bond = {};
     $scope.bond.type = 'Valor';
     $scope.serverProcess = false;
     $scope.isUpdate = false;
+    var title = 'Resumen Bonos';
+    var fileName = 'resumen_bonos';
+    var tableInstance = {};
 
     var getBonus = function () {
       server.getAll('bonus').success(function (data) {
@@ -15,15 +20,17 @@ angular.module('app').controller('BonusCtrl', [
       });
     };
 
-    $scope.selectBond = function (selectedBond) {
+    var editBond = function (selectedBond) {
       $scope.bond = selectedBond;
       $scope.isUpdate = true;
+      $scope.$digest();
     };
 
     $scope.clean = function () {
       $scope.isUpdate = false;
       $scope.bond = {};
       $scope.bond.type = 'Valor';
+      tableInstance.reloadData();
       getBonus();
       $scope.bonusForm.$setPristine();
     };
@@ -70,7 +77,7 @@ angular.module('app').controller('BonusCtrl', [
       }
     };
 
-    $scope.delete = function (index) {
+    $scope.delete = function () {
       $scope.serverProcess = true;
       SweetAlert.swal({
           title: "Está seguro de eliminar este bono?",
@@ -83,7 +90,7 @@ angular.module('app').controller('BonusCtrl', [
           closeOnCancel: true },
         function(isConfirm){
           if (isConfirm) {
-            server.delete('bonus', $scope.bonus[index]._id).success(function(result){
+            server.delete('bonus', $scope.bond._id).success(function(result){
               if(result.type == 'success') {
                 $scope.serverProcess = false;
                 SweetAlert.swal("Eliminado!", result.msg, result.type);
@@ -96,6 +103,36 @@ angular.module('app').controller('BonusCtrl', [
           }
         });
     };
+
+    $scope.tableColumns = optionsDataTable.createTableColumns([
+      {field: 'code', title: 'Código'},
+      {field: 'name', title: 'Nombre'},
+      {field: 'type', title: 'Tipo'},
+      {field: 'value', title: 'Valor', class: 'text-right', filter: 'number'}
+    ]);
+
+    $scope.dtOptions = DTOptionsBuilder
+      .fromSource(optionsDataTable.fromSource('bonus/forTable'))
+      .withDataProp('data')
+      .withOption('serverSide', true)
+      .withOption('rowCallback', optionsDataTable.rowCallback(editBond))
+      .withOption('iDisplayLength', 25)
+      .withOption('deferRender', true)
+      .withOption('scrollY', optionsDataTable.scrollY65)
+      .withOption('dom', optionsDataTable.dom)
+      .withOption('bProcessing', true)
+      .withOption('buttons', optionsDataTable.buttons(fileName, title, 'landscape','A4'))
+      .withOption("stateSave", true)
+      .withOption('stateSaveCallback', optionsDataTable.saveState(title))
+      .withOption('stateLoadCallback', optionsDataTable.loadState(title));
+
+    var reloadData = function(){
+      tableInstance.reloadData();
+    };
+
+    $scope.getTableInstance = function(dtInstance){
+      tableInstance = dtInstance;
+    };  
 
 
     getBonus();
