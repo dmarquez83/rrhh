@@ -146,10 +146,7 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
     'Jenssegers\Mongodb\MongodbServiceProvider',
-		'Maatwebsite\Excel\ExcelServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
-		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider'
-
 	],
 
 	/*
@@ -199,7 +196,6 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
     	'Moloquent' => 'Jenssegers\Mongodb\Model',
     	'ImageGregwar' => 'Gregwar\Image\Image',
-    	'Excel' => 'Maatwebsite\Excel\Facades\Excel',
 		'PDF' => 'Barryvdh\DomPDF\Facade'
 	],
 
