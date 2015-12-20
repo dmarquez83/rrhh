@@ -28,7 +28,7 @@
       <div class="contact-box transform animated fadeInRight" ng-click="openProfile(employee)">
         <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
             <div class="text-center">
-                <img alt="image" class="img-circle img-responsive" ng-src="{{employee.photo.src}}" width="120px" height="120px">
+                <img alt="image" class="img-circle img-responsive" ng-src="dist/images/user/default-user-icon.jpg" width="120px" height="120px">
                 <div class="m-t-xs font-bold">{{employee.office.name}}</div>
             </div>
         </div>
@@ -37,8 +37,8 @@
             <p><i class="fa fa-map-marker"></i> {{employee.addressCity}}</p>
                 <strong>Departamento:</strong> {{employee.department.name}}<br/>
                 <strong>Cargo:</strong> {{employee.office.name}}<br/>
-                <strong>Celular:</strong> {{employee.cellphone}}<br/>
-                <strong>Correo:</strong> {{employee.email}}<br/>
+                <strong>Celular:</strong> <span ng-repeat="cellphone in employee.cellphones">{{cellphone}};</span><br/>
+                <strong>Correo:</strong> <span ng-repeat="cellphone in employee.emails">{{email}};</span><br/>
                 <strong>Estado:</strong> {{employee.status}}
         </div>
         <div class="clearfix"></div> 

@@ -409,41 +409,6 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-      <div class="form-group" ng-class="{ 'has-error' : employeeForm.discountValue.$invalid && employeeForm.$submitted}">
-        <label class="control-label"><u>D</u>escuentos:</label>
-        <div class="input-group input-group-sm">
-          <div class="input-group-btn input-group-sm">
-            <select class="btn btn-default dropdown-toggle" ng-model="employee.discount" ng-change="cleanDiscounts()"
-                    ng-disabled="isUpdate" tabindex="26" ng-options="boolOption.value as boolOption.name for boolOption in boolOptions">
-              <option value="" disabled></option>
-            </select>
-          </div>
-          <input type="text" class="form-control" ng-model="employee.discountValue"
-                 ng-disabled="!employee.discount || employee.discount == 'false' || isUpdate" ui-money-mask ng-required="employee.discount == true"
-                 name="discountValue" id="discountValue"/>
-        </div>
-          <p ng-show="employeeForm.discount.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
-      </div>
-    </div>
-
-    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-      <div class="form-group" ng-class="{ 'has-error' : employeeForm.bonusValue.$invalid && employeeForm.$submitted}">
-        <label class="control-label"><u>B</u>onos:</label>
-        <div class="input-group input-group-sm">
-          <div class="input-group-btn input-group-sm">
-            <select class="btn btn-default dropdown-toggle" ng-model="employee.bonus" ng-change = "cleanBonus()" ng-required="true"
-                    ng-disabled="isUpdate" tabindex="27" ng-options="boolOption.value as boolOption.name for boolOption in boolOptions">
-              <option value="" disabled></option>
-            </select>
-          </div>
-          <input type="text" class="form-control" ng-model="employee.bonusValue"
-                 ng-disabled="!employee.bonus || employee.bonus == 'false' || isUpdate " ui-money-mask ng-required="employee.bonus == true"
-                 name="bonusValue" id="bonusValue" >
-        </div>
-          <p ng-show="employeeForm.bonus.$invalid && employeeForm.$submitted" class="help-block">Campo Obligatorio</p>
-      </div>  
-    </div>
 
     <div class="col-lg-3 col-md-6 col-xs-12">
       <div class="form-group" ng-class="{ 'has-error' : employeeForm.reserveFounds.$invalid && employeeForm.$submitted}">

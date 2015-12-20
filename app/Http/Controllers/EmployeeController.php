@@ -21,7 +21,7 @@ class EmployeeController extends Controller {
 
   public function index()
   {
-    $employees = Employee::all();
+    $employees = Employee::with('department', 'office', 'maritalStatus','bank')->get();
     return $employees;
   }
 

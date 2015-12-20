@@ -17,7 +17,7 @@
       <div class="panel-body">
 
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-          <img  style="height: 170px; width: 180px; display: block;" class="img-circle img-responsive" src="{{employee.photo.src}}"/>
+          <img  style="height: 170px; width: 180px; display: block;" class="img-circle img-responsive" ng-src="dist/images/user/default-user-icon.jpg"/>
             <h5 class="text-center"><strong>{{employee.names}} {{employee.surnames}}</strong></h5>
         </div> 
 
@@ -197,7 +197,7 @@
 
 
           </tab>
-          <tab heading="Asignación de Bonos" >
+          <tab heading="Asignación de Bonos">
 
             <form id="registerBonus" ng-submit="registerBonus()" ng-if="validateStatus()">
             
@@ -255,7 +255,7 @@
 
 
           </tab>
-          <tab heading="Asignación de Descuentos" ng-if="employee.discount == 1">
+          <tab heading="Asignación de Descuentos">
 
              <form id="registerDiscount" ng-submit="registerDiscount()" ng-if="validateStatus()">
             
