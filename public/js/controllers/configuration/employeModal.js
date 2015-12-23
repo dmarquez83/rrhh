@@ -7,7 +7,7 @@ angular.module('app').controller('EmployeModalCtrl', [
     $scope.selectedEmploye = {};
     $scope.employees = [];
 
-    var getCompanies = function(){
+    var getEmployees = function(){
       server.post('getEmployees').success(function(result){
         $scope.employees = result;
       })
@@ -19,7 +19,7 @@ angular.module('app').controller('EmployeModalCtrl', [
       $modalInstance.dismiss();
     };
 
-    getCompanies();
+    getEmployees();
 
   }
 ]);
