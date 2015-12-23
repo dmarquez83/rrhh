@@ -8,7 +8,7 @@
               <label class="control-label"><u>D</u>epartamento</label>
               <div class="input-group input-group-sm">
                   <select class="form-control" ng-options="department._id as department.name for department in departments" ng-disabled="isUpdate"
-                          ng-model="massiveBonus.department_id"  ng-required="true" name="department_id" id="department_id" tabindex="32" >
+                          ng-model="massiveBonus.department_id"  ng-change="getOffices2()"  ng-required="true" name="department_id" id="department_id" tabindex="32" >
                       <option value=""></option>
                   </select>
                   <span class="input-group-addon"><i class="fa fa-building"></i></span>
