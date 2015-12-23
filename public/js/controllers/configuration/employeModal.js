@@ -12,8 +12,11 @@ angular.module('app').controller('EmployeModalCtrl', [
 
     var getEmployees = function(){
       server.post('getEmployees').success(function(result){
-        //$scope.employees = result;
-        $scope.employees = _(result).where({ 'department_id':  $scope.id_depart });
+
+        if($scope.id_depart)
+            $scope.employees = _(result).where({ 'department_id':  $scope.id_depart });
+        else
+            $scope.employees = result;
       })
     }
 
