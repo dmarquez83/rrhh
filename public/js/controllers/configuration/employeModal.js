@@ -13,13 +13,6 @@ angular.module('app').controller('EmployeModalCtrl', [
       })
     }
 
-    $scope.selectEmploye = function (employe) {
-      server.post('changeCompany', employe).success(function (result) {
-        console.log(result);
-        $modalInstance.close();
-      });
-    };
-
     $scope.change = $scope.selectEmploye;
 
     $scope.cancel = function () {
