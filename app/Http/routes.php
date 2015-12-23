@@ -251,6 +251,7 @@ Route::group(['middleware' => 'auth'], function()
     */
 
     Route::resource('employee', 'EmployeeController');
+    Route::post('getEmployees', 'EmployeeController@getEmployees'); /*Desarrollo*/
     Route::post('employeeForTable', 'EmployeeController@forTable');
     Route::get('employeeBasicInfo', 'EmployeeController@basicInfo');
 

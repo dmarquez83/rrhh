@@ -1,0 +1,29 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h3 class="modal-title">Empleados</h3>
+    </div>
+    <div class="modal-body">
+        <table datatable="ng" class="table-condensed">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>Identificacion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="employe in employees track by $index"
+                ng-dblclick="selectEmploye(employe)"
+                class="cursorPointer">
+                <td>{{ employe.names}}</td>
+                <td>{{ employe.names}}</td>
+                <td>{{ employe.identification}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" ng-click="ok()" ng-disabled="!selectedEmploye">Guardar</button>
+        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+    </div>
+</div>
