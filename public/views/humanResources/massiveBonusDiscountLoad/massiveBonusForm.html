@@ -8,7 +8,7 @@
               <label class="control-label"><u>D</u>epartamento</label>
               <div class="input-group input-group-sm">
                   <select class="form-control" ng-options="department._id as department.name for department in departments" ng-disabled="isUpdate"
-                          ng-model="massiveBonus.department_id"  ng-change="getOffices2()"  ng-required="true" name="department_id" id="department_id" tabindex="32" >
+                          ng-model="massiveBonus.department_id"   ng-required="true" name="department_id" id="department_id" tabindex="32" >
                       <option value=""></option>
                   </select>
                   <span class="input-group-addon"><i class="fa fa-building"></i></span>
@@ -43,7 +43,8 @@
         <label class="control-label"><u>T</u>ipo</label>
         <div class="input-group input-group-sm">
           <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus" ng-required="true" id="typeBonus" name="typeBonus"
-                  ng-change="cleanTypeBonus()" tabindex="21">
+                  ng-change="searchTypeBonus()" tabindex="21">
+            <option value=""></option>
             <option value="bonus">Bono</option>
             <option value="discounts">Descuento</option>
           </select>
@@ -57,10 +58,9 @@
       <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.nameType.$invalid && massiveBonusForm.$submitted}">
           <label class="control-label"><u>N</u>ombre</label>
           <div class="input-group input-group-sm">
-              <select class="form-control" placeholder="" ng-model="massiveBonus.nameType" ng-required="true" id="nameType" name="nameType"
-                      ng-change="cleanNameType()" tabindex="21">
-                  <option value="1">Bono por Hijo</option>
-                  <option value="2">Bono por Produccion</option>
+              <select class="form-control" ng-model="massiveBonus.type" tabindex="30" required
+                      name="bonus" id="bonus" ng-options="bonu as bonu.name for bonu in type ">
+                  <option value=""></option>
               </select>
               <span class="input-group-addon"><i class="fa fa-list"></i></span>
           </div>
