@@ -7,7 +7,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
     $scope.massiveBonus = {};
     $scope.departments = [];
-    $scope.bonus = [];
+    $scope.bonusdiscounts = [];
 
     var typeBonus = '';
 
@@ -31,6 +31,9 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     };
 
 
+    $scope.addBonusDiscount = function() {
+      $scope.bonusdiscounts.push({texto: $scope.textoNuevaTarea, hecho: true});
+    };
 
 
 
