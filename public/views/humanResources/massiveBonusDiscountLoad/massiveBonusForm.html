@@ -88,7 +88,7 @@
 
   </div>
 
-  <div class="row" ng-repeat="bonusdiscount in bonusdiscounts">
+  <div class="row" ng-repeat="bonusdiscount in bonusdiscounts track by $index">
 
       <form ng-submit="addBonusDiscount()">
           <div class="col-md-1">
@@ -145,6 +145,18 @@
                 <p ng-show="massiveBonusForm.frequencyBonus.$invalid && massiveBonusForm.$submitted" class="help-block">Campo Obligatorio</p>
             </div>
         </div>
+
+
+        <div class="col-md-1">
+          <div class="form-group" >
+              <label class="control-label"></label>
+              <div class="input-group input-group-sm">
+                  <button type="button" class="btn btn-default btn-sm" id="deleteBoDi" ng-click="deleteBonusDiscount($index)" ng-disabled="isDisabled"><span class="glyphicon glyphicon-minus"></span>
+                  </button>
+              </div>
+          </div>
+        </div>
+
 
   </div>
 
