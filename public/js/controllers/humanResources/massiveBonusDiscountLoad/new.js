@@ -35,6 +35,10 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
       $scope.bonusdiscounts.push({texto: $scope.textoNuevaTarea, hecho: true});
     };
 
+    $scope.deleteBonusDiscount = function(index){
+      $scope.bonusdiscounts.splice(index, 1);
+    }
+
 
 
 

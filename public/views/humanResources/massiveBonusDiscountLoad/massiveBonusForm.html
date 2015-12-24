@@ -105,7 +105,7 @@
             <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.paymentMethod.$invalid && massiveBonusForm.$submitted}">
                 <label class="control-label"><u>T</u>ipo</label>
                 <div class="input-group input-group-sm">
-                    <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus" ng-required="true" id="typeBonus" name="typeBonus"
+                    <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus" ng-required="true" id="typeBonus" name="typeBonus[{{$index}}]"
                             ng-change="searchTypeBonus()" tabindex="21">
                         <option value=""></option>
                         <option value="bonus">Bono</option>
