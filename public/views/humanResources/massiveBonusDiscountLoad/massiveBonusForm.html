@@ -45,8 +45,8 @@
       <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.paymentMethod.$invalid && massiveBonusForm.$submitted}">
         <label class="control-label"><u>T</u>ipo</label>
         <div class="input-group input-group-sm">
-          <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus" ng-required="true" id="typeBonus" name="typeBonus"
-                  ng-change="searchTypeBonus()" tabindex="21">
+          <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus[0]" ng-required="true" id="typeBonus[0]" name="typeBonus[0]"
+                  ng-change="searchTypeBonus(0)" tabindex="21">
             <option value=""></option>
             <option value="bonus">Bono</option>
             <option value="discounts">Descuento</option>
@@ -61,8 +61,8 @@
       <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.nameType.$invalid && massiveBonusForm.$submitted}">
           <label class="control-label"><u>N</u>ombre</label>
           <div class="input-group input-group-sm">
-              <select class="form-control" ng-model="massiveBonus.type" tabindex="30" required
-                      name="bonus" id="bonus" ng-options="bonu as bonu.name for bonu in type ">
+              <select class="form-control" ng-model="massiveBonus.type[0]" tabindex="30" required
+                      name="bonus[0]" id="bonus[0]" ng-options="bonu as bonu.name for bonu in type[0] ">
                   <option value=""></option>
               </select>
               <span class="input-group-addon"><i class="fa fa-list"></i></span>
@@ -75,7 +75,7 @@
       <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.frequencyBonus.$invalid && massiveBonusForm.$submitted}">
           <label class="control-label"><u>F</u>recuencia</label>
           <div class="input-group input-group-sm">
-              <select class="form-control" placeholder="" ng-model="massiveBonus.frequencyBonus" ng-required="true" id="frequencyBonus" name="frequencyBonus"
+              <select class="form-control" placeholder="" ng-model="massiveBonus.frequencyBonus[0]" ng-required="true" id="frequencyBonus[0]" name="frequencyBonus[0]"
                       ng-change="cleanFrequencyBonus()" tabindex="21">
                   <option value="monthly">Mensual</option>
                   <option value="once">Este Mes</option>
@@ -105,8 +105,8 @@
             <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.paymentMethod.$invalid && massiveBonusForm.$submitted}">
                 <label class="control-label"><u>T</u>ipo</label>
                 <div class="input-group input-group-sm">
-                    <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus" ng-required="true" id="typeBonus" name="typeBonus[{{$index}}]"
-                            ng-change="searchTypeBonus()" tabindex="21">
+                    <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus[$index+1]" ng-required="true" id="typeBonus[{{$index+1}}]" name="typeBonus[{{$index+1}}]"
+                            ng-change="searchTypeBonus($index+1)" tabindex="21" ng-value="{{ $index+1 }}" >
                         <option value=""></option>
                         <option value="bonus">Bono</option>
                         <option value="discounts">Descuento</option>
@@ -121,8 +121,8 @@
             <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.nameType.$invalid && massiveBonusForm.$submitted}">
                 <label class="control-label"><u>N</u>ombre</label>
                 <div class="input-group input-group-sm">
-                    <select class="form-control" ng-model="massiveBonus.type" tabindex="30" required
-                            name="bonus" id="bonus" ng-options="bonu as bonu.name for bonu in type ">
+                    <select class="form-control" ng-model="massiveBonus.type[$index+1]" tabindex="30" required
+                            name="bonus[{{$index+1}}]" id="bonus[{{$index+1}}]" ng-options="bonu as bonu.name for bonu in type[$index+1] ">
                         <option value=""></option>
                     </select>
                     <span class="input-group-addon"><i class="fa fa-list"></i></span>
@@ -135,7 +135,7 @@
             <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.frequencyBonus.$invalid && massiveBonusForm.$submitted}">
                 <label class="control-label"><u>F</u>recuencia</label>
                 <div class="input-group input-group-sm">
-                    <select class="form-control" placeholder="" ng-model="massiveBonus.frequencyBonus" ng-required="true" id="frequencyBonus" name="frequencyBonus"
+                    <select class="form-control" placeholder="" ng-model="massiveBonus.frequencyBonus[$index+1]" ng-required="true" id="frequencyBonus[{{$index+1}}]" name="frequencyBonus[{{$index+1}}]"
                             ng-change="cleanFrequencyBonus()" tabindex="21">
                         <option value="monthly">Mensual</option>
                         <option value="once">Este Mes</option>

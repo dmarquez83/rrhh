@@ -8,6 +8,9 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     $scope.massiveBonus = {};
     $scope.departments = [];
     $scope.bonusdiscounts = [];
+    $scope.massiveBonus.typeBonus = [];
+    $scope.type = [];
+    $scope.massiveBonus.frequencyBonus = [];
 
     var typeBonus = '';
 
@@ -15,24 +18,27 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
       $scope.departments = data;
     });
 
-    $scope.searchTypeBonus = function () {
-      if($scope.massiveBonus.typeBonus == 'bonus')
+    $scope.searchTypeBonus = function (index) {
+
+      //alert($scope.massiveBonus.typeBonus[index]);
+
+      if($scope.massiveBonus.typeBonus[index] == 'bonus')
         typeBonus = 'bonus';
 
-      if($scope.massiveBonus.typeBonus == 'discounts')
+      if($scope.massiveBonus.typeBonus[index] == 'discounts')
         typeBonus = 'discounts';
 
 
       if(typeBonus){
         server.getAll(typeBonus).success(function (data) {
-          $scope.type = data;
+          $scope.type[index] = data;
         });
       }
     };
 
 
     $scope.addBonusDiscount = function() {
-      $scope.bonusdiscounts.push({texto: $scope.textoNuevaTarea, hecho: true});
+      $scope.bonusdiscounts.push({ });
     };
 
     $scope.deleteBonusDiscount = function(index){
