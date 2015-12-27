@@ -16,7 +16,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
 
     $rootScope.$on('employees', function (event, values) {
-      console.log(values.employeSelections);
+      //console.log(values.employeSelections);
       $scope.employeSelections = values.employeSelections;
     });
 
@@ -55,16 +55,10 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
     $scope.save = function(){
 
-      server.post('getEmployees').success(function(result){
 
-        $scope.employees = result;
-      });
+      angular.forEach($scope.employeSelections, function (employe) {
 
-
-      angular.forEach($scope.employees, function (employe) {
-
-        alert(employe.identification);
-        alert(index);
+        alert(employe);
 
       });
 
