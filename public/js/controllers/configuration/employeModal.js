@@ -1,40 +1,11 @@
 'use strict';
-angular.module('app').service('sharedProperties', function () {
-    var property = '';
-
-    //this.dataObj = {hola: property};
-
-    this.setProperty =  function(value) {
-        property = value;
-        this.dataObj = {hola: property.envio};
-        //alert(property.envio);
-        return property;
-
-    };
-
-    this.getProperty =  function() {
-        return property;
-
-    };
-
-  /* return {
-        getProperty: function () {
-            return property;
-        },
-        setProperty: function(value) {
-            property = value;
-           // alert(property);
-
-        }
-    };*/
-}).controller('EmployeModalCtrl', [
+angular.module('app').controller('EmployeModalCtrl', [
   '$scope',
   '$modalInstance',
   'server',
   'Id_Depart',
-  'sharedProperties',
   '$rootScope',
-  function ($scope, $modalInstance, server, Id_Depart,sharedProperties, $rootScope) {
+  function ($scope, $modalInstance, server, Id_Depart, $rootScope) {
     //$scope.selectedEmploye = {};
     $scope.employees = [];
     $scope.id_depart = Id_Depart;
@@ -77,9 +48,7 @@ angular.module('app').service('sharedProperties', function () {
               }
           });
 
-          alert($scope.employeSelections.length +' Empleados Seleccionados');
-
-          //sharedProperties.setProperty('tercero');
+          //alert($scope.employeSelections.length +' Empleados Seleccionados');
 
           $rootScope.$broadcast('employees', { employeSelections: $scope.employeSelections });
 
@@ -87,10 +56,9 @@ angular.module('app').service('sharedProperties', function () {
 
       };
 
-    $scope.cancel = function () {
-        console.log($modalInstance);
-      $modalInstance.dismiss();
-    };
+      $scope.cancel = function () {
+        $modalInstance.dismiss();
+      };
 
   }
 ]);

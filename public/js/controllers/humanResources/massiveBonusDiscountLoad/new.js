@@ -3,10 +3,9 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
   '$scope',
   'documentValidate',
   'server',
-  'sharedProperties',
   '$rootScope',
-  function ($scope, documentValidate, server,sharedProperties, $rootScope) {
-
+  function ($scope, documentValidate, server, $rootScope) {
+    var typeBonus = '';
     $scope.massiveBonus = {};
     $scope.departments = [];
     $scope.bonusdiscounts = [];
@@ -22,8 +21,6 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     });
 
     $scope.employeSelections =  $rootScope.employeSelections;
-
-    var typeBonus = '';
 
     server.getAll('departments').success(function (data) {
       $scope.departments = data;
