@@ -1,13 +1,19 @@
 'use strict';
 angular.module('app').service('sharedProperties', function () {
-    var property = 'First';
+    var property = '';
 
-    this.dataObj = {hola: property};
+    //this.dataObj = {hola: property};
 
     this.setProperty =  function(value) {
         property = value;
-        this.dataObj = {hola: property};
-        alert(property);
+        this.dataObj = {hola: property.envio};
+        //alert(property.envio);
+        return property;
+
+    };
+
+    this.getProperty =  function() {
+        return property;
 
     };
 
@@ -27,17 +33,12 @@ angular.module('app').service('sharedProperties', function () {
   'server',
   'Id_Depart',
   'sharedProperties',
-  function ($scope, $modalInstance, server, Id_Depart,sharedProperties ) {
+  '$rootScope',
+  function ($scope, $modalInstance, server, Id_Depart,sharedProperties, $rootScope) {
     //$scope.selectedEmploye = {};
     $scope.employees = [];
     $scope.id_depart = Id_Depart;
     $scope.employeSelections = [];
-
-    $scope.datos = sharedProperties.dataObj;
-
-    scope.enviar = { envio: 'llego'};
-
-    sharedProperties.dataObj = scope.enviar;
 
 
     var getEmployees = function(){
@@ -78,21 +79,18 @@ angular.module('app').service('sharedProperties', function () {
 
           alert($scope.employeSelections.length +' Empleados Seleccionados');
 
-          sharedProperties.setProperty('tercero');
+          //sharedProperties.setProperty('tercero');
+
+          $rootScope.$broadcast('employees', { employeSelections: $scope.employeSelections });
 
           $modalInstance.dismiss();
 
-
       };
 
-
     $scope.cancel = function () {
+        console.log($modalInstance);
       $modalInstance.dismiss();
     };
-
-
-
-
 
   }
 ]);

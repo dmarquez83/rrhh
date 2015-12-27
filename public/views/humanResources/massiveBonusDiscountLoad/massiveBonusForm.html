@@ -19,7 +19,7 @@
     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
         <button class="btn btn-primary" type="botton" ng-click="openEmployeModal()" ng-controller="EmployeSelectionCtrl">Ver Empleados</button>
         <label class="control-label">
-            <u>C</u>antidad de Empleados: {{  employeSelections.length }} prueba: {{  }} datos: {{ datos.hola }}
+            <u>C</u>antidad de Empleados: {{  employeSelections.length }}
         </label>
     </div>
   <div>
@@ -106,7 +106,7 @@
 
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div class="form-group" ng-class="{ 'has-error' : massiveBonusForm.paymentMethod.$invalid && massiveBonusForm.$submitted}">
-                <label class="control-label"><u>T</u>ipo</label>
+                <label class="control-label">{{ $index + 1 }}<u>T</u>ipo</label>
                 <div class="input-group input-group-sm">
                     <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus[$index+1]" ng-required="true" id="typeBonus[{{$index+1}}]" name="typeBonus[{{$index+1}}]"
                             ng-change="searchTypeBonus($index+1)" tabindex="21" ng-value="{{ $index+1 }}" >

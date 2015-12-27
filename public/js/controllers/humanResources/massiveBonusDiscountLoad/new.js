@@ -4,7 +4,8 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
   'documentValidate',
   'server',
   'sharedProperties',
-  function ($scope, documentValidate, server,sharedProperties) {
+  '$rootScope',
+  function ($scope, documentValidate, server,sharedProperties, $rootScope) {
 
     $scope.massiveBonus = {};
     $scope.departments = [];
@@ -13,18 +14,16 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     $scope.type = [];
     $scope.massiveBonus.frequencyBonus = [];
     $scope.employeSelections = [];
-    //$scope.prueba = sharedProperties.getProperty();
 
-    $scope.datos = sharedProperties.dataObj;
+
+    $rootScope.$on('employees', function (event, values) {
+      console.log(values.employeSelections);
+      $scope.employeSelections = values.employeSelections;
+    });
+
+    $scope.employeSelections =  $rootScope.employeSelections;
 
     var typeBonus = '';
-
-    $scope.save = function(){
-
-      alert('guardo');
-
-
-    };
 
     server.getAll('departments').success(function (data) {
       $scope.departments = data;
@@ -57,7 +56,23 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
       $scope.bonusdiscounts.splice(index, 1);
     }
 
+    $scope.save = function(){
 
+      server.post('getEmployees').success(function(result){
+
+        $scope.employees = result;
+      });
+
+
+      angular.forEach($scope.employees, function (employe) {
+
+        alert(employe.identification);
+        alert(index);
+
+      });
+
+
+    };
 
 
     handlePanelAction();
