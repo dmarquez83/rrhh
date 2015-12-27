@@ -3,7 +3,8 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
   '$scope',
   'documentValidate',
   'server',
-  function ($scope, documentValidate, server) {
+  'sharedProperties',
+  function ($scope, documentValidate, server,sharedProperties) {
 
     $scope.massiveBonus = {};
     $scope.departments = [];
@@ -11,8 +12,19 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     $scope.massiveBonus.typeBonus = [];
     $scope.type = [];
     $scope.massiveBonus.frequencyBonus = [];
+    $scope.employeSelections = [];
+    //$scope.prueba = sharedProperties.getProperty();
+
+    $scope.datos = sharedProperties.dataObj;
 
     var typeBonus = '';
+
+    $scope.save = function(){
+
+      alert('guardo');
+
+
+    };
 
     server.getAll('departments').success(function (data) {
       $scope.departments = data;

@@ -13,11 +13,11 @@
     <h4 class="panel-title">Carga Masiva de Bonos y Descuentos</h4>
   </div>
   <div class="panel-body">
-      <form ng-submit="save(massiveBonusForm.$valid)" novalidate="novalidate" name="massiveBonusForm">
+
           <div ng-include="'views/humanResources/massiveBonusDiscountLoad/massiveBonusForm.html'" scope="" onload=""></div>
           <div class="btn-group">
-            <input type="submit" class="btn btn-primary btn-sm" id="save" value="Guardar" ng-disabled="serverProcess" tabindex="34" />
+            <button class="btn btn-primary" type="botton" ng-click="save()" ng-controller="MassiveBonusDiscountLoadCtrl">Guardar</button>
           </div>
-      </form>
+
   </div>
 </div>  

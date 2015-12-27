@@ -1,15 +1,44 @@
 'use strict';
-angular.module('app').controller('EmployeModalCtrl', [
+angular.module('app').service('sharedProperties', function () {
+    var property = 'First';
+
+    this.dataObj = {hola: property};
+
+    this.setProperty =  function(value) {
+        property = value;
+        this.dataObj = {hola: property};
+        alert(property);
+
+    };
+
+  /* return {
+        getProperty: function () {
+            return property;
+        },
+        setProperty: function(value) {
+            property = value;
+           // alert(property);
+
+        }
+    };*/
+}).controller('EmployeModalCtrl', [
   '$scope',
   '$modalInstance',
   'server',
   'Id_Depart',
-  function ($scope, $modalInstance, server, Id_Depart ) {
+  'sharedProperties',
+  function ($scope, $modalInstance, server, Id_Depart,sharedProperties ) {
     //$scope.selectedEmploye = {};
     $scope.employees = [];
     $scope.id_depart = Id_Depart;
-
     $scope.employeSelections = [];
+
+    $scope.datos = sharedProperties.dataObj;
+
+    scope.enviar = { envio: 'llego'};
+
+    sharedProperties.dataObj = scope.enviar;
+
 
     var getEmployees = function(){
       server.post('getEmployees').success(function(result){
@@ -21,7 +50,9 @@ angular.module('app').controller('EmployeModalCtrl', [
       })
     }
 
-    $scope.change = $scope.selectEmploye;
+    getEmployees();
+
+    //$scope.change = $scope.selectEmploye;
 
       $scope.checkAll = function () {
           if ($scope.selectedAll) {
@@ -40,13 +71,17 @@ angular.module('app').controller('EmployeModalCtrl', [
           var cuenta = 0;
           angular.forEach($scope.employees, function (employe) {
               if(employe.Selected){
+                  $scope.employeSelections[cuenta] = employe.identification;
                   cuenta++;
-                  //alert(employe.identification);
               }
-
           });
 
-          alert(cuenta);
+          alert($scope.employeSelections.length +' Empleados Seleccionados');
+
+          sharedProperties.setProperty('tercero');
+
+          $modalInstance.dismiss();
+
 
       };
 
@@ -55,7 +90,9 @@ angular.module('app').controller('EmployeModalCtrl', [
       $modalInstance.dismiss();
     };
 
-    getEmployees();
+
+
+
 
   }
 ]);
