@@ -5,10 +5,11 @@ angular.module('app').controller('EmployeModalCtrl', [
   'server',
   'Id_Depart',
   function ($scope, $modalInstance, server, Id_Depart ) {
-    $scope.selectedEmploye = {};
+    //$scope.selectedEmploye = {};
     $scope.employees = [];
-
     $scope.id_depart = Id_Depart;
+
+    $scope.employeSelections = [];
 
     var getEmployees = function(){
       server.post('getEmployees').success(function(result){
@@ -21,6 +22,34 @@ angular.module('app').controller('EmployeModalCtrl', [
     }
 
     $scope.change = $scope.selectEmploye;
+
+      $scope.checkAll = function () {
+          if ($scope.selectedAll) {
+              $scope.selectedAll = true;
+          } else {
+              $scope.selectedAll = false;
+          }
+          angular.forEach($scope.employees, function (employe) {
+              employe.Selected = $scope.selectedAll;
+          });
+
+      };
+
+      $scope.saveEmploye = function () {
+
+          var cuenta = 0;
+          angular.forEach($scope.employees, function (employe) {
+              if(employe.Selected){
+                  cuenta++;
+                  //alert(employe.identification);
+              }
+
+          });
+
+          alert(cuenta);
+
+      };
+
 
     $scope.cancel = function () {
       $modalInstance.dismiss();

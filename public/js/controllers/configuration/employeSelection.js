@@ -15,7 +15,7 @@ angular.module('app').controller('EmployeSelectionCtrl', [
         resolve: {
           Id_Depart: function() //scope del modal
           {
-            console.log($scope.massiveBonus.department_id);
+            //console.log($scope.massiveBonus.department_id);
             return $scope.massiveBonus.department_id;
 
           }

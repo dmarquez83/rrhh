@@ -6,7 +6,7 @@
         <table datatable="ng" class="table-condensed">
             <thead>
             <tr>
-                <th><input type="checkbox" ng-model="employeSelection"> Todos   </th>
+                <th> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /> Todos   </th>
                 <th>Nombre</th>
                 <th>Identificacion</th>
             </tr>
@@ -14,7 +14,7 @@
             <tbody>
             <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
                 <td width="10%">
-                    <input type="checkbox" ng-model="employeSelection">
+                    <input type="checkbox" ng-model="employe.Selected"  ng-value="{{ employe.identification }}"/>
                 </td>
                 <td>{{ employe.names}}</td>
                 <td>{{ employe.identification}}</td>
@@ -23,7 +23,7 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary btn-sm" ng-click="ok()" ng-disabled="!selectedEmploye">Guardar</button>
+        <button class="btn btn-primary btn-sm" ng-click="saveEmploye()" ng-disabled="!employeSelections">Guardar</button>
         <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
     </div>
 </div>
