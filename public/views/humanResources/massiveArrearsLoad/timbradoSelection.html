@@ -1,0 +1,113 @@
+<fieldset>
+    <div class="hr-line-dashed"></div>
+    <div class="modal-header">
+        <h3 class="modal-title">Configuraci&oacute;n de timbres</h3>
+    </div>
+    <div class="row" >
+        <form ng-submit="addTimbrado()">
+            <div class="col-md-1">
+                <div class="form-group" >
+                    <label class="control-label"></label>
+                    <div class="input-group input-group-sm">
+                        <button class="btn btn-primary" type="submit">+</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : massiveArrearsForm.paymentMethod.$invalid && massiveArrearsForm.$submitted}">
+                <label class="control-label">Contador</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" name="contador">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : massiveArrearsForm.hora.$invalid && massiveArrearsForm.$submitted}">
+                <label class="control-label">Hora</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" name="hora">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : massiveArrearsForm.frequencyType.$invalid && massiveArrearsForm.$submitted}">
+                <label class="control-label">Tipo</label>
+                <div class="input-group input-group-sm">
+                    <select class="form-control" placeholder="" ng-model="timbrado.frequencyType[0]" ng-required="true" id="frequencyType[0]" name="frequencyType[0]"
+                            ng-change="cleanFrequencyType()" tabindex="21">
+                        <option value="in">Entrada</option>
+                        <option value="out">Salida</option>
+                    </select>
+                    <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" ng-repeat="timbrado in timbrados track by $index">
+
+        <form ng-submit="addTimbrado()">
+            <div class="col-md-1">
+                <div class="form-group" >
+                    <label class="control-label"></label>
+                    <div class="input-group input-group-sm">
+                        <button class="btn btn-primary" type="submit">+</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : massiveArrearsForm.contador.$invalid && massiveArrearsForm.$submitted}">
+                <label class="control-label">Contador</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" name="contador" ng-value="{{ $index+1 }}" >
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : massiveArrearsForm.hora.$invalid && massiveArrearsForm.$submitted}">
+                <label class="control-label">Hora</label>
+                <div class="input-group input-group-sm">
+                    <input type="text" name="hora" ng-value="{{ $index+1 }}" >
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" ng-class="{ 'has-error' : massiveArrearsForm.frequencyType.$invalid && massiveArrearsForm.$submitted}">
+                <label class="control-label">Tipo</label>
+                <div class="input-group input-group-sm">
+                    <select class="form-control" placeholder="" ng-model="massiveArrears.frequencyType[$index+1]" ng-required="true" id="frequencyType[{{$index+1}}]" name="frequencyType[{{$index+1}}]"
+                            ng-change="cleanFrequencyType()" tabindex="21">
+                        <option value="in">Entrada</option>
+                        <option value="out">Salida</option>
+                    </select>
+                    <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-1">
+            <div class="form-group" >
+                <label class="control-label"></label>
+                <div class="input-group input-group-sm">
+                    <button type="button" class="btn btn-default btn-sm" id="deleteBoDi" ng-click="deleteTimbrado($index)" ng-disabled="isDisabled"><span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</fieldset>
+
