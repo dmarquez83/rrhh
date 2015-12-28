@@ -28,11 +28,6 @@
                     </div>
                 </div>
                 <div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
-                            <button class="btn btn-primary" type="botton" ng-click="openFile()" ng-controller="MassiveArrearsLoadCtrl">Subir</button>
-                        </div>
-                    </div>
         </fieldset>
         <div class='form-group'>
             <input type="file" name="excel_file" accept=".xlsx" onchange="angular.element(this).scope().fileChanged(this.files);" required="true">
@@ -40,31 +35,30 @@
 
         <div class="checkbox">
             <label>
-                <input type="checkbox" ng-model="showPreview" ng-change="showPreviewChanged();">Show preview of excel file
+                <input type="checkbox" ng-model="showPreview" ng-change="showPreviewChanged();">Mostrar En una Tabla
             </label>
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" ng-model="showJSONPreview">Show JSON preview of selected sheet
+                <input type="checkbox" ng-model="showJSONPreview">Mostrar un JSON
             </label>
         </div>
         <div ng-show="isProcessing">
-            <span>Processing ...</span>
+            <span>Procesando ...</span>
         </div>
 
         <div class='form-group'>
-            <label for='sheet_name'>Sheet Name</label>
+            <label for='sheet_name'>Nombre de hoja</label>
             <select id="sheet_name" class="form-control" ng-change="updateJSONString()" ng-model="selectedSheetName" required="true" ng-required="true" ng-options="sheetName as sheetName for (sheetName, sheetData) in sheets">
-                <option value="">---- Select a sheet ----</option>
+                <option value="">---- Seleccione la Hoja ----</option>
             </select>
         </div>
 
         <input type="hidden" name="sheet_name" value="{{ selectedSheetName }}">
 
-        <input type="submit" value="Submit">
 
         <div ng-show="showJSONPreview">
-            <h4>JSON Preview of selected sheet</h4>
+            <h4>JSON Vista preliminar de la hoja seleccionada</h4>
                     <pre>
                         <code>{{ json_string }}</code>
                     </pre>
