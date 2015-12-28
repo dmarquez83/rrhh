@@ -8,7 +8,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
-    $scope.json_string = "";
 
 
     $scope.fileChanged = function(files) {
@@ -22,7 +21,9 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     }
 
     $scope.updateJSONString = function() {
+      console.log($scope.sheets[$scope.selectedSheetName]);
       $scope.json_string = JSON.stringify($scope.sheets[$scope.selectedSheetName], null, 2);
+      $scope.prueba = $scope.sheets[$scope.selectedSheetName];
     }
 
     $scope.showPreviewChanged = function() {
