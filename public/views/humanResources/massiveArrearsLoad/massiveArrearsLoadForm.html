@@ -1,0 +1,45 @@
+
+
+<fieldset>
+  <div class="hr-line-dashed"></div>
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" >
+              <label class="control-label"><u>M</u>es</label>
+              <div class="input-group input-group-sm">
+                  <select class="form-control" placeholder="" ng-model="massiveBonus.typeBonus[0]" ng-required="true" id="typeBonus[0]" name="typeBonus[0]"
+                          ng-change="searchTypeBonus(0)" tabindex="21">
+                      <option value=""></option>
+                      <option value="January">Enero</option>
+                      <option value="February">Febrero</option>
+                      <option value="March">Marzo</option>
+                      <option value="April">Abril</option>
+                      <option value="May">Mayo</option>
+                      <option value="June">Junio</option>
+                      <option value="July">Julio</option>
+                      <option value="August">Agosto</option>
+                      <option value="September">Septiembre</option>
+                      <option value="October">Octubre</option>
+                      <option value="November">Noviembre</option>
+                      <option value="December">Diciembre</option>
+                  </select>
+                  <span class="input-group-addon"><i class="fa fa-building"></i></span>
+              </div>
+          </div>
+        </div>
+    <div>
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
+            <div class="form-group" >
+                <input type="file" name="myFile" image-with-preview ng-model="arrears.file" accept="file/xls,file/xlsx">
+                <input type="file" name="excel_file" accept=".xlsx" onchange="angular.element(this).scope().fileChanged(this.files);" required="true">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
+           <button class="btn btn-primary" type="botton" ng-click="openEmployeModal()" ng-controller="EmployeSelectionCtrl">Subir</button>
+        </div>
+    </div>
+</fieldset>
+
