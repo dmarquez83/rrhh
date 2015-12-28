@@ -6,6 +6,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
   '$rootScope',
   function ($scope, documentValidate, server, $rootScope) {
     var typeBonus = '';
+    var dateMassive = moment().format();
     $scope.massiveBonus = {};
     $scope.massiveBonus.typeBonus = [];
     $scope.massiveBonus.frequencyBonus = [];
@@ -14,6 +15,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     $scope.type = [];
     $scope.employeSelections = [];
     $scope.assignedDiscounts = {};
+    $scope.assignedBonus = {};
 
 
     $rootScope.$on('employees', function (event, values) {
@@ -56,28 +58,40 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
     $scope.save = function(){
 
-      var index = 0;
-      //console.log($scope.massiveBonus.type[index]);
+
 
       angular.forEach($scope.employeSelections, function (employee) {
 
+        //console.log(employee);
+
+        var index = 0;
+
         angular.forEach($scope.massiveBonus.typeBonus, function (type) {
 
-          //alert(type);
-          //alert($scope.massiveBonus.type[index]._id);
-          //alert($scope.massiveBonus.frequencyBonus[index]);
 
           if(type == 'discounts'){
             employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
             $scope.assignedDiscounts = angular.copy($scope.massiveBonus.type[index]);
-            $scope.assignedDiscounts.date = moment().format();
+            //$scope.assignedDiscounts.date = moment().format();
             employee.discounts.push($scope.assignedDiscounts);
             employee.discounts.push($scope.massiveBonus.frequencyBonus[index]);
             var discounts = { 'discounts': angular.copy(employee.discounts) };
             //console.log(discounts);
             server.update('employee', discounts, employee._id).success(function (data) {
             });
-            //console.log(server);
+          }
+
+          if(type == 'bonus'){
+            employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
+            $scope.assignedBonus = angular.copy($scope.massiveBonus.type[index]);
+            //$scope.assignedBonus.date = moment().format();
+            employee.bonus.push($scope.assignedBonus);
+            employee.bonus.push($scope.massiveBonus.frequencyBonus[index]);
+            var bonus = { 'bonus': angular.copy(employee.bonus) };
+            //console.log(bonus);
+            server.update('employee', bonus, employee._id).success(function (data) {
+            });
+
           }
 
           index++;
@@ -86,7 +100,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
       });
 
-
+      alert('Tus Datos han sido Guardados');
 
 
     };
