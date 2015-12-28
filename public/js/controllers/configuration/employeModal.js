@@ -43,7 +43,7 @@ angular.module('app').controller('EmployeModalCtrl', [
           var cuenta = 0;
           angular.forEach($scope.employees, function (employe) {
               if(employe.Selected){
-                  $scope.employeSelections[cuenta] = employe.identification;
+                  $scope.employeSelections[cuenta] = employe;
                   cuenta++;
               }
           });

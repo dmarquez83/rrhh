@@ -67,6 +67,7 @@ angular.module('app').controller('EmployeeProfileCtrl', [
       $scope.assignedDiscounts.date = moment().format();
       $scope.employee.discounts.push($scope.assignedDiscounts);
       var discounts = { 'discounts': angular.copy($scope.employee.discounts) };
+//      console.log(discounts);
       server.update('employee', discounts, $scope.employee._id).success(function (data) {
       });
     };

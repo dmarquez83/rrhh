@@ -7,16 +7,17 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
   function ($scope, documentValidate, server, $rootScope) {
     var typeBonus = '';
     $scope.massiveBonus = {};
+    $scope.massiveBonus.typeBonus = [];
+    $scope.massiveBonus.frequencyBonus = [];
     $scope.departments = [];
     $scope.bonusdiscounts = [];
-    $scope.massiveBonus.typeBonus = [];
     $scope.type = [];
-    $scope.massiveBonus.frequencyBonus = [];
     $scope.employeSelections = [];
+    $scope.assignedDiscounts = {};
 
 
     $rootScope.$on('employees', function (event, values) {
-      //console.log(values.employeSelections);
+        //console.log(values.employeSelections);
       $scope.employeSelections = values.employeSelections;
     });
 
@@ -46,7 +47,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
 
     $scope.addBonusDiscount = function() {
-      $scope.bonusdiscounts.push({ });
+      $scope.bonusdiscounts.push({ hecho: true });
     };
 
     $scope.deleteBonusDiscount = function(index){
@@ -55,12 +56,37 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
     $scope.save = function(){
 
+      var index = 0;
+      //console.log($scope.massiveBonus.type[index]);
 
-      angular.forEach($scope.employeSelections, function (employe) {
+      angular.forEach($scope.employeSelections, function (employee) {
 
-        alert(employe);
+        angular.forEach($scope.massiveBonus.typeBonus, function (type) {
+
+          //alert(type);
+          //alert($scope.massiveBonus.type[index]._id);
+          //alert($scope.massiveBonus.frequencyBonus[index]);
+
+          if(type == 'discounts'){
+            employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
+            $scope.assignedDiscounts = angular.copy($scope.massiveBonus.type[index]);
+            $scope.assignedDiscounts.date = moment().format();
+            employee.discounts.push($scope.assignedDiscounts);
+            employee.discounts.push($scope.massiveBonus.frequencyBonus[index]);
+            var discounts = { 'discounts': angular.copy(employee.discounts) };
+            //console.log(discounts);
+            server.update('employee', discounts, employee._id).success(function (data) {
+            });
+            //console.log(server);
+          }
+
+          index++;
+
+        });
 
       });
+
+
 
 
     };
