@@ -73,8 +73,9 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
             employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
             $scope.assignedDiscounts = angular.copy($scope.massiveBonus.type[index]);
             //$scope.assignedDiscounts.date = moment().format();
+            $scope.assignedDiscounts.frequency = $scope.massiveBonus.frequencyBonus[index];
             employee.discounts.push($scope.assignedDiscounts);
-            employee.discounts.push($scope.massiveBonus.frequencyBonus[index]);
+            //employee.discounts.push($scope.massiveBonus.frequencyBonus[index]);
             var discounts = { 'discounts': angular.copy(employee.discounts) };
             //console.log(discounts);
             server.update('employee', discounts, employee._id).success(function (data) {
@@ -85,8 +86,9 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
             employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
             $scope.assignedBonus = angular.copy($scope.massiveBonus.type[index]);
             //$scope.assignedBonus.date = moment().format();
+            $scope.assignedBonus.frequency = $scope.massiveBonus.frequencyBonus[index];
             employee.bonus.push($scope.assignedBonus);
-            employee.bonus.push($scope.massiveBonus.frequencyBonus[index]);
+            //employee.bonus.push($scope.massiveBonus.frequencyBonus[index]);
             var bonus = { 'bonus': angular.copy(employee.bonus) };
             //console.log(bonus);
             server.update('employee', bonus, employee._id).success(function (data) {
