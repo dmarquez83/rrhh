@@ -3,19 +3,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
   '$scope',
   'documentValidate',
   'server',
-  'fileReader',
   'XLSXReaderService',
-  function ($scope, documentValidate, server, fileReader, XLSXReaderService) {
-
-    $scope.massiveArrears = {};
-    $scope.massiveArrears.prueba= {datos: 'mi prueba'};
-
-
-    $scope.openFile = function() {
-      alert('entro');
-      console.log($scope.massiveArrears.myFile);
-      //fileReader.getReader($scope.massiveArrears.myFile);
-    };
+  function ($scope, documentValidate, server, XLSXReaderService) {
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
@@ -47,8 +36,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       }
     }
 
-
-
-   // handlePanelAction();
+    handlePanelAction();
   }
 ]);
