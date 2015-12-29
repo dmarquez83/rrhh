@@ -31,48 +31,25 @@
         </fieldset>
         <div class='form-group'>
             <input type="file" name="excel_file" accept=".xlsx" onchange="angular.element(this).scope().fileChanged(this.files);" required="true">
+            <button class="btn btn-primary" type="botton" ng-click="enviar()" >Enviar</button>
         </div>
 
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="showPreview" ng-change="showPreviewChanged();">Mostrar En una Tabla
-            </label>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" ng-model="showJSONPreview">Mostrar un JSON
-            </label>
-        </div>
-        <div ng-show="isProcessing">
-            <span>Procesando ...</span>
-        </div>
-
-        <div class='form-group'>
-            <label for='sheet_name'>Nombre de hoja</label>
-            <select id="sheet_name" class="form-control" ng-change="updateJSONString()" ng-model="selectedSheetName" required="true" ng-required="true" ng-options="sheetName as sheetName for (sheetName, sheetData) in sheets">
-                <option value="">---- Seleccione la Hoja ----</option>
-            </select>
-        </div>
-
-        <input type="hidden" name="sheet_name" value="{{ selectedSheetName }}">
-
-
-        <div ng-show="showJSONPreview">
-            <h4>JSON Vista preliminar de la hoja seleccionada</h4>
-                    <pre>
-                        <code>{{ json_string }}</code>
-                    </pre>
-        </div>
-        <div ng-show="showPreview">
-            <table class="table table-bordered" ng-repeat="(sheetName, sheetData) in sheets track by $index" ng-show="sheetName == selectedSheetName">
+        <div class="modal-body">
+            <table datatable="ng" class="table-condensed">
                 <thead>
                 <tr>
-                    <th ng-bind="sheetName"></th>
+                    <th>Codigo</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
                 </tr>
                 </thead>
-                <tr ng-repeat="row in sheetData.data track by $index">
-                    <td ng-repeat="col in row track by $index" ng-bind="col"></td>
+                <tbody>
+                <tr ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
+                    <td>{{ datosarchivo.Codigo}}</td>
+                    <td>{{ datosarchivo.Fecha}}</td>
+                    <td>{{ datosarchivo.Hora}}</td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </form>
