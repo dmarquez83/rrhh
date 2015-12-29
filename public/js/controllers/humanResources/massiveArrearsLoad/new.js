@@ -9,6 +9,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
     $scope.datos = {};
+    var countsheets = 0;
 
 
     $scope.fileChanged = function(files) {
@@ -18,31 +19,26 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       XLSXReaderService.readFile($scope.excelFile, $scope.showPreview, $scope.showJSONPreview).then(function(xlsxData) {
         $scope.sheets = xlsxData.sheets;
         $scope.isProcessing = false;
-        angular.forEach($scope.sheets, function (sheetData, sheetName) {
-          $scope.datos = sheetData;
-        });
+        countsheets = (Object.keys($scope.sheets).length);
+        if(countsheets > 1){
+          toastr.error('Error', 'El archivo Excel tiene mas de 1 Hoja de trabajo');
+        }else{
+          angular.forEach($scope.sheets, function (sheetData, sheetName) {
+            $scope.datos = sheetData;
+          });
+        }
+
       });
     }
 
     $scope.enviar = function(){
 
-      //alert('enviar');
-      //console.log($scope.sheets);
-      //console.log($scope.sheets.length);
-
-      angular.forEach($scope.sheets, function (sheetData, sheetName) { /*este ciclo lleva la cantidad de hojas*/
-
-        //console.log(sheetName);//nombre de la hola
-
-        $scope.datos = sheetData;
-
-        /*angular.forEach(sheetData, function (row) {
-
+     /* angular.forEach($scope.sheets, function (sheetData, sheetName) {
+        angular.forEach(sheetData, function (row) {
           console.log(row.Código,row.Fecha,row.Hora);
+        });
+      });*/
 
-        });*/
-
-      });
     }
 
     handlePanelAction();
