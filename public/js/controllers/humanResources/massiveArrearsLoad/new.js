@@ -3,8 +3,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
   '$scope',
   'documentValidate',
   'server',
-  'XLSXReaderService',
-  function ($scope, documentValidate, server, XLSXReaderService) {
+  'XLSXReaderService','FactorysubtractHours',
+  function ($scope, documentValidate, server, XLSXReaderService,FactorysubtractHours) {
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
@@ -14,6 +14,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.datosGroup = [];
     $scope.validated = false;
     $scope.employees = [];
+    $scope.date = [];
     $scope.employeesFile =  [];
     $scope.cabeceraInicial = true;
     $scope.cabeceraFinal = false;
@@ -30,6 +31,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     var col3 = '';
     var message='';
     var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+
+
 
     $scope.fileChanged = function(files) {
 
@@ -120,13 +123,13 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       $scope.cabeceraFinal = true;
 
         if(!dateval){
-          alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+$scope.monthSearch);
+          alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
         }
-
-
     }
 
     $scope.serachEmploye = function(){
+
+      $scope.datosListos = [];
 
       $scope.datosNuevo = _.map(
           _.where($scope.datosRespaldo, {Codigo : $scope.employeeFile.code}),
@@ -135,9 +138,27 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
           }
       );
 
+      var groupDate =_.groupBy($scope.datosNuevo, 'Fecha');
+
+      angular.forEach((groupDate), function(row){
+        console.log(row[0].Fecha,'este');
+        console.log(row[0].Hora,'este');
+        console.log(row.Hora,'este');
+      });
+
+      angular.forEach(($scope.configuracion), function(conf){
+        //console.log(conf.hour,conf.type);
+        var myConf ={hour:conf.hour, type: conf.type, register: [{hora: '08:06',color: 'prueba'}]};
+        $scope.datosListos.push(myConf);
+
+
+      });
+      //console.log($scope.datosListos);
       $scope.datos = $scope.datosNuevo;
 
     };
+//  console.log(FactorysubtractHours.subtractHours('10:00','06:45'));
+
 
     handlePanelAction();
   }

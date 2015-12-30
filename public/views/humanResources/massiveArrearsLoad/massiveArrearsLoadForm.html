@@ -37,18 +37,25 @@
         <div class="modal-body">
             <table datatable="ng" class="table-condensed">
                 <thead ng-show="cabeceraInicial">
-                <tr>
-                    <th>Codigo</th>
-                    <th>Fecha</th>
-                    <th >Hora</th>
-                </tr>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Fecha</th>
+                        <th >Hora</th>
+                    </tr>
                 <thead ng-show="cabeceraFinal">
-                <tr>
-                    <th>Fecha</th>
-                    <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
-                        {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
-                    </th>
-                </tr>
+                    <tr>
+                        <td>
+                            <select class="form-control" ng-model="employeeFile" tabindex="30" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
+                                <option value=""></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Fecha</th>
+                        <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
+                            {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
+                        </th>
+                    </tr>
                 </thead>
                 <tbody ng-show="cabeceraInicial">
                     <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
@@ -58,14 +65,6 @@
                     </tr>
                 </tbody>
                 <tbody ng-show="cabeceraFinal">
-                    <tr>
-                        <td>
-                            <select class="form-control" ng-model="employeeFile" tabindex="30" required
-                                    name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile ">
-                                <option value=""></option>
-                            </select>
-                        </td>
-                    </tr>
                     <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
                         <td>{{ datosarchivo.Fecha}}</td>
                         <td>{{ datosarchivo.Hora}}</td>
