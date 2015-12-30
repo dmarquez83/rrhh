@@ -95,7 +95,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
               var discounts = { 'discounts': angular.copy(employee.discounts) };
               //console.log(discounts);
               server.update('employee', discounts, employee._id).success(function (data) {
-                alert('Tus Datos han sido Guardados');
+                toastr[data.type](data.msg);
               });
             }
 
@@ -109,7 +109,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
               var bonus = { 'bonus': angular.copy(employee.bonus) };
               //console.log(bonus);
               server.update('employee', bonus, employee._id).success(function (data) {
-                alert('Tus Datos han sido Guardados');
+                toastr[data.type](data.msg);
               });
 
             }
