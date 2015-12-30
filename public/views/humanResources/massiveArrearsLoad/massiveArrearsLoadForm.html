@@ -61,7 +61,7 @@
                     <tr>
                         <td>
                             <select class="form-control" ng-model="employeeFile" tabindex="30" required
-                                    name="employeeFile" id="employeeFile" ng-change=""  ng-options="employe as employe.names for employe in employeesFile ">
+                                    name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile ">
                                 <option value=""></option>
                             </select>
                         </td>

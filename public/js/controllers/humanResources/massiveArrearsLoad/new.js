@@ -9,9 +9,10 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
     $scope.datos = [];
+    $scope.datosNuevo = [];
+    $scope.datosRespaldo = [];
     $scope.datosGroup = [];
     $scope.validated = false;
-    $scope.datosNuevo = [];
     $scope.employees = [];
     $scope.employeesFile =  [];
     $scope.cabeceraInicial = true;
@@ -105,16 +106,16 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
           angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
             $scope.employees = _(result).where({ 'code':  row[0].Codigo });
-            console.log(row[0].Codigo, $scope.employees[0]);
+            //console.log(row[0].Codigo, $scope.employees[0]);
             $scope.employeesFile.push($scope.employees[0]);
 
           });
-          console.log($scope.employeesFile);
-          console.log($scope.employeesFile.length);
+
         });
 
 
       $scope.datos = $scope.datosNuevo;
+      $scope.datosRespaldo = $scope.datosNuevo;
       $scope.cabeceraInicial = false;
       $scope.cabeceraFinal = true;
 
@@ -124,6 +125,19 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
 
     }
+
+    $scope.serachEmploye = function(){
+
+      $scope.datosNuevo = _.map(
+          _.where($scope.datosRespaldo, {Codigo : $scope.employeeFile.code}),
+          function(person) {
+            return { Codigo: person.Codigo, Fecha: person.Fecha, Hora: person.Hora};
+          }
+      );
+
+      $scope.datos = $scope.datosNuevo;
+
+    };
 
     handlePanelAction();
   }
