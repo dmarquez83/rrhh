@@ -3,8 +3,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
   '$scope',
   'documentValidate',
   'server',
-  'XLSXReaderService','FactorysubtractHours',
-  function ($scope, documentValidate, server, XLSXReaderService,FactorysubtractHours) {
+  'XLSXReaderService','FactorysubtractHours','FactoryArrears',
+  function ($scope, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears) {
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
@@ -130,6 +130,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.serachEmploye = function(){
 
       $scope.datosListos = [];
+      $scope.datosListos2 = [];
 
       $scope.datosNuevo = _.map(
           _.where($scope.datosRespaldo, {Codigo : $scope.employeeFile.code}),
@@ -141,19 +142,40 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       var groupDate =_.groupBy($scope.datosNuevo, 'Fecha');
 
       angular.forEach((groupDate), function(row){
-        console.log(row[0].Fecha,'este');
-        console.log(row[0].Hora,'este');
-        console.log(row.Hora,'este');
+        //console.log(row[0].Fecha,'Fecha');
+
+        $scope.datosListos = _.map(
+            _.where($scope.datosNuevo, {Fecha : row[0].Fecha}),
+            function(person) {
+              return { Codigo: person.Codigo, Fecha: person.Fecha, Hora: person.Hora};
+            }
+        );
+        //console.log($scope.datosListos,'solo la fecha:',row[0].Fecha);
+
+        angular.forEach(($scope.datosListos), function(datos){
+          //console.log(datos.Hora,'hora');
+
+          angular.forEach(($scope.configuracion), function(conf){
+            //console.log(conf.hour,conf.type);
+            var pertenece = FactoryArrears.Arrears(conf.hour,datos.Hora);
+            //console.log(pertenece,conf.hour,datos.Hora);
+
+            if(pertenece){
+              console.log(pertenece,conf.hour,datos.Hora);
+              //voy en ese punto donde debo ubicar la hora segun el bloque de confuracion
+              var myConf ={hour:conf.hour, type: conf.type, register: [{hora:conf.hour,color: 'red'}]};
+              $scope.datosListos2.push(myConf);
+            }
+
+          });
+
+        });
+
+
       });
 
-      angular.forEach(($scope.configuracion), function(conf){
-        //console.log(conf.hour,conf.type);
-        var myConf ={hour:conf.hour, type: conf.type, register: [{hora: '08:06',color: 'prueba'}]};
-        $scope.datosListos.push(myConf);
 
-
-      });
-      //console.log($scope.datosListos);
+      console.log($scope.datosListos2);
       $scope.datos = $scope.datosNuevo;
 
     };
