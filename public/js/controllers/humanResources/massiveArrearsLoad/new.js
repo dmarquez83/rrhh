@@ -8,8 +8,17 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
-    $scope.datos = {};
+    $scope.datos = [];
     $scope.validated = false;
+    $scope.datosNuevo = [];
+    $scope.cabeceraInicial = true;
+    $scope.cabeceraFinal = false;
+    $scope.configuracion = [{_id: 1, hour: '08:00', type: 'in'},
+                            {_id: 2, hour: '13:00', type: 'out'},
+                            {_id: 3, hour: '14:00', type: 'in'},
+                            {_id: 4, hour: '17:00', type: 'out'}];
+
+
     var countsheets = 0;
     var quantitycol = 0;
     var col1 = '';
@@ -17,12 +26,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     var col3 = '';
     var message='';
     var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-
-    var objDate = new Date("12/28/2015"),
-        locale = "en-us",
-        month = objDate.toLocaleString(locale, { month: "long" });
-    console.log(month);
-
 
     $scope.fileChanged = function(files) {
 
@@ -75,11 +78,30 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.enviar = function(){
 
-     /* angular.forEach($scope.sheets, function (sheetData, sheetName) {
-        angular.forEach(sheetData, function (row) {
-          console.log(row.Código,row.Fecha,row.Hora);
+      var dateval = false;
+
+          angular.forEach($scope.datos, function (row) {
+          var myarr = row.Fecha.split("/");
+          var fecha = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
+          //console.log(row.Codigo,row.Fecha,row.Hora,fecha);
+          var objDate = new Date(fecha),
+              locale = "en-us",
+              month = objDate.toLocaleString(locale, { month: "long" });
+          if($scope.monthSearch==month){
+            dateval = true;
+            $scope.datosNuevo.push(row);
+            //var datosNuevos = {Codigo : row.Codigo, Fecha : row.Fecha, Hora : row.Hora};
+          }
         });
-      });*/
+
+      $scope.datos = $scope.datosNuevo;
+      $scope.cabeceraInicial = false;
+      $scope.cabeceraFinal = true;
+
+        if(!dateval){
+          alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+$scope.monthSearch);
+        }
+
 
     }
 

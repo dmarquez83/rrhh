@@ -1,5 +1,5 @@
 <div ng-controller="MassiveArrearsLoadCtrl">
-    <form action="" method="post" enctype="multipart/form-data">
+
         <fieldset>
             <div class="hr-line-dashed"></div>
             <div class="row">
@@ -7,8 +7,8 @@
                     <div class="form-group" >
                         <label class="control-label"><u>M</u>es</label>
                         <div class="input-group input-group-sm">
-                            <select class="form-control" placeholder="" ng-model="mes" ng-required="true" id="mes" name="mes"
-                                    ng-change="searchMes()" tabindex="21">
+                            <select class="form-control" placeholder="" ng-model="monthSearch" ng-required="true" id="monthSearch" name="monthSearch"
+                                    ng-change="searchMonth()" tabindex="21">
                                 <option value=""></option>
                                 <option value="January">Enero</option>
                                 <option value="February">Febrero</option>
@@ -36,21 +36,34 @@
 
         <div class="modal-body">
             <table datatable="ng" class="table-condensed">
-                <thead>
+                <thead ng-show="cabeceraInicial">
                 <tr>
                     <th>Codigo</th>
                     <th>Fecha</th>
-                    <th>Hora</th>
+                    <th >Hora</th>
+                </tr>
+                <thead ng-show="cabeceraFinal">
+                <tr>
+                    <th>Fecha</th>
+                    <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
+                        {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
+                    </th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
-                    <td>{{ datosarchivo.Codigo}}</td>
-                    <td>{{ datosarchivo.Fecha}}</td>
-                    <td>{{ datosarchivo.Hora}}</td>
-                </tr>
+                <tbody ng-show="cabeceraInicial">
+                    <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
+                        <td>{{ datosarchivo.Codigo}}</td>
+                        <td>{{ datosarchivo.Fecha}}</td>
+                        <td>{{ datosarchivo.Hora}}</td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="cabeceraFinal">
+                    <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
+                        <td>{{ datosarchivo.Fecha}}</td>
+                        <td>{{ datosarchivo.Hora}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-    </form>
+
 </div>
