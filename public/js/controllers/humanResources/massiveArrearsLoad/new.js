@@ -9,8 +9,11 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
     $scope.datos = [];
+    $scope.datosGroup = [];
     $scope.validated = false;
     $scope.datosNuevo = [];
+    $scope.employees = [];
+    $scope.employeesFile =  [];
     $scope.cabeceraInicial = true;
     $scope.cabeceraFinal = false;
     $scope.configuracion = [{_id: 1, hour: '08:00', type: 'in'},
@@ -76,6 +79,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     }
 
+
+
     $scope.enviar = function(){
 
       var dateval = false;
@@ -93,6 +98,21 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             //var datosNuevos = {Codigo : row.Codigo, Fecha : row.Fecha, Hora : row.Hora};
           }
         });
+
+        server.post('getEmployees').success(function(result){
+
+          var Codigos = _($scope.datos).pluck('Codigo').map(function (value){return {'Codigo': value } });
+
+          angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
+            $scope.employees = _(result).where({ 'code':  row[0].Codigo });
+            console.log(row[0].Codigo, $scope.employees[0]);
+            $scope.employeesFile.push($scope.employees[0]);
+
+          });
+          console.log($scope.employeesFile);
+          console.log($scope.employeesFile.length);
+        });
+
 
       $scope.datos = $scope.datosNuevo;
       $scope.cabeceraInicial = false;
