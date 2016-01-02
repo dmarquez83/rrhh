@@ -7,35 +7,36 @@ angular.module('app').controller('BellCtrl', [
     function ($scope, documentValidate, server, SweetAlert) {
         $scope.serverProcess = false;
         $scope.isUpdate = false;
-        $scope.bell = {};
+        $scope.bells = {};
         $scope._id = null;
-        $scope.countBell = [];
-        $scope.hourBell.value = [];
-        $scope.typeBell= [];
+        $scope.countBell = '';
+        $scope.hourBell.value = '';
+        $scope.typeBell= '';
 
         $scope.addBell = function() {
-            $scope.bell.push({ hecho: true });
+            $scope.bells.push({ hecho: true });
         };
 
         $scope.deleteBell = function(index){
-            $scope.bell.splice(index, 1);
+            $scope.bells.splice(index, 1);
         };
 
         var getBells= function () {
             server.getAll('scheduleConfiguration').success(function (data) {
-                $scope.bell = data;
+                $scope.bells = data;
             });
         };
 
+
         var editBell = function(selectedBell){
             $scope.isUpdate = true;
-            $scope.bell = selectedBell;
+            $scope.bells = selectedBell;
             $scope.$digest();
         };
 
         var save = function(){
             $scope.serverProcess = true;
-            server.save('scheduleConfiguration', $scope.bell).success(function (result) {
+            server.save('scheduleConfiguration', $scope.bells).success(function (result) {
                 $scope.serverProcess = false;
                 toastr[result.type](result.msg);
                 if(result.type == 'success'){
@@ -96,7 +97,7 @@ angular.module('app').controller('BellCtrl', [
                 function(isConfirm){
                     if (isConfirm) {
                         $scope.serverProcess = true;
-                        server.delete('scheduleConfiguration', $scope.bell._id).success(function(result){
+                        server.delete('scheduleConfiguration', $scope.bells._id).success(function(result){
                             if(result.type == 'success') {
                                 $scope.serverProcess = false;
                                 SweetAlert.swal("Timbre Eliminado!", result.msg, result.type);
