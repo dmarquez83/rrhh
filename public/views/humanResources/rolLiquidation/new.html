@@ -1,3 +1,4 @@
+
 <ol class="breadcrumb pull-right">
   <li><a href="javascript:;">Recursos Humanos</a></li>
   <li><a href="javascript:;">Liquidación de Rol</a></li>
@@ -10,8 +11,145 @@
       <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
       <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
     </div>
-    <h4 class="panel-title">Liquidación de Rol</h4>
+    <h4 class="panel-title">PreLiquidación de Rol</h4>
   </div>
   <div class="panel-body">
+    <form ng-submit="save(settlementForm.$valid)" name="settlementForm">
+
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ 'has-error' : settlementForm.typeSettlement.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>T</u>ipo de Liquidaci&oacute;n</label>
+            <div class="input-group input-group-sm">
+              <select class="form-control" placeholder="" ng-model="typeSettlement" ng-required="true" id="typeSettlement" name="typeSettlement"
+                      ng-change="cleanTypeSettlement()" tabindex="21">
+                <option value=""></option>
+                <option value="monthly">Mensual</option>
+                <option value="biweekly">Quincenal</option>
+              </select>
+              <span class="input-group-addon"><i class="fa fa-list"></i></span>
+            </div>
+            <p ng-show="settlementForm.typeSettlement.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-xs-12" ng-if="typeSettlement == 'monthly'">
+          <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
+            <div class="input-group input-group-sm">
+              <select class="form-control" placeholder="" ng-required="true" ng-model="monthSettlement" id="monthSettlement" name="monthSettlement" tabindex="21">
+                <option value=""></option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+              </select>
+              <span class="input-group-addon"><i class="fa fa-list"></i></span>
+            </div>
+            <p ng-show="settlementForm.monthSettlement.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-xs-12" ng-if="typeSettlement == 'biweekly'">
+          <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
+            <div class="input-group input-group-sm">
+              <select class="form-control" placeholder="" ng-required="true" ng-model="monthSettlement" id="monthSettlement" name="monthSettlement" tabindex="21">
+                <option value=""></option>
+                <option value="1">Enero 1</option>
+                <option value="2">Enero 2</option>
+                <option value="3">Febrero 1</option>
+                <option value="4">Febrero 2</option>
+                <option value="5">Marzo 1</option>
+                <option value="6">Marzo 2</option>
+                <option value="7">Abril 1</option>
+                <option value="8">Abril 2</option>
+                <option value="9">Mayo 1</option>
+                <option value="10">Mayo 2</option>
+                <option value="11">Junio 1</option>
+                <option value="12">Junio 2</option>
+                <option value="13">Julio 1</option>
+                <option value="14">Julio 2</option>
+                <option value="15">Agosto 1</option>
+                <option value="16">Agosto 2</option>
+                <option value="17">Septiembre 1</option>
+                <option value="18">Septiembre 2</option>
+                <option value="19">Octubre 1</option>
+                <option value="20">Octubre 2</option>
+                <option value="21">Noviembre 1</option>
+                <option value="22">Noviembre 2</option>
+                <option value="23">Diciembre 1</option>
+                <option value="24">Diciembre 2</option>
+              </select>
+              <span class="input-group-addon"><i class="fa fa-list"></i></span>
+            </div>
+            <p ng-show="settlementForm.monthSettlement.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+      </div>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ 'has-error' : settlementForm.sinceDate.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>F</u>echa Desde</label>
+            <div class="input-group input-group-sm"
+                 input-date ng-model="sinceDate" date-id="sinceDate" date-name="sinceDate" ng-disabled="isUpdate" ng-required="true">
+            </div>
+            <p ng-show="settlementForm.sinceDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ 'has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>F</u>echa Hasta</label>
+            <div class="input-group input-group-sm"
+                 input-date ng-model="untilDate" date-id="untilDate" date-name="untilDate" ng-disabled="isUpdate" ng-required="true">
+            </div>
+            <p ng-show="settlementForm.untilDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
   </div>
-</div>  
+</div>
+
+
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+  <div class="panel-heading">
+    <div class="panel-heading-btn">
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+    </div>
+    <h4 class="panel-title">Resumen PreLiquidaciones de Rol</h4>
+  </div>
+  <div class="panel-body">
+    <table datatable="ng" class="table-condensed">
+      <thead>
+      <tr>
+        <th>Fecha</th>
+        <th># Empleados</th>
+        <th>Monto Total ($)</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="settlement in settlements track by $index"  class="cursorPointer">
+        <td>{{ settlement.settlementDate}}</td>
+        <td>{{ settlement.settlementCount}}</td>
+        <td>{{ settlement.settlementMount}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
