@@ -71,23 +71,21 @@
                     <tr  ng-repeat="datosarchivo in DateFile track by $index"  class="cursorPointer">
 
 
-                            <td>{{ datosarchivo[0].Fecha }}  </td>
+                            <td>{{ datosarchivo[0].Fecha }} - index {{$index}} </td>
 
                             <td ng-repeat="colconfiguracion in configuracion "  class="cursorPointer">
 
                                 <div ng-repeat="col in datosarchivo[$index].Columns">
-                                    {{col}}   1  {{col.hour}} 2  {{col[0].register}}
 
                                     <div ng-if=" col.hour == colconfiguracion.hour ">
-                                        hola
+                                        hola {{col}}  {{col[0].register}}
+                                    </div>
+                                    <div ng-if=" col.hour != colconfiguracion.hour ">
+
                                     </div>
                                 </div>
 
                             </td>
-
-
-
-
                     </tr>
                 </tbody>
             </table>

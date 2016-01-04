@@ -139,8 +139,13 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       $scope.prueba = [];
       $scope.prueba2 = [];
       var myConf = '';
+      var groupDate = '';
       var groupDate2 = '';
       $scope.DateFile = '';
+      $scope.datosNuevo= '';
+      $scope.datosListos='';
+      $scope.pertenece = 0;
+      $scope.datosListos2 =[];
 
       $scope.datosNuevo = _.map(
           _.where($scope.datosRespaldo, {Codigo : $scope.employeeFile.code}),
@@ -178,6 +183,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       });
       console.log($scope.prueba2,'agrupado');
       $scope.DateFile = _.values($scope.prueba2);
+      console.log(JSON.stringify($scope.DateFile));
     };
     handlePanelAction();
   }
