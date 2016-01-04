@@ -43,6 +43,14 @@ angular.module('app').controller('RolLiquidationCtrl', [
       });
     };
 
+    $scope.searchSettlement = function (fecha) {
+
+      //buscar si hay liquidaciones en el mes/quincena seleccionada y arrojar mensaje si ya fue hecha
+    };
+
+
     handlePanelAction();
   }
+
+
 ]);
