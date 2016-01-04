@@ -1,0 +1,53 @@
+
+<div class="inmodal">
+    <div class="modal-header">
+        <h3 class="modal-title">Empleados por Departamento</h3>
+    </div>
+    <div class="modal-body">
+
+    <div class="hr-line-dashed"></div>
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="form-group" >
+                <label class="control-label"><u>D</u>epartamento</label>
+                <div class="input-group input-group-sm">
+                    <select class="form-control" ng-options="department._id as department.name for department in departments" ng-disabled="isUpdate" ng-model="rolLiquidation.department_id"  name="department_id" id="department_id" tabindex="32" >
+                        <option value=""></option>
+                    </select>
+                    <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <table datatable="ng" class="table-condensed">
+            <thead>
+            <tr>
+                <th> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /> Todos   </th>
+                <th>Nombre</th>
+                <th>Identificacion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
+                <td width="10%">
+                    <input type="checkbox" ng-model="employe.Selected"  ng-value="{{ employe.identification }}"/>
+                </td>
+                <td>{{ employe.names}}</td>
+                <td>{{ employe.identification}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
+            <button class="btn btn-primary" type="botton" ng-click="openEmployeModal()" ng-controller="EmployeSelectionCtrl">Ver Empleados</button>
+            <label class="control-label">
+                <u>N</u>&uacute;mero Seleccionados: {{  employeSelections.length }}
+            </label>
+        </div>
+        <div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" ng-click="saveEmploye()" ng-disabled="!employeSelections">Guardar</button>
+        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+    </div>
+</div>
