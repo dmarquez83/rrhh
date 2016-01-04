@@ -1,0 +1,61 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h3 class="modal-title">Empleados PreLiquidados</h3>
+    </div>
+    <div class="modal-body">
+        <table datatable="ng" class="table-condensed">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+                <th>Sueldo Bruto</th>
+                <th>Bonos</th>
+                <th>Comisiones</th>
+                <th>Fondo de Reserva</th>
+                <th>IEES Personal</th>
+                <th>Descuentos</th>
+                <th>Anticipos</th>
+                <th>Total Ingresos</th>
+                <th>Total Descuentos</th>
+                <th>A PAGAR</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
+                <td>Correlativo</td>
+                <td>Nombre</td>
+                <td>Departamento</td>
+                <td>Sueldo Bruto</td>
+                <td>Bonos</td>
+                <td>0</td>
+                <td>(sueldo bruto + bonos + comisiones)/12</td>
+                <td>9.35% * (sueldo bruto + bonos + comisiones )</td>
+                <td>Descuentos</td>
+                <td>0</td>
+                <td>(sueldo bruto + bonos + comisiones + fondo de reserva)</td>
+                <td>(IEES Personal + descuentos + anticipos)</td>
+                <td>Total ingresos - Total Egresos</td>
+            </tr>
+            <tr>
+                <td colspan="3">TOTAL</td>
+                <td>Suma Sueldo Bruto</td>
+                <td>Suma Bonos</td>
+                <td>Suma Comisiones</td>
+                <td>Suma Fondo de Reserva</td>
+                <td>Suma IESS Personal</td>
+                <td>Suma Descuentos</td>
+                <td>Suma Anticipos</td>
+                <td>Suma Ingresos</td>
+                <td>Suma Egresos</td>
+                <td>Suma TOTAL A PAGAR</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" ng-click="savePreLiquidar()" ng-disabled="!employeSelections">Liquidar</button>
+        <button class="btn btn-primary btn-sm" ng-click="savePreLiquidarTemp()" ng-disabled="!employeSelections">Guardar</button>
+        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+    </div>
+</div>
