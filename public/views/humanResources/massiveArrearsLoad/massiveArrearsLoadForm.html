@@ -42,21 +42,7 @@
                         <th>Fecha</th>
                         <th >Hora</th>
                     </tr>
-                <thead ng-show="cabeceraFinal">
-                    <tr>
-                        <td>
-                            <select class="form-control" ng-model="employeeFile" tabindex="30" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
-                                <option value=""></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Fecha</th>
-                        <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
-                            {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
-                        </th>
-                    </tr>
-                </thead>
+
                 <tbody ng-show="cabeceraInicial">
                     <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
                         <td>{{ datosarchivo.Codigo}}</td>
@@ -64,10 +50,44 @@
                         <td>{{ datosarchivo.Hora}}</td>
                     </tr>
                 </tbody>
+
+                <thead ng-show="cabeceraFinal">
+                <tr>
+                    <td>
+                        <select class="form-control" ng-model="employeeFile" tabindex="30" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
+                            <option value=""></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Fecha</th>
+                    <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
+                        {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
+                    </th>
+                </tr>
+                </thead>
                 <tbody ng-show="cabeceraFinal">
-                    <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
-                        <td>{{ datosarchivo.Fecha}}</td>
-                        <td>{{ datosarchivo.Hora}}</td>
+
+                    <tr  ng-repeat="datosarchivo in DateFile track by $index"  class="cursorPointer">
+
+
+                            <td>{{ datosarchivo[0].Fecha }}  </td>
+
+                            <td ng-repeat="colconfiguracion in configuracion "  class="cursorPointer">
+
+                                <div ng-repeat="col in datosarchivo[$index].Columns">
+                                    {{col}}   1  {{col.hour}} 2  {{col[0].register}}
+
+                                    <div ng-if=" col.hour == colconfiguracion.hour ">
+                                        hola
+                                    </div>
+                                </div>
+
+                            </td>
+
+
+
+
                     </tr>
                 </tbody>
             </table>

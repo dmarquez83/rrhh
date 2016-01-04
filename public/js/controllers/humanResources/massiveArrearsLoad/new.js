@@ -8,8 +8,13 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
+    $scope.Math = window.Math;
+    //console.log($scope.Math.abs(-7.25));
     $scope.datos = [];
     $scope.datosNuevo = [];
+    $scope.datosListos = [];
+    $scope.datosListos2 = [];
+  //  $scope.datosListos2.columns = [];
     $scope.datosRespaldo = [];
     $scope.datosGroup = [];
     $scope.validated = false;
@@ -18,10 +23,13 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.employeesFile =  [];
     $scope.cabeceraInicial = true;
     $scope.cabeceraFinal = false;
-    $scope.configuracion = [{_id: 1, hour: '08:00', type: 'in'},
-                            {_id: 2, hour: '13:00', type: 'out'},
-                            {_id: 3, hour: '14:00', type: 'in'},
-                            {_id: 4, hour: '17:00', type: 'out'}];
+    $scope.pertenece = '';
+    $scope.perteneceType = '';
+    $scope.configuracion =
+     [{_id: 1, hour: '08:00', type: 'in'},
+      {_id: 2, hour: '13:00', type: 'out'},
+      {_id: 3, hour: '14:00', type: 'in'},
+      {_id: 4, hour: '17:00', type: 'out'}];
 
 
     var countsheets = 0;
@@ -89,32 +97,32 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
       var dateval = false;
 
-          angular.forEach($scope.datos, function (row) {
-          var myarr = row.Fecha.split("/");
-          var fecha = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
-          //console.log(row.Codigo,row.Fecha,row.Hora,fecha);
-          var objDate = new Date(fecha),
-              locale = "en-us",
-              month = objDate.toLocaleString(locale, { month: "long" });
-          if($scope.monthSearch==month){
-            dateval = true;
-            $scope.datosNuevo.push(row);
-            //var datosNuevos = {Codigo : row.Codigo, Fecha : row.Fecha, Hora : row.Hora};
-          }
-        });
+      angular.forEach($scope.datos, function (row) {
+        var myarr = row.Fecha.split("/");
+        var fecha = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
+        //console.log(row.Codigo,row.Fecha,row.Hora,fecha);
+        var objDate = new Date(fecha),
+            locale = "en-us",
+            month = objDate.toLocaleString(locale, { month: "long" });
+        if($scope.monthSearch==month){
+          dateval = true;
+          $scope.datosNuevo.push(row);
+          //var datosNuevos = {Codigo : row.Codigo, Fecha : row.Fecha, Hora : row.Hora};
+        }
+      });
 
-        server.post('getEmployees').success(function(result){
+      server.post('getEmployees').success(function(result){
 
-          var Codigos = _($scope.datos).pluck('Codigo').map(function (value){return {'Codigo': value } });
+        var Codigos = _($scope.datos).pluck('Codigo').map(function (value){return {'Codigo': value } });
 
-          angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
-            $scope.employees = _(result).where({ 'code':  row[0].Codigo });
-            //console.log(row[0].Codigo, $scope.employees[0]);
-            $scope.employeesFile.push($scope.employees[0]);
-
-          });
+        angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
+          $scope.employees = _(result).where({ 'code':  row[0].Codigo });
+          //console.log(row[0].Codigo, $scope.employees[0]);
+          $scope.employeesFile.push($scope.employees[0]);
 
         });
+
+      });
 
 
       $scope.datos = $scope.datosNuevo;
@@ -122,15 +130,17 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       $scope.cabeceraInicial = false;
       $scope.cabeceraFinal = true;
 
-        if(!dateval){
-          alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
-        }
+      if(!dateval){
+        alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
+      }
     }
 
     $scope.serachEmploye = function(){
-
-      $scope.datosListos = [];
-      $scope.datosListos2 = [];
+      $scope.prueba = [];
+      $scope.prueba2 = [];
+      var myConf = '';
+      var groupDate2 = '';
+      $scope.DateFile = '';
 
       $scope.datosNuevo = _.map(
           _.where($scope.datosRespaldo, {Codigo : $scope.employeeFile.code}),
@@ -138,50 +148,37 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             return { Codigo: person.Codigo, Fecha: person.Fecha, Hora: person.Hora};
           }
       );
-
       var groupDate =_.groupBy($scope.datosNuevo, 'Fecha');
-
-      angular.forEach((groupDate), function(row){
-        //console.log(row[0].Fecha,'Fecha');
-
+      angular.forEach((groupDate), function(row){ //itero los datos de cada empleado seleccionado en el select
         $scope.datosListos = _.map(
             _.where($scope.datosNuevo, {Fecha : row[0].Fecha}),
             function(person) {
               return { Codigo: person.Codigo, Fecha: person.Fecha, Hora: person.Hora};
             }
         );
-        //console.log($scope.datosListos,'solo la fecha:',row[0].Fecha);
-
-        angular.forEach(($scope.datosListos), function(datos){
-          //console.log(datos.Hora,'hora');
-
-          angular.forEach(($scope.configuracion), function(conf){
-            //console.log(conf.hour,conf.type);
-            var pertenece = FactoryArrears.Arrears(conf.hour,datos.Hora);
-            //console.log(pertenece,conf.hour,datos.Hora);
-
-            if(pertenece){
-              console.log(pertenece,conf.hour,datos.Hora);
-              //voy en ese punto donde debo ubicar la hora segun el bloque de confuracion
-              var myConf ={hour:conf.hour, type: conf.type, register: [{hora:conf.hour,color: 'red'}]};
-              $scope.datosListos2.push(myConf);
-            }
-
-          });
-
-        });
-
+            var i = 1;
+            angular.forEach(($scope.datosListos), function(datos){ //itero los datos agrupados por fecha de cada empleado seleccionado en el select
+                  var valorInicial = 99;
+                  angular.forEach(($scope.configuracion), function(conf){ //itero los datos de la configuracion para compararlos con la hora del marcaje
+                    var resultRest = FactorysubtractHours.subtractHours(conf.hour,datos.Hora);
+                    if (parseInt(valorInicial) >= $scope.Math.abs(parseInt(resultRest)) ){
+                      valorInicial = resultRest;
+                      $scope.pertenece = conf.hour;
+                      $scope.perteneceType = conf.type;
+                    }
+                  });
+              var color =  FactoryArrears.Arrears($scope.pertenece,datos.Hora,$scope.perteneceType);
+              $scope.prueba[i] = ({hour:$scope.pertenece, type: $scope.perteneceType, register: {hora:datos.Hora,color: color}});
+              $scope.pertenece = 0;
+              $scope.datosListos2.push({Fecha: row[0].Fecha, Columns: [$scope.prueba[i]]});
+              i++;
+            });
+        $scope.prueba2 =_.groupBy($scope.datosListos2, 'Fecha');
 
       });
-
-
-      console.log($scope.datosListos2);
-      $scope.datos = $scope.datosNuevo;
-
+      console.log($scope.prueba2,'agrupado');
+      $scope.DateFile = _.values($scope.prueba2);
     };
-//  console.log(FactorysubtractHours.subtractHours('10:00','06:45'));
-
-
     handlePanelAction();
   }
 ]);

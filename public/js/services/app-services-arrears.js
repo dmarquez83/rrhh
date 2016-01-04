@@ -8,25 +8,29 @@
                 angular.extend(this, data);
             }
 
-            service.Arrears = function(hourconf,hourcheck){
+            service.Arrears = function(hourconf,hourcheck, type){
 
-                var inicioMinutos = parseInt(hourconf.substr(3,2));
-                var inicioHoras = parseInt(hourconf.substr(0,2));
+                var inicioHourconfM = parseInt(hourconf.substr(3,2));
+                var inicioHourconfH = parseInt(hourconf.substr(0,2));
+                var inicioHourcheckM = parseInt(hourcheck.substr(3,2));
+                var inicioHourcheckH = parseInt(hourcheck.substr(0,2));
 
-                var finMinutos = parseInt(hourcheck.substr(3,2));
-                var finHoras = parseInt(hourcheck.substr(0,2));
-
-                var rangoInicio = inicioHoras + 2;
-                var rangoFinal = inicioHoras - 2;
-
-                if(finHoras >= rangoFinal && finHoras<=rangoInicio ){
-                    return true;
+                if(type == 'in'){
+                    if(inicioHourcheckH >= inicioHourconfH && inicioHourcheckM > inicioHourconfM){
+                        return 'red';
+                    }else{
+                        return 'white';
+                    }
                 }else{
-                    return false;
+                    if(type == 'out'){
+                        if(inicioHourcheckH <= inicioHourconfH && inicioHourcheckM < inicioHourconfM){
+                            return 'red';
+                        }else{
+                            return 'white';
+                        }
+                    }
                 }
             }
-
-
             return service;
         }
     ]);
