@@ -10,7 +10,8 @@
             <div class="form-group" >
                 <label class="control-label"><u>D</u>epartamento</label>
                 <div class="input-group input-group-sm">
-                    <select class="form-control" ng-options="department._id as department.name for department in departments" ng-disabled="isUpdate" ng-model="massiveBonus.department_id"  name="department_id" id="department_id" tabindex="32" >
+                    <select class="form-control" ng-options="department._id as department.name for department in departments"
+                            ng-disabled="isUpdate" ng-change="listEmployees()" ng-model="rolLiquidation.department_id"  name="department_id" id="department_id" tabindex="32" >
                         <option value=""></option>
                     </select>
                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
@@ -18,7 +19,6 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
-            <button class="btn btn-primary" type="botton" ng-click="openEmployeModal()" ng-controller="EmployeSelectionCtrl">Ver Empleados</button>
             <label class="control-label">
                 <u>N</u>&uacute;mero Seleccionados: {{  employeSelections.length }}
             </label>
@@ -30,15 +30,17 @@
                 <th> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /> Todos   </th>
                 <th>Nombre</th>
                 <th>Identificacion</th>
+                <th>Departamento</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
                 <td width="10%">
-                    <input type="checkbox" ng-model="employe.Selected" ngChecked="true" ng-value="{{ employe.identification }}"/>
+                    <input type="checkbox" ng-model="employe.Selected" ng-checked="true" ng-value="{{ employe.identification }}"/>
                 </td>
-                <td>{{ employe.names}}</td>
+                <td>{{ employe.names}} {{employe.surnames}}</td>
                 <td>{{ employe.identification}}</td>
+                <td>{{ employe.department_id }} + {{ rolLiquidation.departmentName }}</td>
             </tr>
             </tbody>
         </table>
@@ -48,6 +50,8 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary btn-sm" ng-click="saveEmploye()" ng-disabled="!employeSelections">Guardar</button>
-        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+        <button class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="cancel()">Cancelar</button>
     </div>
+</div>
+</div>
 </div>
