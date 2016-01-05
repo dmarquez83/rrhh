@@ -70,8 +70,7 @@
                         <div class="form-group">
                             <label><u>D</u>escuentos</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control text-right" placeholder="" ng-model="descuento" required
-                                       money>
+                                <input type="text" class="form-control text-right" placeholder="" ng-model="descuento" required  money>
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
                             </div>
                         </div>
@@ -89,12 +88,11 @@
 
                     <tr  ng-repeat="datosarchivo in DateFile track by $index"  class="cursorPointer">
 
-
                             <td>{{ datosarchivo[0].Fecha }} </td>
 
                             <td ng-repeat="colconfiguracion in configuracion "  class="cursorPointer" >
 
-                                <div ng-repeat="col in datosarchivo[0].Columns" style="background: {{col.register.color}}; color: darkblue">
+                                <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
 
                                     <div ng-if=" col.hour == colconfiguracion.hour "  >
                                         {{col.register.hora}} {{col.register.color}}

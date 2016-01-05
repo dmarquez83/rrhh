@@ -25,6 +25,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.cabeceraFinal = false;
     $scope.pertenece = '';
     $scope.perteneceType = '';
+    $scope.employeeFile = [];
     $scope.configuracion =
      [{_id: 1, hour: '08:00', type: 'in'},
       {_id: 2, hour: '13:00', type: 'out'},
@@ -181,10 +182,18 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         $scope.prueba2 =_.groupBy($scope.datosListos2, 'Fecha');
 
       });
-      console.log($scope.prueba2,'agrupado');
+      //console.log($scope.prueba2,'agrupado');
       $scope.DateFile = _.values($scope.prueba2);
       //console.log(JSON.stringify($scope.DateFile));
-      console.log($scope.DateFile);
+      //console.log($scope.DateFile);
+      //estoy parada con el  <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue"> si le envio 0 sale el de los otros empleados si le paso el index solo de uno
+    };
+
+
+    $scope.save = function(){
+      //no llegan los objetos del formulario
+      console.log($scope.employeeFile.code, 'empleado');
+      console.log($scope.descuento,'descuento');
     };
     handlePanelAction();
   }
