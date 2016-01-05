@@ -7,10 +7,10 @@ angular.module('app').controller('BellCtrl', [
     function ($scope, documentValidate, server, SweetAlert) {
         $scope.serverProcess = false;
         $scope.isUpdate = false;
-        $scope.bells = {};
+        $scope.bells = [];
         $scope._id = null;
         $scope.countBell = '';
-        $scope.hourBell.value = '';
+        $scope.hourBell= '';
         $scope.typeBell= '';
 
         $scope.addBell = function() {
@@ -21,12 +21,9 @@ angular.module('app').controller('BellCtrl', [
             $scope.bells.splice(index, 1);
         };
 
-        var getBells= function () {
-            server.getAll('scheduleConfiguration').success(function (data) {
-                $scope.bells = data;
-            });
-        };
-
+       server.post('getBells').success(function(result){
+            $scope.bells = (result);
+        });
 
         var editBell = function(selectedBell){
             $scope.isUpdate = true;
@@ -34,24 +31,47 @@ angular.module('app').controller('BellCtrl', [
             $scope.$digest();
         };
 
-        var save = function(){
-            $scope.serverProcess = true;
-            server.save('scheduleConfiguration', $scope.bells).success(function (result) {
-                $scope.serverProcess = false;
-                toastr[result.type](result.msg);
-                if(result.type == 'success'){
-                    $scope.cleanBell();
-                }
-            });
-        }
+        var validateCountBell = function(){
+            if ($scope.countBell.length == 0){
+                toastr.warning('Debe ingresar el contador');
+                return false;
+            }
+            return true;
+        };
+
+        var validateHourBell = function(){
+            if ($scope.hourBell.length == 0){
+                toastr.warning('Ingrese la hora');
+                return false;
+            }
+            return true;
+        };
+
+        var validateTypeBell = function(){
+            if ($scope.typeBell.length == 0){
+                toastr.warning('Seleccione el tip');
+                return false;
+            }
+            return true;
+        };
+
+        var validate = function(){
+            if (validateCountBell() && validateHourBell() && validateTypeBell()){
+                return true;
+            }
+            return false;
+        };
 
         $scope.save = function (formIsValid) {
-            if(formIsValid){
-                if ($scope.isUpdate) {
-                    update();
-                } else {
-                    save();
-                }
+            if (validate() && formIsValid) {
+                $scope.serverProcess = true;
+                server.save('bells', $scope.bells).success(function (data) {
+                    $scope.serverProcess = false;
+                    toastr[data.type](data.msg);
+                    if (data.type == 'success') {
+                        $scope.clean();
+                    }
+                });
             } else {
                 toastr.warning("Debe ingresar todos los datos");
             }
