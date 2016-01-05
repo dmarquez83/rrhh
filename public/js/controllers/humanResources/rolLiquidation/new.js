@@ -29,7 +29,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
       var modalInstance = $modal.open({
         templateUrl: '../../views/humanResources/rolLiquidation/employePreLiquidados.html',
         controller: 'RolLiquidationCtrl',
-        size: 'xlg',
+        size: 'lg',
         resolve: {
           Id_Depart: function() //scope del modal
           {
