@@ -3,13 +3,18 @@ angular.module('app').controller('RolLiquidationCtrl', [
   '$scope',
   '$modal',
   'server',
+  '$state',
   '$window',
   '$rootScope',
-  function ($scope,$modal,server, $window,$rootScope) {
+  function ($scope,$modal,server,$state, $window,$rootScope) {
       $scope.rolLiquidation = {};
       $scope.rolLiquidation.departmentName = '';
       $scope.departments = [];
+      $scope.employees = [];
       $scope.employeSelections = [];
+      $scope.countEmployee = 0;
+
+
       var modalInstance;
 
       $scope.$on('employees', function (event, values) {
@@ -33,7 +38,10 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
       server.post('getEmployees').success(function(result){
           $scope.employees = (result);
+          $scope.countEmployee = $scope.employees.length;
       });
+
+
 
       $scope.listEmployees = function(){
          server.post('getEmployees').success(function(result){
@@ -50,8 +58,10 @@ angular.module('app').controller('RolLiquidationCtrl', [
       $scope.checkAll = function () {
           if ($scope.selectedAll) {
               $scope.selectedAll = true;
+              $scope.countEmployee = $scope.employees.length;
           } else {
               $scope.selectedAll = false;
+              $scope.countEmployee = 0;
           }
           angular.forEach($scope.employees, function (employe) {
               employe.Selected = $scope.selectedAll;
@@ -60,16 +70,13 @@ angular.module('app').controller('RolLiquidationCtrl', [
       };
 
       $scope.countCheck = function(){
-
           var cuenta = 0;
           angular.forEach($scope.employees, function (employe) {
               if(employe.Selected){
-                  $scope.employeSelections[cuenta] = employe;
                   cuenta++;
               }
           });
-          alert(cuenta);
-
+          $scope.countEmployee = cuenta;
       };
 
       $scope.saveEmploye = function(){
@@ -81,29 +88,28 @@ angular.module('app').controller('RolLiquidationCtrl', [
               }
           });
           $rootScope.$broadcast('employees', { employeSelections: $scope.employeSelections });
-          $modalInstance.dismiss();
+
+         // $modalInstance.dismiss();
       };
 
-      $scope.openPreLiquidarModal = function () {
-        modalInstance = $modal.open({
-        templateUrl: '../../views/humanResources/rolLiquidation/employePreLiquidados.html',
-        controller: 'RolLiquidationCtrl',
-        size: 'xlg'
+      $scope.searchEmployeAct = function () {
+          server.post('getEmployees').success(function(result){
+              $scope.employees = _(result).where({ 'status':  'Activo' });
+          });
+          $rootScope.$broadcast('employees', { employeSelections: $scope.employees });
+      };
+
+      $rootScope.$on('employees', function (event, values) {
+          $scope.employeSelections = values.employeSelections;
       });
-        modalInstance.result.then(function () {
-            $window.location.reload();
-        });
-    };
+
 
     $scope.searchSettlement = function (fecha) {
 
       //buscar si hay liquidaciones en el mes/quincena seleccionada y arrojar mensaje si ya fue hecha
     };
 
-    $scope.searchEmployeAct = function () {
 
-          //buscar todos los empleados existentes y con estatus activo
-    };
 
 
       $scope.cancel = function () {
