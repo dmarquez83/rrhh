@@ -269,8 +269,8 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::resource('humanResourcesConfiguration', 'HumanResourcesConfigurationController');
 
-
-
+    Route::resource('bells', 'BellsController');
+    Route::post('bellsForTable', 'BellsController@forTable');
 
 
     /*
