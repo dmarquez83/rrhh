@@ -18,11 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
-            <label class="control-label">
-                <u>N</u>&uacute;mero Seleccionados: {{  employeSelections.length }}
-            </label>
-        </div>
+
 
         <table datatable="ng" class="table-condensed">
             <thead>
@@ -36,15 +32,19 @@
             <tbody>
             <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
                 <td width="10%">
-                    <input type="checkbox" ng-model="employe.Selected" ng-checked="true" ng-value="{{ employe.identification }}"/>
+                    <input type="checkbox" ng-model="employe.Selected"  ng-value="{{employe.identification}}"/>
                 </td>
                 <td>{{ employe.names}} {{employe.surnames}}</td>
                 <td>{{ employe.identification}}</td>
-                <td>{{ employe.department_id }} + {{ rolLiquidation.departmentName }}</td>
+                <td ng-if="employe">{{ employe.department.name }}</td>
             </tr>
             </tbody>
         </table>
-
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
+            <label class="control-label">
+                <u>N</u>&uacute;mero Seleccionados: {{  employe.Selected.length }}
+            </label>
+        </div>
 
         <div>
     </div>
