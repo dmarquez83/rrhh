@@ -55,20 +55,20 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.countBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>C</u>ontador</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" ng-model="countBell" id="countBell" required class="form-control" tabindex="2">
+                                <input type="text" ng-model="countBell[0]" id="countBell[0]" name="countBell[0]" required class="form-control" tabindex="2">
                             <span class="input-group-addon"><i class="fa fa-credit-card"></i></span></div>
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>H</u>ora</label>
                             <div class="input-group input-group-sm">
-                                <input type="time" id="hourBell" name="hourBell" ng-model="hourBell" placeholder="HH:mm:ss"  class="form-control" required tabindex="2" >
+                                <input type="time" id="hourBell[0]" name="hourBell[0]" ng-model="hourBell[0]" placeholder="HH:mm:ss"  class="form-control" required tabindex="2" >
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                             </div>
                             <!--<p ng-show="timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted" class="help-block">Hora no valida</p>-->
@@ -81,7 +81,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.typeBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>T</u>ipo</label>
                             <div class="input-group input-group-sm">
-                                <select class="form-control" placeholder="" ng-required="true" ng-model="typeBell" id="typeBell[0]" name="typeBell[0]" tabindex="21">
+                                <select class="form-control" placeholder="" ng-required="true" ng-model="typeBell[0]" id="typeBell[0]" name="typeBell[0]" tabindex="21">
                                     <option value=""></option>
                                     <option value="in">Entrada</option>
                                     <option value="out">Salida</option>
@@ -106,28 +106,30 @@
 
                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.countBell.$invalid && timbradoSelectionForm.$submitted}">
-                            <label class="control-label">Contador</label>
+                            <label class="control-label"><u>C</u>ontador</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" ng-model="countBell[$index+1]" id="countBell[$index+1]" required ng-value="{{ $index+1 }}">
-                            </div>
+                                <input type="text" ng-model="countBell[$index+1]" name="countBell[{{ $index+1 }}]" id="countBell[{{ $index+1 }}]" ng-value="{{ $index+1 }}" required class="form-control" tabindex="2">
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span></div>
                         </div>
                     </div>
+
                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted}">
-                            <label class="control-label">Hora:</label>
+                            <label class="control-label"><u>H</u>ora</label>
                             <div class="input-group input-group-sm">
-                                <input type="time" id="hourBell[$index+1]" name="hourBell[$index+1]" ng-model="hourBell.value" placeholder="HH:mm:ss" required ng-value="{{ $index+1 }}"/>
+                                <input type="time" id="hourBell[{{ $index+1 }}]" name="hourBell[{{ $index+1 }}]" ng-model="hourBell[$index+1]" placeholder="HH:mm:ss"  ng-value="{{ $index+1 }}"  class="form-control" required tabindex="2" >
+                                <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                             </div>
+                            <!--<p ng-show="timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted" class="help-block">Hora no valida</p>-->
+                            <p ng-show="timbradoSelectionForm.hourBell.$error.required && timbradoSelectionForm.$submitted" class="help-block">Campo Obligatorio</p>
                         </div>
-                        <p ng-show="timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted" class="help-block">Hora no valida</p>
-                        <p ng-show="timbradoSelectionForm.hourBell.$error.required && timbradoSelectionForm.$submitted" class="help-block">Hora requerida</p>
                     </div>
 
                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.typeBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>T</u>ipo</label>
                             <div class="input-group input-group-sm">
-                                <select class="form-control" placeholder="" ng-model="typeBell" ng-required="true" id="typeBell[{{$index+1}}]" name="typeBell[{{$index+1}}]" tabindex="21"  ng-value="{{ $index+1 }}">
+                                <select class="form-control" placeholder="" ng-model="typeBell[$index+1]" ng-required="true" id="typeBell[{{$index+1}}]" name="typeBell[{{$index+1}}]" tabindex="21"  ng-value="{{ $index+1 }}">
                                     <option value=""></option>
                                     <option value="in">Entrada</option>
                                     <option value="out">Salida</option>

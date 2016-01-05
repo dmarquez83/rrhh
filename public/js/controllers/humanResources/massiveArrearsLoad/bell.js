@@ -7,7 +7,7 @@ angular.module('app').controller('BellCtrl', [
     function ($scope, documentValidate, server, SweetAlert) {
         $scope.serverProcess = false;
         $scope.isUpdate = false;
-        $scope.bells = {};
+        $scope.bells = [];
         $scope._id = null;
         $scope.countBell = '';
         $scope.hourBell= '';
@@ -21,13 +21,9 @@ angular.module('app').controller('BellCtrl', [
             $scope.bells.splice(index, 1);
         };
 
-        var getBells= function () {
-            server.getAll('bells').success(function (data) {
-                $scope.bells = data;
-            });
-        };
-
-        //getBells();   //cuando descomento esto da error y me dice que no existe localhost:8000/bells..revisar la ruta
+       server.post('getBells').success(function(result){
+            $scope.bells = (result);
+        });
 
         var editBell = function(selectedBell){
             $scope.isUpdate = true;

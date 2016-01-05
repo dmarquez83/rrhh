@@ -35,6 +35,15 @@ class BellsController extends Controller {
         }
     }
 
+    public function getBells() {
+
+        //$Bells = DB::table('ScheduleConfiguration')->select('_id', 'countBell', 'hourBell','typeBell')->get();
+
+        $Bells = Bells::get();
+
+        return $Bells;
+    }
+
   /*  public function destroy($id)
     {
         $canRemove = DocumentReferenceVerificator::verify("bank_id", $id, ['BankAccount']);
