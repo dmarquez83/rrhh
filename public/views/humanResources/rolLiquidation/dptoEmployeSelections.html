@@ -32,7 +32,7 @@
             <tbody>
             <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
                 <td width="10%">
-                    <input type="checkbox" ng-model="employe.Selected"  ng-value="{{employe.identification}}"/>
+                    <input type="checkbox" ng-model="employe.Selected" ng-click="countCheck()" ng-checked="true" ng-value="{{employe.identification}}"/>
                 </td>
                 <td>{{ employe.names}} {{employe.surnames}}</td>
                 <td>{{ employe.identification}}</td>

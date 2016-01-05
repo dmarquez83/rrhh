@@ -59,6 +59,19 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
       };
 
+      $scope.countCheck = function(){
+
+          var cuenta = 0;
+          angular.forEach($scope.employees, function (employe) {
+              if(employe.Selected){
+                  $scope.employeSelections[cuenta] = employe;
+                  cuenta++;
+              }
+          });
+          alert(cuenta);
+
+      };
+
       $scope.saveEmploye = function(){
           var cuenta = 0;
           angular.forEach($scope.employees, function (employe) {
