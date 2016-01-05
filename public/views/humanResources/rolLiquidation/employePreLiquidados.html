@@ -43,12 +43,12 @@
                 <td>{{ totalBonus() | currency }}</td>
                 <td>{{ 0 | currency}}</td>
                 <td>{{ totalReserveFund() | currency }}</td>
-                <td>Suma IESS Personal</td>
-                <td>Suma Descuentos</td>
-                <td>Suma Anticipos</td>
-                <td>Suma Ingresos</td>
-                <td>Suma Egresos</td>
-                <td>Suma TOTAL A PAGAR</td>
+                <td>{{ totalLessPersonal() | currency}}</td>
+                <td>{{ totalDiscounts() | currency}}</td>
+                <td>{{ 0 | currency}}</td>
+                <td>{{ totalRevenues() | currency}}</td>
+                <td>{{ totalExpenditures() | currency}}</td>
+                <td>{{ totalToPayG() | currency}}</td>
             </tr>
             </tbody>
         </table>

@@ -80,6 +80,48 @@ angular.module('app').controller('LiquidationCtrl', [
           return acumulador;
       };
 
+      $scope.totalLessPersonal = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + $scope.LessPersonal(datos);
+          });
+          return acumulador;
+      };
+
+      $scope.totalDiscounts = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              angular.forEach((datos.discounts), function(discountEmp){
+                  acumulador = acumulador + discountEmp.discount.value;
+              });
+          });
+          return acumulador;
+      };
+
+      $scope.totalRevenues = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + $scope.revenues(datos);
+          });
+          return acumulador;
+      };
+
+      $scope.totalExpenditures = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + $scope.discounts(datos);
+          });
+          return acumulador;
+      };
+
+      $scope.totalToPayG = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + $scope.totalToPay(datos);
+          });
+          return acumulador;
+      };
+
       $scope.cancel = function () {
         $modalInstance.dismiss();
       };
