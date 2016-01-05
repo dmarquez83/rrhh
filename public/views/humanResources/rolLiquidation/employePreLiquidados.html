@@ -1,6 +1,6 @@
 <div class="inmodal">
     <div class="modal-header">
-        <h3 class="modal-title">Liquidacion {{prueba.length}}</h3>
+        <h3 class="modal-title">Liquidacion </h3>
     </div>
     <div class="modal-body">
         <table datatable="ng" class="table-condensed">
@@ -23,11 +23,11 @@
             </thead>
             <tbody>
             <tr ng-repeat="employe in employeSelections track by $index"  class="cursorPointer">
-                <td>Correlativo</td>
+                <td>{{ $index+1 }}</td>
                 <td>{{ employe.names}}</td>
-                <td>Departamento</td>
-                <td>Sueldo Bruto</td>
-                <td>Bonos</td>
+                <td>{{ employe.department.name }}</td>
+                <td>{{ employe.grossSalary | currency}}</td>
+                <td>{{ addBonus(employe.bonus) }}</td>
                 <td>0</td>
                 <td>(sueldo bruto + bonos + comisiones)/12</td>
                 <td>9.35% * (sueldo bruto + bonos + comisiones )</td>

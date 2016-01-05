@@ -8,22 +8,27 @@ angular.module('app').controller('liquidationSelectionCtrl', [
   function ($scope, $modal, server, EmployeSelectionsModal, $state, $window) {
 
     $scope.openPreLiquidarModal = function () {
-      var modalInstance = $modal.open({
-        templateUrl: '../../views/humanResources/rolLiquidation/employePreLiquidados.html',
-        controller: 'LiquidationCtrl',
-        size: 'lg',
-        resolve: {
-          EmployeSelectionsModal: function() //scope del modal
-          {
-            //console.log($scope.massiveBonus.department_id);
-            return $scope.employeSelections;
+      if($scope.employeSelections.length>0){
+        var modalInstance = $modal.open({
+          templateUrl: '../../views/humanResources/rolLiquidation/employePreLiquidados.html',
+          controller: 'LiquidationCtrl',
+          size: 'lg',
+          resolve: {
+            EmployeSelectionsModal: function() //scope del modal
+            {
+              //console.log($scope.massiveBonus.department_id);
+              return $scope.employeSelections;
 
+            }
           }
-        }
-      });
-      modalInstance.result.then(function () {
-        $window.location.reload();
-      });
+        });
+        modalInstance.result.then(function () {
+          $window.location.reload();
+        });
+      }else{
+        alert('No hay empleados seleccionados');
+      }
+
     };
 
   }
