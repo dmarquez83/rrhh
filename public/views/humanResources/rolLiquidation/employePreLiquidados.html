@@ -1,6 +1,6 @@
 <div class="inmodal">
     <div class="modal-header">
-        <h3 class="modal-title">Empleados PreLiquidados</h3>
+        <h3 class="modal-title">Liquidacion {{prueba.length}}</h3>
     </div>
     <div class="modal-body">
         <table datatable="ng" class="table-condensed">
@@ -22,9 +22,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="employe in employees track by $index"  class="cursorPointer">
+            <tr ng-repeat="employe in employeSelections track by $index"  class="cursorPointer">
                 <td>Correlativo</td>
-                <td>Nombre</td>
+                <td>{{ employe.names}}</td>
                 <td>Departamento</td>
                 <td>Sueldo Bruto</td>
                 <td>Bonos</td>
