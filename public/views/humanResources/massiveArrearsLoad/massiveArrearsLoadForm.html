@@ -42,21 +42,7 @@
                         <th>Fecha</th>
                         <th >Hora</th>
                     </tr>
-                <thead ng-show="cabeceraFinal">
-                    <tr>
-                        <td>
-                            <select class="form-control" ng-model="employeeFile" tabindex="30" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
-                                <option value=""></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Fecha</th>
-                        <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
-                            {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
-                        </th>
-                    </tr>
-                </thead>
+
                 <tbody ng-show="cabeceraInicial">
                     <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
                         <td>{{ datosarchivo.Codigo}}</td>
@@ -64,13 +50,66 @@
                         <td>{{ datosarchivo.Hora}}</td>
                     </tr>
                 </tbody>
+
+                <thead ng-show="cabeceraFinal">
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label><u>E</u>mpleado</label>
+                            <div class="input-group input-group-sm">
+                                <select class="form-control" ng-model="employeeFile" tabindex="30" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label><u>D</u>escuentos</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control text-right" placeholder="" ng-model="descuento" required  money>
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <tr>
+                    <th>Fecha</th>
+                    <th ng-repeat="colconfiguracion in configuracion track by $index"  class="cursorPointer">
+                        {{ colconfiguracion.hour}} - {{ colconfiguracion.type}}
+                    </th>
+                </tr>
+                </thead>
                 <tbody ng-show="cabeceraFinal">
-                    <tr  ng-repeat="datosarchivo in datos track by $index"  class="cursorPointer">
-                        <td>{{ datosarchivo.Fecha}}</td>
-                        <td>{{ datosarchivo.Hora}}</td>
+
+                    <tr  ng-repeat="datosarchivo in DateFile track by $index"  class="cursorPointer">
+
+                            <td>{{ datosarchivo[0].Fecha }} </td>
+
+                            <td ng-repeat="colconfiguracion in configuracion "  class="cursorPointer" >
+
+                                <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
+
+                                    <div ng-if=" col.hour == colconfiguracion.hour "  >
+                                        {{col.register.hora}} {{col.register.color}}
+                                    </div>
+                                </div>
+
+                            </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
+        <div class="col-md-1">
+            <div class="form-group" >
+                <label class="control-label"></label>
+                <div class="input-group input-group-sm">
+                    <button class="btn btn-primary" type="botton" ng-click="save()">Guardar</button>
+                </div>
+            </div>
+        </div>
 </div>
