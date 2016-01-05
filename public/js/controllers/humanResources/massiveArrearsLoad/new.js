@@ -183,7 +183,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       });
       console.log($scope.prueba2,'agrupado');
       $scope.DateFile = _.values($scope.prueba2);
-      console.log(JSON.stringify($scope.DateFile));
+      //console.log(JSON.stringify($scope.DateFile));
+      console.log($scope.DateFile);
     };
     handlePanelAction();
   }

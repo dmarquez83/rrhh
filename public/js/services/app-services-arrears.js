@@ -23,7 +23,8 @@
                     }
                 }else{
                     if(type == 'out'){
-                        if(inicioHourcheckH <= inicioHourconfH && inicioHourcheckM < inicioHourconfM){
+
+                        if(inicioHourcheckH < inicioHourconfH ){
                             return 'red';
                         }else{
                             return 'white';
