@@ -26,6 +26,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.pertenece = '';
     $scope.perteneceType = '';
     $scope.employeeFile = [];
+    $scope.assignedDiscounts = {};
     $scope.configuracion =
      [{_id: 1, hour: '08:00', type: 'in'},
       {_id: 2, hour: '13:00', type: 'out'},
@@ -191,9 +192,21 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
 
     $scope.save = function(){
-      //no llegan los objetos del formulario
-      console.log($scope.employeeFile.code, 'empleado');
-      console.log($scope.descuento,'descuento');
+
+      server.post('getDiscounts').success(function(result){
+          $scope.discounts = _(result).where({ 'code':  'descuento00003' });
+          console.log($scope.discounts);
+          $scope.discounts[0].value = ($scope.descuento);
+
+          $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
+          $scope.assignedDiscounts = $scope.discounts;
+          $scope.employeeFile.discounts.push($scope.assignedDiscounts);
+          var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
+          console.log(discounts);
+          server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
+            toastr[data.type](data.msg);
+          });
+        });
     };
     handlePanelAction();
   }

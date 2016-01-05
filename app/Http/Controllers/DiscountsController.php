@@ -89,4 +89,9 @@ class DiscountsController extends Controller {
       return ResultMsgMaker::errorCannotDelete('el', 'departamento', '', $modelName);
     }
   }
+
+  public function getDiscounts() {
+    $Discounts = Discount::get();
+    return $Discounts;
+  }
 }
