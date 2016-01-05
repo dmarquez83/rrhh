@@ -40,7 +40,7 @@
                 </td>
                 <td>{{ employe.names}} {{employe.surnames}}</td>
                 <td>{{ employe.identification}}</td>
-                <td>{{ employe.department_id}}</td>
+                <td>{{ employe.department_id }} + {{ rolLiquidation.departmentName }}</td>
             </tr>
             </tbody>
         </table>
@@ -50,7 +50,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary btn-sm" ng-click="saveEmploye()" ng-disabled="!employeSelections">Guardar</button>
-        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+        <button class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="cancel()">Cancelar</button>
     </div>
 </div>
 </div>
