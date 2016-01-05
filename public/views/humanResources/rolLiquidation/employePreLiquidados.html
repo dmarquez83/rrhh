@@ -27,28 +27,28 @@
                 <td>{{ employe.names}}</td>
                 <td>{{ employe.department.name }}</td>
                 <td>{{ employe.grossSalary | currency}}</td>
-                <td>{{ addBonus(employe.bonus) }}</td>
-                <td>0</td>
-                <td>(sueldo bruto + bonos + comisiones)/12</td>
-                <td>9.35% * (sueldo bruto + bonos + comisiones )</td>
-                <td>Descuentos</td>
-                <td>0</td>
-                <td>(sueldo bruto + bonos + comisiones + fondo de reserva)</td>
-                <td>(IEES Personal + descuentos + anticipos)</td>
-                <td>Total ingresos - Total Egresos</td>
+                <td>{{ addBonus(employe.bonus) | currency}}</td>
+                <td>{{ 0 | currency}}</td>
+                <td>{{ ReserveFund(employe) | currency}}</td>
+                <td>{{ LessPersonal(employe) | currency}}</td>
+                <td>{{ addDiscount(employe.discounts) | currency }}</td>
+                <td>{{ 0 | currency }}</td>
+                <td>{{ revenues(employe) | currency  }}</td>
+                <td>{{ discounts(employe) | currency}}</td>
+                <td>{{ totalToPay(employe) | currency }}</td>
             </tr>
             <tr>
                 <td colspan="3">TOTAL</td>
-                <td>Suma Sueldo Bruto</td>
-                <td>Suma Bonos</td>
-                <td>Suma Comisiones</td>
-                <td>Suma Fondo de Reserva</td>
-                <td>Suma IESS Personal</td>
-                <td>Suma Descuentos</td>
-                <td>Suma Anticipos</td>
-                <td>Suma Ingresos</td>
-                <td>Suma Egresos</td>
-                <td>Suma TOTAL A PAGAR</td>
+                <td>{{ totalSalary() | currency }}</td>
+                <td>{{ totalBonus() | currency }}</td>
+                <td>{{ 0 | currency}}</td>
+                <td>{{ totalReserveFund() | currency }}</td>
+                <td>{{ totalLessPersonal() | currency}}</td>
+                <td>{{ totalDiscounts() | currency}}</td>
+                <td>{{ 0 | currency}}</td>
+                <td>{{ totalRevenues() | currency}}</td>
+                <td>{{ totalExpenditures() | currency}}</td>
+                <td>{{ totalToPayG() | currency}}</td>
             </tr>
             </tbody>
         </table>
