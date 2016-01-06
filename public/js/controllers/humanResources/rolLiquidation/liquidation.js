@@ -167,6 +167,7 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
               $scope.liquidation_.status = 'preliquidation';
+              $scope.liquidation_.date = 1
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -175,6 +176,7 @@ angular.module('app').controller('LiquidationCtrl', [
 
           });
           //console.log($scope.liquidation,'este nuevo');
+          //buscar al cargar el mes y los empleados los registros de esa colection para saber si hay empleados para liquidar
 
           server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
               /*   console.log(data,'data');
@@ -224,6 +226,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.discounts_ = $scope.discounts(employe);
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
                       $scope.liquidation_.status = 'liquidation';
+                      $scope.liquidation_.date = 1;
 
                       $scope.liquidation.push($scope.liquidation_);
                       $scope.liquidation_ = {};
@@ -265,7 +268,7 @@ angular.module('app').controller('LiquidationCtrl', [
 
       $scope.cancel = function () {
          alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.").set('onok', function() {
-             //$modalInstance.close($location.path( "/" ));
+             //$modalInstance.close($location.path( "/" ));/*aqui buscar o preguntar como redirecciono a otra ruta
              $modalInstance.dismiss();
           })
 
