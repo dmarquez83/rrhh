@@ -23,8 +23,8 @@ angular.module('app').controller('LiquidationCtrl', [
            var acumulador = 0;
 
            angular.forEach((bonus), function(datos){
-              // acumulador = acumulador + datos.bonus.value;
-               acumulador = acumulador + datos.value;
+               acumulador = acumulador + datos.bonus.value;
+              // acumulador = acumulador + datos.value;
            });
 
        return acumulador;
@@ -33,8 +33,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.addDiscount = function(discount){
           var acumulador = 0;
           angular.forEach((discount), function(datos){
-             // acumulador = acumulador + datos.discount.value;
-              acumulador = acumulador + datos.value;
+              acumulador = acumulador + datos.discount.value;
+            //  acumulador = acumulador + datos.value;
           });
           return acumulador;
       };
@@ -76,8 +76,8 @@ angular.module('app').controller('LiquidationCtrl', [
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
               angular.forEach((datos.bonus), function(bonusEmp){
-                  //acumulador = acumulador + bonusEmp.bonus.value;
-                  acumulador = acumulador + bonusEmp.value;
+                  acumulador = acumulador + bonusEmp.bonus.value;
+                //  acumulador = acumulador + bonusEmp.value;
               });
           });
           return acumulador;
@@ -103,8 +103,8 @@ angular.module('app').controller('LiquidationCtrl', [
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
               angular.forEach((datos.discounts), function(discountEmp){
-                  //acumulador = acumulador + discountEmp.discount.value;
-                  acumulador = acumulador + discountEmp.value;
+                  acumulador = acumulador + discountEmp.discount.value;
+                 // acumulador = acumulador + discountEmp.value;
               });
           });
           return acumulador;
@@ -220,19 +220,13 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_ = {};
 
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
-                      var paymenthRole = { 'paymenthRole': angular.copy(employe.discounts) };
+                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
                       server.update('employee', paymenthRole, employe._id).success(function (data) {
 
                       });
 
                       var discounts = { 'discounts': [] };
                       server.update('employee', discounts, employe._id).success(function (data) {
-
-                      });
-
-                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
-                      var paymenthRole = { 'paymenthRole': angular.copy(employe.bonus) };
-                      server.update('employee', paymenthRole, employe._id).success(function (data) {
 
                       });
 
