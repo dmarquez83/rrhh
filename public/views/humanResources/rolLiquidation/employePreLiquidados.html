@@ -37,6 +37,7 @@
                 <td>{{ discounts(employe) | currency}}</td>
                 <td>{{ totalToPay(employe) | currency }}</td>
             </tr>
+            </tbody>
             <tr>
                 <td colspan="3">TOTAL</td>
                 <td>{{ totalSalary() | currency }}</td>
@@ -48,9 +49,8 @@
                 <td>{{ 0 | currency}}</td>
                 <td>{{ totalRevenues() | currency}}</td>
                 <td>{{ totalExpenditures() | currency}}</td>
-                <td>{{ totalToPayG() | currency}}</td>
+                <td>{{ totalToPayG() | currency}} {{liquidation()}}</td>
             </tr>
-            </tbody>
         </table>
     </div>
     <div class="modal-footer">

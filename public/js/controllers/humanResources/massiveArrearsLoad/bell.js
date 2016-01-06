@@ -12,10 +12,11 @@ angular.module('app').controller('BellCtrl', [
         $scope.countBell = '';
         $scope.hourBell= '';
         $scope.typeBell= '';
-       // $scope.bellInfo = [];
+        $scope.bellInfo = [];
 
         $scope.addBell = function() {
             $scope.bells.push({ hecho: true });
+            console.log($scope.bells,'agregarasss');
         };
 
         $scope.deleteBell = function(index){
@@ -63,60 +64,44 @@ angular.module('app').controller('BellCtrl', [
             return false;
         };
 
-        /*$scope.save = function (formIsValid) {
-            if (validate() && formIsValid) {
-                $scope.serverProcess = true;
+        $scope.save = function () {
+            var index = 0;
+            $scope.bellInfo = {};
+            $scope.bellInfo.countBell = '';
+            $scope.bellInfo.hourBell = '';
+            $scope.bellInfo.typeBell = '';
+            angular.forEach($scope.countBell, function () {
+                $scope.bellInfo.countBell =  $scope.countBell[index];
+                $scope.bellInfo.hourBell  =  $scope.hourBell[index];
+                $scope.bellInfo.typeBell  =  $scope.typeBell[index];
+                console.log($scope.bellInfo,'revisa lo que tienes aqui');
+                server.save('bells',$scope.bellInfo).success(function (data) {
 
-                var index = 0;
-
-                angular.forEach($scope.countBell, function () {
-
-                    var bellInfo = {countBell: $scope.countBell, hourBell:  $scope.hourBell, typeBell: $scope.typeBell};
-
-                    index++;
-
-                    console.log(bellInfo,'inventooo ' + index);
-
-                    $scope.bellInfo.push(bellInfo);
-
-                    console.log($scope.bellInfo);
-
-
-                    server.save('bells',$scope.bellInfo).success(function (data) {
-                        $scope.cleanBell();
-                    });
-
-                } );
-            } else {
-                toastr.warning("Debe ingresar todos los datos");
-            }
-        };*/
-
-        $scope.save = function (formIsValid) {
-            if (validate() && formIsValid) {
-                $scope.serverProcess = true;
-                var index = 0;
-                $scope.bellInfo = {};
-                $scope.bellInfo.countBell = '';
-                $scope.bellInfo.hourBell = '';
-                $scope.bellInfo.typeBell = '';
-                angular.forEach($scope.countBell, function () {
-                    $scope.bellInfo.countBell =  $scope.countBell[index];
-                    $scope.bellInfo.hourBell  =  $scope.hourBell[index];
-                    $scope.bellInfo.typeBell  =  $scope.typeBell[index];
-                    console.log($scope.bellInfo);
-                    server.save('bells',$scope.bellInfo).success(function (data) {
-                        $scope.cleanBell();
-                    });
-                    index++;
-                } );
-            } else {
-                toastr.warning("Debe ingresar todos los datos");
-            }
+                });
+            index++;
+            } );
         };
 
 
-       $scope.cleanBell = function() {
+        /*$scope.save = function(){
+            toastr.warning('Debo guardar');
+            if ($scope._id == null) { //guardar
+                $scope.bell.push({
+                    countBell: $scope.countBell,
+                    hourBell: $scope.hourBell.value,
+                    typeBell: $scope.typeBell
+                });
+            } else { //editar
+                $scope.bell[$scope._id] = {
+                    countBell: $scope.countBell,
+                    hourBell: $scope.hourBell.value,
+                    typeBell: $scope.typeBell
+                };
+            }
+            $scope.cleanBell();
+        };*/
+
+        $scope.cleanBell = function() {
             $scope._id = null;
             $scope.countBell = [];
             $scope.hourBell.value = [];

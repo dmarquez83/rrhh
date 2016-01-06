@@ -97,8 +97,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
               $scope.employees = _(result).where({ 'status':  'Activo' });
           });
           $rootScope.$broadcast('employees', { employeSelections: $scope.employees });
-          console.log($scope.monthSettlementM);
-          console.log($scope.typeSettlement);
+
       };
 
       $rootScope.$on('employees', function (event, values) {

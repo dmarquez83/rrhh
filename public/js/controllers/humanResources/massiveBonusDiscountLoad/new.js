@@ -20,7 +20,6 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
 
     $rootScope.$on('employees', function (event, values) {
-        //console.log(values.employeSelections);
       $scope.employeSelections = values.employeSelections;
     });
 
@@ -31,30 +30,22 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     });
 
     $scope.searchTypeBonus = function (index) {
-
       if($scope.massiveBonus.typeBonus[index] == 'bonus')
         typeBonus = 'bonus';
-
       if($scope.massiveBonus.typeBonus[index] == 'discounts')
         typeBonus = 'discounts';
-
-
       if(typeBonus){
         server.getAll(typeBonus).success(function (data) {
           $scope.type[index] = data;
         });
-
       }
     };
 
     $scope.valtype = function(index){
-
       //Object.keys($scope.massiveBonus.type).splice(1, 1);
       //$scope.massiveBonus.type.splice(1, 1);
-
       var quantity = (Object.keys($scope.massiveBonus.type).length)-1;
       var counter = 0;
-
       angular.forEach($scope.massiveBonus.type, function (type) {
         if(type._id == $scope.massiveBonus.type[index]._id && quantity != counter){
           toastr.error('Error', 'Este nombre ya se encuentra seleccione otro');
@@ -73,7 +64,6 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     }
 
     $scope.save = function(){
-
       if($scope.employeSelections){
         angular.forEach($scope.employeSelections, function (employee) {
           var index = 0;
