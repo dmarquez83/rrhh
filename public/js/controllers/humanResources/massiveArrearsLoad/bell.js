@@ -64,27 +64,22 @@ angular.module('app').controller('BellCtrl', [
             return false;
         };
 
-        $scope.save = function (formIsValid) {
-            if (validate() && formIsValid) {
-                $scope.serverProcess = true;
-                var index = 0;
-                $scope.bellInfo = {};
-                $scope.bellInfo.countBell = '';
-                $scope.bellInfo.hourBell = '';
-                $scope.bellInfo.typeBell = '';
-                angular.forEach($scope.countBell, function () {
-                    $scope.bellInfo.countBell =  $scope.countBell[index];
-                    $scope.bellInfo.hourBell  =  $scope.hourBell[index];
-                    $scope.bellInfo.typeBell  =  $scope.typeBell[index];
-                    console.log($scope.bellInfo);
-                    server.save('bells',$scope.bellInfo).success(function (data) {
-                        $scope.cleanBell();
-                    });
-                index++;
-                } );
-            } else {
-                toastr.warning("Debe ingresar todos los datos");
-            }
+        $scope.save = function () {
+            var index = 0;
+            $scope.bellInfo = {};
+            $scope.bellInfo.countBell = '';
+            $scope.bellInfo.hourBell = '';
+            $scope.bellInfo.typeBell = '';
+            angular.forEach($scope.countBell, function () {
+                $scope.bellInfo.countBell =  $scope.countBell[index];
+                $scope.bellInfo.hourBell  =  $scope.hourBell[index];
+                $scope.bellInfo.typeBell  =  $scope.typeBell[index];
+                console.log($scope.bellInfo,'revisa lo que tienes aqui');
+                server.save('bells',$scope.bellInfo).success(function (data) {
+
+                });
+            index++;
+            } );
         };
 
 

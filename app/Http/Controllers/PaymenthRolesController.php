@@ -55,12 +55,16 @@ class PaymenthRolesController extends Controller {
   public function store()
   {
 	$paymentRoles = Input::all();
-	var_dump($paymentRoles);
-	if(PaymenthRoles::create($paymentRoles)){
-	  return ResultMsgMaker::saveSuccess();
-	}else{
-	  return ResultMsgMaker::error();
+
+	foreach($paymentRoles as $paymentRole){
+	  var_dump($paymentRole);
+	  if(PaymenthRoles::create($paymentRole)){
+		return ResultMsgMaker::saveSuccess();
+	  }else{
+		return ResultMsgMaker::error();
+	  }
 	}
+
   }
 
   public function update($id)

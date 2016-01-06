@@ -136,7 +136,7 @@ angular.module('app').controller('LiquidationCtrl', [
 
       $scope.savePreLiquidarTemp = function(){
           alert('entro');
-
+          $scope.liquidation = [];
           $scope.liquidation_ = {};
           $scope.liquidation_.identification = '';
           $scope.liquidation_.name = '';
@@ -147,13 +147,13 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.ReserveFund = '';
           $scope.liquidation_.LessPersonal = '';
           $scope.liquidation_.discount = '';
-          $scope. liquidation_.advances = '';
+          $scope.liquidation_.advances = '';
           $scope.liquidation_.revenues = '';
           $scope.liquidation_.discounts_ = '';
           $scope.liquidation_.totalToPay = '';
           angular.forEach(($scope.employeSelections), function(employe){
               //$scope.preLiquidation={};
-              console.log(employe,'datos del empleado');
+              //console.log(employe,'datos del empleado');
               $scope.liquidation_.identification = employe.identification;
               $scope.liquidation_.name = employe.names;
               $scope.liquidation_.department = employe.department.name;
@@ -168,19 +168,22 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
 
-            //  $scope.preLiquidation.push(liquidation_);
+              $scope.liquidation.push($scope.liquidation_);
+              $scope.liquidation_ = {};
+              //console.log($scope.liquidation_,'este');
 
-              console.log($scope.liquidation_,'este');
 
-              server.save('paymenthRolesController', $scope.liquidation_).success(function (data) {
-               /*   console.log(data,'data');
-                  $scope.serverProcess = false;
-                  toastr[data.type](data.msg);
-                  if (data.type == 'success') {
-                      $scope.clean();
-                  }*/
-                  //solo esta registrando el ultimo empleado del siglo
-              });
+          });
+          //console.log($scope.liquidation,'este nuevo');
+
+          server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
+              /*   console.log(data,'data');
+               $scope.serverProcess = false;
+               toastr[data.type](data.msg);
+               if (data.type == 'success') {
+               $scope.clean();
+               }*/
+              //solo esta registrando el ultimo empleado del siglo
           });
          // return acumulador;
       };
