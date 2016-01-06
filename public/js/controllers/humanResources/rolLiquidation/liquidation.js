@@ -135,7 +135,6 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.savePreLiquidarTemp = function(){
-          alert('entro');
           $scope.liquidation = [];
           $scope.liquidation_ = {};
           $scope.liquidation_.identification = '';
@@ -167,6 +166,7 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.revenues = $scope.revenues(employe);
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
+              $scope.liquidation_.status = 'preliquidation';
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -186,6 +186,81 @@ angular.module('app').controller('LiquidationCtrl', [
               //solo esta registrando el ultimo empleado del siglo
           });
          // return acumulador;
+      };
+
+      $scope.savePreLiquidar = function(){
+
+          alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
+              function(){
+                  alert('entro');
+                  $scope.liquidation = [];
+                  $scope.liquidation_ = {};
+                  $scope.liquidation_.identification = '';
+                  $scope.liquidation_.name = '';
+                  $scope.liquidation_.department = '';
+                  $scope.liquidation_.grossSalary = '';
+                  $scope.liquidation_.bonus = '';
+                  $scope.liquidation_.commission = '';
+                  $scope.liquidation_.ReserveFund = '';
+                  $scope.liquidation_.LessPersonal = '';
+                  $scope.liquidation_.discount = '';
+                  $scope.liquidation_.advances = '';
+                  $scope.liquidation_.revenues = '';
+                  $scope.liquidation_.discounts_ = '';
+                  $scope.liquidation_.totalToPay = '';
+                  $scope.liquidation_.status = '';
+                  angular.forEach(($scope.employeSelections), function(employe){
+                      $scope.liquidation_.identification = employe.identification;
+                      $scope.liquidation_.name = employe.names;
+                      $scope.liquidation_.department = employe.department.name;
+                      $scope.liquidation_.grossSalary = employe.grossSalary;
+                      $scope.liquidation_.bonus = $scope.addBonus(employe.bonus);
+                      $scope.liquidation_.commission = 0;
+                      $scope.liquidation_.ReserveFund = $scope.ReserveFund(employe);
+                      $scope.liquidation_.LessPersonal = $scope.LessPersonal(employe);
+                      $scope.liquidation_.discount = $scope.addDiscount(employe.discounts);
+                      $scope.liquidation_.advances = 0;
+                      $scope.liquidation_.revenues = $scope.revenues(employe);
+                      $scope.liquidation_.discounts_ = $scope.discounts(employe);
+                      $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
+                      $scope.liquidation_.status = 'liquidation';
+
+                      $scope.liquidation.push($scope.liquidation_);
+                      $scope.liquidation_ = {};
+
+                      employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
+                      var paymenthRole = { 'paymenthRole': angular.copy(employe.discounts) };
+                      server.update('employee', paymenthRole, employe._id).success(function (data) {
+
+                      });
+
+                      var discounts = { 'discounts': [] };
+                      server.update('employee', discounts, employe._id).success(function (data) {
+
+                      });
+
+                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
+                      var paymenthRole = { 'paymenthRole': angular.copy(employe.bonus) };
+                      server.update('employee', paymenthRole, employe._id).success(function (data) {
+
+                      });
+
+                      var bonus = { 'bonus': [] };
+                      server.update('employee', bonus, employe._id).success(function (data) {
+
+                      });
+
+                  });
+
+                  server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
+                      toastr[data.type]('Mensaje de Liquidación de Rol satisfactoria');
+                  });
+              },
+              function(){
+                  alertify.error('Cancel');
+              });
+
+
       };
 
       $scope.cancel = function () {
