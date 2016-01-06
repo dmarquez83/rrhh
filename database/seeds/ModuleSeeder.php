@@ -120,6 +120,17 @@ class ModuleSeeder extends Seeder {
               "isSelected"  => FALSE
             ],
             [
+                  'name' => 'Configuración Timbrado',
+                  'route' => 'cargaTimbrado',
+                  'templateUrl' => 'views/humanResources/massiveArrearsLoad/timbradoSelection.html',
+                  'controller' => 'Bell',
+                  'state' => 'bell',
+                  'isReport'=> 0,
+                  'modelName'=> '',
+                  'isVisible' => TRUE,
+                  "isSelected"  => TRUE
+            ],
+            [
               'name' => 'Carga Masiva de Atrasos',
               'route' => 'cargaMasivaAtrasos',
               'templateUrl' => 'views/humanResources/massiveArrearsLoad/new.html',

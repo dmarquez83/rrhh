@@ -124,6 +124,17 @@ class RoleSeeder extends Seeder {
               'isVisible' => TRUE,
               "isSelected"  => TRUE
             ],
+              [
+                  'name' => 'Configuración Timbrado',
+                  'route' => 'cargaTimbrado',
+                  'templateUrl' => 'views/humanResources/massiveArrearsLoad/timbradoSelection.html',
+                  'controller' => 'Bell',
+                  'state' => 'bell',
+                  'isReport'=> 0,
+                  'modelName'=> '',
+                  'isVisible' => TRUE,
+                  "isSelected"  => TRUE
+              ],
             [
               'name' => 'Carga Masiva de Atrasos',
               'route' => 'cargaMasivaAtrasos',
