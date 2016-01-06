@@ -23,8 +23,8 @@ angular.module('app').controller('LiquidationCtrl', [
            var acumulador = 0;
 
            angular.forEach((bonus), function(datos){
-              // acumulador = acumulador + datos.bonus.value;
-               acumulador = acumulador + datos.value;
+               acumulador = acumulador + datos.bonus.value;
+              // acumulador = acumulador + datos.value;
            });
 
        return acumulador;
@@ -33,8 +33,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.addDiscount = function(discount){
           var acumulador = 0;
           angular.forEach((discount), function(datos){
-             // acumulador = acumulador + datos.discount.value;
-              acumulador = acumulador + datos.value;
+              acumulador = acumulador + datos.discount.value;
+            //  acumulador = acumulador + datos.value;
           });
           return acumulador;
       };
@@ -76,8 +76,8 @@ angular.module('app').controller('LiquidationCtrl', [
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
               angular.forEach((datos.bonus), function(bonusEmp){
-                  //acumulador = acumulador + bonusEmp.bonus.value;
-                  acumulador = acumulador + bonusEmp.value;
+                  acumulador = acumulador + bonusEmp.bonus.value;
+                //  acumulador = acumulador + bonusEmp.value;
               });
           });
           return acumulador;
@@ -103,8 +103,8 @@ angular.module('app').controller('LiquidationCtrl', [
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
               angular.forEach((datos.discounts), function(discountEmp){
-                  //acumulador = acumulador + discountEmp.discount.value;
-                  acumulador = acumulador + discountEmp.value;
+                  acumulador = acumulador + discountEmp.discount.value;
+                 // acumulador = acumulador + discountEmp.value;
               });
           });
           return acumulador;
@@ -151,8 +151,6 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.discounts_ = '';
           $scope.liquidation_.totalToPay = '';
           angular.forEach(($scope.employeSelections), function(employe){
-              //$scope.preLiquidation={};
-              //console.log(employe,'datos del empleado');
               $scope.liquidation_.identification = employe.identification;
               $scope.liquidation_.name = employe.names;
               $scope.liquidation_.department = employe.department.name;
@@ -171,30 +169,20 @@ angular.module('app').controller('LiquidationCtrl', [
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
-              //console.log($scope.liquidation_,'este');
-
 
           });
-          //console.log($scope.liquidation,'este nuevo');
           //buscar al cargar el mes y los empleados los registros de esa colection para saber si hay empleados para liquidar
 
           server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
-              /*   console.log(data,'data');
-               $scope.serverProcess = false;
-               toastr[data.type](data.msg);
-               if (data.type == 'success') {
-               $scope.clean();
-               }*/
-              //solo esta registrando el ultimo empleado del siglo
+              toastr[data.type]('Liquidación de Rol satisfactoria');
+              $modalInstance.dismiss();
           });
-         // return acumulador;
       };
 
       $scope.savePreLiquidar = function(){
 
           alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
               function(){
-                  alert('entro');
                   $scope.liquidation = [];
                   $scope.liquidation_ = {};
                   $scope.liquidation_.identification = '';
@@ -232,19 +220,13 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_ = {};
 
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
-                      var paymenthRole = { 'paymenthRole': angular.copy(employe.discounts) };
+                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
                       server.update('employee', paymenthRole, employe._id).success(function (data) {
 
                       });
 
                       var discounts = { 'discounts': [] };
                       server.update('employee', discounts, employe._id).success(function (data) {
-
-                      });
-
-                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
-                      var paymenthRole = { 'paymenthRole': angular.copy(employe.bonus) };
-                      server.update('employee', paymenthRole, employe._id).success(function (data) {
 
                       });
 
@@ -256,7 +238,8 @@ angular.module('app').controller('LiquidationCtrl', [
                   });
 
                   server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
-                      toastr[data.type]('Mensaje de Liquidación de Rol satisfactoria');
+                      toastr[data.type]('Liquidación de Rol satisfactoria');
+                      $modalInstance.dismiss();
                   });
               },
               function(){
@@ -267,10 +250,14 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.cancel = function () {
-         alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.").set('onok', function() {
+         alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.",
+             function() {
              //$modalInstance.close($location.path( "/" ));/*aqui buscar o preguntar como redirecciono a otra ruta
-             $modalInstance.dismiss();
-          })
+                 $modalInstance.dismiss();
+             },
+             function() {
+                 alertify.error('Cancel');
+          });
 
       };
 

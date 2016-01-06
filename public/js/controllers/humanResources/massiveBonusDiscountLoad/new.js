@@ -77,7 +77,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
               );
               if($scope.searchDiscount.length == 0){
                 employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
-                $scope.assignedDiscounts = angular.copy($scope.massiveBonus.type[index]);
+                $scope.assignedDiscounts = {'discount': angular.copy($scope.massiveBonus.type[index])};
                 $scope.assignedDiscounts.date = moment().format();
                 $scope.assignedDiscounts.frequency = $scope.massiveBonus.frequencyBonus[index];
                 employee.discounts.push($scope.assignedDiscounts);
@@ -96,7 +96,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
               );
               if($scope.searchBonus.length == 0){
                 employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
-                $scope.assignedBonus = angular.copy($scope.massiveBonus.type[index]);
+                $scope.assignedBonus = { 'bonus': angular.copy($scope.massiveBonus.type[index]) };
                 $scope.assignedBonus.date = moment().format();
                 $scope.assignedBonus.frequency = $scope.massiveBonus.frequencyBonus[index];
                 employee.bonus.push($scope.assignedBonus);
@@ -116,3 +116,4 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
     handlePanelAction();
   }
 ]);
+/*hojo redireccionar al home cuando guarde*/
