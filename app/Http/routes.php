@@ -321,6 +321,9 @@ Route::group(['middleware' => 'auth'], function()
     Route::resource('paymentMethods', 'PaymentMethodsController');
     Route::post('paymentMethods/forTable', 'PaymentMethodsController@forTable');
 
+    Route::resource('paymenthRolesController', 'PaymenthRolesController');
+    Route::post('paymenthRolesController/forTable', 'PaymenthRolesController@forTable');
+
     Route::resource('configurationTributationForms', 'ConfigurationTributationFormsController');
     Route::post('configurationTributationForms/forTable', 'ConfigurationTributationFormsController@forTable');
 

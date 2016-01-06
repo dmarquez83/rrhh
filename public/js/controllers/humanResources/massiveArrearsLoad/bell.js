@@ -67,26 +67,20 @@ angular.module('app').controller('BellCtrl', [
         $scope.save = function (formIsValid) {
             if (validate() && formIsValid) {
                 $scope.serverProcess = true;
-
                 var index = 0;
-
+                $scope.bellInfo = {};
+                $scope.bellInfo.countBell = '';
+                $scope.bellInfo.hourBell = '';
+                $scope.bellInfo.typeBell = '';
                 angular.forEach($scope.countBell, function () {
-
-                    var bellInfo = {countBell: $scope.countBell, hourBell:  $scope.hourBell, typeBell: $scope.typeBell};
-
-                    index++;
-
-                    console.log(bellInfo,'inventooo ' + index);
-
-                    $scope.bellInfo.push(bellInfo);
-
+                    $scope.bellInfo.countBell =  $scope.countBell[index];
+                    $scope.bellInfo.hourBell  =  $scope.hourBell[index];
+                    $scope.bellInfo.typeBell  =  $scope.typeBell[index];
                     console.log($scope.bellInfo);
-
-
                     server.save('bells',$scope.bellInfo).success(function (data) {
                         $scope.cleanBell();
                     });
-
+                index++;
                 } );
             } else {
                 toastr.warning("Debe ingresar todos los datos");

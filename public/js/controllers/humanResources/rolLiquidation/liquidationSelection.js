@@ -26,7 +26,7 @@ angular.module('app').controller('liquidationSelectionCtrl', [
             },
             MonthSettlement:function() //scope del modal
             {
-              console.log($scope.monthSettlementM);
+              //console.log($scope.monthSettlementM);
               return $scope.monthSettlementM;
 
             },
