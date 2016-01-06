@@ -117,7 +117,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>H</u>ora</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" id="hourBell[{{ $index+1 }}]" name="hourBell[{{ $index+1 }}]" ng-model="hourBell[$index+1]" placeholder="HH:mm:ss"  ng-value="{{ $index+1 }}"  class="form-control" required tabindex="2" >
+                                <input  type="text" id="hourBell[{{ $index+1 }}]" name="hourBell[{{ $index+1 }}]" ng-model="hourBell[$index+1]" placeholder="HH:mm:ss"  ng-value="{{ $index+1 }}"  class="form-control" required tabindex="2" >
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                             </div>
                             <!--<p ng-show="timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted" class="help-block">Hora no valida</p>-->

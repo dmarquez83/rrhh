@@ -9,16 +9,15 @@ class CreateScheduleConfigurationCollection extends Migration {
 	{
 		Schema::create('ScheduleConfiguration', function($collection)
 		{
-			$collection->unique('countBell');
-			$collection->unique('hourBell');
-            $collection->unique('typeBell');
+			$collection->unique(['countBell']);
+			$collection->unique(['hourBell','typeBell']);
 		});
-	}
 
+	}
 
 	public function down()
 	{
-        Schema::drop('ScheduleConfiguration');
+		Schema::drop('ScheduleConfiguration');
 	}
 
 }
