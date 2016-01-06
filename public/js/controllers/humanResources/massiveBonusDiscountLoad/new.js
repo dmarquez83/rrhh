@@ -64,7 +64,6 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
       });
     };
 
-
     $scope.addBonusDiscount = function() {
       $scope.bonusdiscounts.push({ hecho: true });
     };
@@ -77,56 +76,53 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
 
       if($scope.employeSelections){
         angular.forEach($scope.employeSelections, function (employee) {
-
-          //console.log(employee);
-
           var index = 0;
-
           angular.forEach($scope.massiveBonus.typeBonus, function (type) {
-
-
             if(type == 'discounts'){
-              employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
-              $scope.assignedDiscounts = angular.copy($scope.massiveBonus.type[index]);
-              //$scope.assignedDiscounts.date = moment().format();
-              $scope.assignedDiscounts.frequency = $scope.massiveBonus.frequencyBonus[index];
-              employee.discounts.push($scope.assignedDiscounts);
-              //employee.discounts.push($scope.massiveBonus.frequencyBonus[index]);
-              var discounts = { 'discounts': angular.copy(employee.discounts) };
-              //console.log(discounts);
-              server.update('employee', discounts, employee._id).success(function (data) {
-                toastr[data.type](data.msg);
-              });
+              $scope.searchDiscount = _.map(
+                  _.where(employee.discounts, {code : $scope.massiveBonus.type[index].code}),
+                  function(person) {
+                    return { Name: person.name};
+                  }
+              );
+              if($scope.searchDiscount.length == 0){
+                employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
+                $scope.assignedDiscounts = angular.copy($scope.massiveBonus.type[index]);
+                $scope.assignedDiscounts.date = moment().format();
+                $scope.assignedDiscounts.frequency = $scope.massiveBonus.frequencyBonus[index];
+                employee.discounts.push($scope.assignedDiscounts);
+                var discounts = { 'discounts': angular.copy(employee.discounts) };
+                server.update('employee', discounts, employee._id).success(function (data) {
+                  toastr[data.type](data.msg);
+                });
+              }
             }
-
             if(type == 'bonus'){
-              employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
-              $scope.assignedBonus = angular.copy($scope.massiveBonus.type[index]);
-              //$scope.assignedBonus.date = moment().format();
-              $scope.assignedBonus.frequency = $scope.massiveBonus.frequencyBonus[index];
-              employee.bonus.push($scope.assignedBonus);
-              //employee.bonus.push($scope.massiveBonus.frequencyBonus[index]);
-              var bonus = { 'bonus': angular.copy(employee.bonus) };
-              //console.log(bonus);
-              server.update('employee', bonus, employee._id).success(function (data) {
-                toastr[data.type](data.msg);
-              });
-
+              $scope.searchBonus = _.map(
+                  _.where(employee.bonus, {code : $scope.massiveBonus.type[index].code}),
+                  function(person) {
+                    return { Name: person.name};
+                  }
+              );
+              if($scope.searchBonus.length == 0){
+                employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
+                $scope.assignedBonus = angular.copy($scope.massiveBonus.type[index]);
+                $scope.assignedBonus.date = moment().format();
+                $scope.assignedBonus.frequency = $scope.massiveBonus.frequencyBonus[index];
+                employee.bonus.push($scope.assignedBonus);
+                var bonus = { 'bonus': angular.copy(employee.bonus) };
+                server.update('employee', bonus, employee._id).success(function (data) {
+                  toastr[data.type](data.msg);
+                });
+              }
             }
-
             index++;
-
           });
-
         });
-
       }else {
         toastr.warning('Debe seleccionar al Menos un Empleado');
       }
-
     };
-
-
     handlePanelAction();
   }
 ]);
