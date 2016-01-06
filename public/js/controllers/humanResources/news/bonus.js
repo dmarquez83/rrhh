@@ -56,6 +56,7 @@ angular.module('app').controller('BonusCtrl', [
 
     var save = function(){
       $scope.serverProcess = true;
+      console.log($scope.bond);
       server.save('bonus', $scope.bond).success(function (result) {
         $scope.serverProcess = false;
         toastr[result.type](result.msg);
