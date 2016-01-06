@@ -151,8 +151,6 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.discounts_ = '';
           $scope.liquidation_.totalToPay = '';
           angular.forEach(($scope.employeSelections), function(employe){
-              //$scope.preLiquidation={};
-              //console.log(employe,'datos del empleado');
               $scope.liquidation_.identification = employe.identification;
               $scope.liquidation_.name = employe.names;
               $scope.liquidation_.department = employe.department.name;
@@ -171,30 +169,20 @@ angular.module('app').controller('LiquidationCtrl', [
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
-              //console.log($scope.liquidation_,'este');
-
 
           });
-          //console.log($scope.liquidation,'este nuevo');
           //buscar al cargar el mes y los empleados los registros de esa colection para saber si hay empleados para liquidar
 
           server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
-              /*   console.log(data,'data');
-               $scope.serverProcess = false;
-               toastr[data.type](data.msg);
-               if (data.type == 'success') {
-               $scope.clean();
-               }*/
-              //solo esta registrando el ultimo empleado del siglo
+              toastr[data.type]('Liquidación de Rol satisfactoria');
+              $modalInstance.dismiss();
           });
-         // return acumulador;
       };
 
       $scope.savePreLiquidar = function(){
 
           alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
               function(){
-                  alert('entro');
                   $scope.liquidation = [];
                   $scope.liquidation_ = {};
                   $scope.liquidation_.identification = '';
@@ -256,7 +244,8 @@ angular.module('app').controller('LiquidationCtrl', [
                   });
 
                   server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
-                      toastr[data.type]('Mensaje de Liquidación de Rol satisfactoria');
+                      toastr[data.type]('Liquidación de Rol satisfactoria');
+                      $modalInstance.dismiss();
                   });
               },
               function(){
@@ -267,10 +256,14 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.cancel = function () {
-         alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.").set('onok', function() {
+         alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.",
+             function() {
              //$modalInstance.close($location.path( "/" ));/*aqui buscar o preguntar como redirecciono a otra ruta
-             $modalInstance.dismiss();
-          })
+                 $modalInstance.dismiss();
+             },
+             function() {
+                 alertify.error('Cancel');
+          });
 
       };
 
