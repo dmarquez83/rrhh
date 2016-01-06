@@ -12,18 +12,20 @@ angular.module('app').controller('BellCtrl', [
         $scope.countBell = '';
         $scope.hourBell= '';
         $scope.typeBell= '';
+        $scope.bellInfo = [];
 
         $scope.addBell = function() {
             $scope.bells.push({ hecho: true });
+            console.log($scope.bells,'agregarasss');
         };
 
         $scope.deleteBell = function(index){
             $scope.bells.splice(index, 1);
         };
 
-       server.post('getBells').success(function(result){
+       /*server.post('getBells').success(function(result){
             $scope.bells = (result);
-        });
+        });*/
 
         var editBell = function(selectedBell){
             $scope.isUpdate = true;
@@ -49,7 +51,7 @@ angular.module('app').controller('BellCtrl', [
 
         var validateTypeBell = function(){
             if ($scope.typeBell.length == 0){
-                toastr.warning('Seleccione el tip');
+                toastr.warning('Seleccione el tipo');
                 return false;
             }
             return true;
@@ -65,13 +67,27 @@ angular.module('app').controller('BellCtrl', [
         $scope.save = function (formIsValid) {
             if (validate() && formIsValid) {
                 $scope.serverProcess = true;
-                server.save('bells', $scope.bells).success(function (data) {
-                    $scope.serverProcess = false;
-                    toastr[data.type](data.msg);
-                    if (data.type == 'success') {
-                        $scope.clean();
-                    }
-                });
+
+                var index = 0;
+
+                angular.forEach($scope.countBell, function () {
+
+                    var bellInfo = {countBell: $scope.countBell, hourBell:  $scope.hourBell, typeBell: $scope.typeBell};
+
+                    index++;
+
+                    console.log(bellInfo,'inventooo ' + index);
+
+                    $scope.bellInfo.push(bellInfo);
+
+                    console.log($scope.bellInfo);
+
+
+                    server.save('bells',$scope.bellInfo).success(function (data) {
+                        $scope.cleanBell();
+                    });
+
+                } );
             } else {
                 toastr.warning("Debe ingresar todos los datos");
             }
