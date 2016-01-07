@@ -99,13 +99,13 @@
       <br/>
 
 
-
+      <input type="text" ng-model="sinceDate" ng-value="algo">
       <div class="row" ng-if="typeSettlement == 'monthly'">
         <div class="col-lg-3 col-sm-6 col-xs-12">
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.sinceDate.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>F</u>echa Desde:{{ rolLiquidation.firstDay | date:'yyyy-MM-dd'}}</label>
             <div class="input-group input-group-sm">
-              <input type="text" ng-model="sinceDate" date-id="sinceDate" date-name="sinceDate" ng-disabled="true" ng-required="true" value="{{ rolLiquidation.firstDay | date:'yyyy-MM-dd'}}">
+
             </div>
             <p ng-show="settlementForm.sinceDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
           </div>
@@ -115,7 +115,7 @@
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>F</u>echa Hasta: {{ rolLiquidation.lastDay | date:'yyyy-MM-dd'}} </label>
             <div class="input-group input-group-sm">
-                 <input type="text" ng-model="untilDate" date-id="untilDate" date-name="untilDate" ng-disabled="true" ng-required="true" value="{{ rolLiquidation.lastDay | date:'yyyy-MM-dd'}}">
+                 <input type="text" ng-model="untilDate" date-id="untilDate" date-name="untilDate" ng-disabled="true" ng-required="true" ng-value="{{ rolLiquidation.lastDay | date:'yyyy-MM-dd'}}">
             </div>
             <p ng-show="settlementForm.untilDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
           </div>

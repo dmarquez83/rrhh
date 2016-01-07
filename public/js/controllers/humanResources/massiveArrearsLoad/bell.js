@@ -66,6 +66,7 @@ angular.module('app').controller('BellCtrl', [
 
         $scope.save = function () {
             var index = 0;
+            $scope.bellInfo_=[];
             $scope.bellInfo = {};
             $scope.bellInfo.countBell = '';
             $scope.bellInfo.hourBell = '';
@@ -74,12 +75,19 @@ angular.module('app').controller('BellCtrl', [
                 $scope.bellInfo.countBell =  $scope.countBell[index];
                 $scope.bellInfo.hourBell  =  $scope.hourBell[index];
                 $scope.bellInfo.typeBell  =  $scope.typeBell[index];
-                console.log($scope.bellInfo,'revisa lo que tienes aqui');
-                server.save('bells',$scope.bellInfo).success(function (data) {
+                $scope.bellInfo_.push($scope.bellInfo);
 
-                });
+                console.log($scope.bellInfo,'revisa lo que tienes aqui');
+                console.log($scope.bellInfo_,'arreglo');
+
+                $scope.bellInfo = {};
+
             index++;
             } );
+
+            server.save('bells',$scope.bellInfo_).success(function (data) {
+
+            });
         };
 
 

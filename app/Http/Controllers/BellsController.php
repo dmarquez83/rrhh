@@ -18,17 +18,18 @@ class BellsController extends Controller {
 
     public function store()
     {
-        $bell = Input::all();
-        dd($bell);
-        $bellCreated = Bells::create($bell);
-        if($bellCreated){
-            return ResultMsgMaker::saveSuccess();
-        }else{
-            return ResultMsgMaker::error();
+        $bells = Input::all();
+        var_dump($bells);
+        foreach($bells as $bell){
+            Bells::create($bell);
         }
+        return ResultMsgMaker::saveSuccess();
     }
 
-    public function update($id)
+
+
+
+public function update($id)
     {
         $bell = Input::all();
         $savedBell = Bells::find($id);
