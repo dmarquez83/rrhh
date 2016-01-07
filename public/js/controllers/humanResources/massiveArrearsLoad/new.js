@@ -25,6 +25,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.employeesFile =  [];
     $scope.employeeFile = [];
     $scope.assignedDiscounts = {};
+    $scope.descuento = 0;
     var countsheets = 0;
     var quantitycol = 0;
     var col1 = '';
