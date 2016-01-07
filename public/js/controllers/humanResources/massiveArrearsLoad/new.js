@@ -8,44 +8,31 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
+    $scope.datafile = [];
+    $scope.datafilset = [];
+    $scope.dataemployee = '';
+    $scope.databackup = [];
+    $scope.initialheader = true;
+    $scope.endheader = false;
+    $scope.configuration =
+         [{_id: 1, hour: '08:00', type: 'in'},
+          {_id: 2, hour: '13:00', type: 'out'},
+          {_id: 3, hour: '14:00', type: 'in'},
+          {_id: 4, hour: '17:00', type: 'out'}];
     $scope.Math = window.Math;
-    //console.log($scope.Math.abs(-7.25));
-    $scope.datos = [];
-    $scope.datosNuevo = [];
-    $scope.datosListos = [];
-    $scope.datosListos2 = [];
-  //  $scope.datosListos2.columns = [];
-    $scope.datosRespaldo = [];
-    $scope.datosGroup = [];
     $scope.validated = false;
     $scope.employees = [];
-    $scope.date = [];
     $scope.employeesFile =  [];
-    $scope.cabeceraInicial = true;
-    $scope.cabeceraFinal = false;
-    $scope.pertenece = '';
-    $scope.perteneceType = '';
     $scope.employeeFile = [];
     $scope.assignedDiscounts = {};
-    $scope.configuracion =
-     [{_id: 1, hour: '08:00', type: 'in'},
-      {_id: 2, hour: '13:00', type: 'out'},
-      {_id: 3, hour: '14:00', type: 'in'},
-      {_id: 4, hour: '17:00', type: 'out'}];
-
-
     var countsheets = 0;
     var quantitycol = 0;
     var col1 = '';
     var col2 = '';
     var col3 = '';
     var message='';
-    var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-
-
 
     $scope.fileChanged = function(files) {
-
       $scope.namefile = (files[0].name);
       $scope.typefile = $scope.namefile.split('.')[1];
       if (($scope.typefile == 'xls')  || ($scope.typefile == 'xlsx') ){
@@ -60,10 +47,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             toastr.error('Error', 'El archivo Excel tiene mas de 1 Hoja de trabajo');
           }else{
             angular.forEach($scope.sheets, function (sheetData, sheetName) {
-
               angular.forEach(sheetData, function (row) {
-
-
                 quantitycol = (Object.keys(row).length);
                 if(quantitycol == 3){
                   col1 = (Object.keys(row)[0]);
@@ -79,7 +63,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
                 }
               });
               if ($scope.validated) {
-                $scope.datos = sheetData;
+                $scope.datafile = sheetData;
               }else{
                 toastr.error('Error', message);
               }
@@ -90,47 +74,37 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       {
         toastr.error('Error', 'El Tipo de archivo permitido es .xls y .xlsx');
       }
+      console.log($scope.datafile);
+    };
 
-    }
-
-
-
-    $scope.enviar = function(){
+    $scope.send = function(){
 
       var dateval = false;
 
-      angular.forEach($scope.datos, function (row) {
+      angular.forEach($scope.datafile, function (row) {
         var myarr = row.Fecha.split("/");
-        var fecha = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
-        //console.log(row.Codigo,row.Fecha,row.Hora,fecha);
-        var objDate = new Date(fecha),
+        var dateFile = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
+        var objDate = new Date(dateFile),
             locale = "en-us",
             month = objDate.toLocaleString(locale, { month: "long" });
         if($scope.monthSearch==month){
           dateval = true;
-          $scope.datosNuevo.push(row);
-          //var datosNuevos = {Codigo : row.Codigo, Fecha : row.Fecha, Hora : row.Hora};
+          $scope.datafilset.push(row);
         }
       });
 
       server.post('getEmployees').success(function(result){
-
-        var Codigos = _($scope.datos).pluck('Codigo').map(function (value){return {'Codigo': value } });
-
+        var Codigos = _($scope.datafile).pluck('Codigo').map(function (value){return {'Codigo': value } });
         angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
           $scope.employees = _(result).where({ 'code':  row[0].Codigo });
-          //console.log(row[0].Codigo, $scope.employees[0]);
           $scope.employeesFile.push($scope.employees[0]);
-
         });
-
       });
 
-
-      $scope.datos = $scope.datosNuevo;
-      $scope.datosRespaldo = $scope.datosNuevo;
-      $scope.cabeceraInicial = false;
-      $scope.cabeceraFinal = true;
+      $scope.datafile = $scope.datafilset;
+      $scope.databackup = $scope.datafile;
+      $scope.initialheader = false;
+      $scope.endheader = true;
 
       if(!dateval){
         alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
@@ -138,75 +112,68 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     }
 
     $scope.serachEmploye = function(){
-      $scope.prueba = [];
-      $scope.prueba2 = [];
-      var myConf = '';
-      var groupDate = '';
-      var groupDate2 = '';
-      $scope.DateFile = '';
-      $scope.datosNuevo= '';
-      $scope.datosListos='';
-      $scope.pertenece = 0;
-      $scope.datosListos2 =[];
+      $scope.datarow = [];
+      $scope.datarow_ =[];
+      $scope.datarow_groupby = [];
+      $scope.dataemployeedate={};
+      $scope.resultdata = '';
 
-      $scope.datosNuevo = _.map(
-          _.where($scope.datosRespaldo, {Codigo : $scope.employeeFile.code}),
+      $scope.dataemployee = _.map(
+          _.where($scope.databackup, {Codigo : $scope.employeeFile.code}),
           function(person) {
             return { Codigo: person.Codigo, Fecha: person.Fecha, Hora: person.Hora};
           }
       );
-      var groupDate =_.groupBy($scope.datosNuevo, 'Fecha');
-      angular.forEach((groupDate), function(row){ //itero los datos de cada empleado seleccionado en el select
-        $scope.datosListos = _.map(
-            _.where($scope.datosNuevo, {Fecha : row[0].Fecha}),
+      var groupDate =_.groupBy($scope.dataemployee, 'Fecha');
+      angular.forEach((groupDate), function(row){ //itero los datos agrupados por fecha de cada empleado seleccionado en el select - devuelve las fechas agrupadas
+        $scope.dataemployeedate = _.map(
+            _.where($scope.dataemployee, {Fecha : row[0].Fecha}),
             function(person) {
               return { Codigo: person.Codigo, Fecha: person.Fecha, Hora: person.Hora};
             }
         );
-            var i = 1;
-            angular.forEach(($scope.datosListos), function(datos){ //itero los datos agrupados por fecha de cada empleado seleccionado en el select
-                  var valorInicial = 99;
-                  angular.forEach(($scope.configuracion), function(conf){ //itero los datos de la configuracion para compararlos con la hora del marcaje
-                    var resultRest = FactorysubtractHours.subtractHours(conf.hour,datos.Hora);
-                    if (parseInt(valorInicial) >= $scope.Math.abs(parseInt(resultRest)) ){
-                      valorInicial = resultRest;
-                      $scope.pertenece = conf.hour;
-                      $scope.perteneceType = conf.type;
-                    }
-                  });
-              var color =  FactoryArrears.Arrears($scope.pertenece,datos.Hora,$scope.perteneceType);
-              $scope.prueba[i] = ({hour:$scope.pertenece, type: $scope.perteneceType, register: {hora:datos.Hora,color: color}});
-              $scope.pertenece = 0;
-              $scope.datosListos2.push({Fecha: row[0].Fecha, Columns: [$scope.prueba[i]]});
-              i++;
-            });
-        $scope.prueba2 =_.groupBy($scope.datosListos2, 'Fecha');
+        var i = 1;
+        angular.forEach(($scope.dataemployeedate), function(datos){ //itero los datos filtrados por cada fecha de cada empleado seleccionado en el combo de empleados
+          var valorInicial = 99;
+          $scope.hourconf = 0;
+          angular.forEach(($scope.configuration), function(conf){ //itero los datos de la configuracion para compararlos con la hora del marcaje
+            var resultRest = FactorysubtractHours.subtractHours(conf.hour,datos.Hora);
+            if (parseInt(valorInicial) >= $scope.Math.abs(parseInt(resultRest)) ){
+              valorInicial = resultRest;
+              $scope.hourconf = conf.hour;
+              $scope.hourconfType = conf.type;
+            }
+          });
+          var color =  FactoryArrears.Arrears($scope.hourconf,datos.Hora,$scope.hourconfType);
+          $scope.datarow[i] = ({hour:$scope.hourconf, type: $scope.hourconfType, register: {hora:datos.Hora,color: color}});
+
+          $scope.datarow_.push({Fecha: row[0].Fecha, Columns: [$scope.datarow[i]]});
+          i++;
+        });
+        $scope.datarow_groupby =_.groupBy($scope.datarow_, 'Fecha');
 
       });
-      //console.log($scope.prueba2,'agrupado');
-      $scope.DateFile = _.values($scope.prueba2);
-      //console.log(JSON.stringify($scope.DateFile));
-      //console.log($scope.DateFile);
-      //estoy parada con el  <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue"> si le envio 0 sale el de los otros empleados si le paso el index solo de uno
+      //console.log($scope.datarow_groupby,'agrupado');
+      $scope.resultdata = _.values($scope.datarow_groupby);
+      console.log(JSON.stringify($scope.resultdata),'json');
+      console.log($scope.resultdata,'normal');
+      //estoy parada con el  <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
+      // si le envio 0 sale el de los otros empleados si le paso el index solo de uno
     };
 
 
     $scope.save = function(){
 
-      server.post('getDiscounts').success(function(result){
-          $scope.discounts = _(result).where({ 'code':  'descuento00003' });
-          console.log($scope.discounts);
-          $scope.discounts[0].value = ($scope.descuento);
-
-          $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
-          $scope.assignedDiscounts = $scope.discounts;
-          $scope.employeeFile.discounts.push($scope.assignedDiscounts);
-          var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
-          console.log(discounts);
-          server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
-            toastr[data.type](data.msg);
-          });
-        });
+      $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
+      $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:$scope.descuento}};
+      $scope.assignedDiscounts.date = moment().format();
+      $scope.assignedDiscounts.frequency = 'once';
+      $scope.employeeFile.discounts.push($scope.assignedDiscounts);
+      var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
+      //console.log(discounts);
+      server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
+        toastr[data.type](data.msg);
+      });
     };
     handlePanelAction();
   }
