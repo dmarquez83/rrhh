@@ -100,23 +100,26 @@
 
 
       <div class="row" ng-if="typeSettlement == 'monthly'">
-          <div class="col-lg-3 col-sm-6 col-xs-12">
-              <div class="form-group" ng-class="{ 'has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
-                  <label class="control-label"><u>F</u>echa Desde: {{ rolLiquidation.firstDay | date:'yyyy-MM-dd'}} </label>
-                  <div>
-                      <input type="text" ng-model="sinceDate" id="sinceDate" name="sinceDate" ng-disabled="true" ng-required="true" ng-value="{{ rolLiquidation.firstDay | date:'yyyy-MM-dd'}}">
-                  </div>
-                  <p ng-show="settlementForm.untilDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
-              </div>
-          </div>
 
-        <div class="col-lg-3 col-sm-6 col-xs-12">
-          <div class="form-group" ng-class="{ 'has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
-            <label class="control-label"><u>F</u>echa Hasta: {{ rolLiquidation.lastDay | date:'yyyy-MM-dd'}} </label>
-            <div>
-                 <input type="text" ng-model="untilDate" id="untilDate" name="untilDate" ng-disabled="true" ng-required="true" ng-value="{{ rolLiquidation.lastDay | date:'yyyy-MM-dd'}}">
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ ''has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>F</u>echa Desde:</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" tabindex="2" ng-disabled="true" value="{{rolLiquidation.firstDay|date:'yyyy-MM-dd'}}">
+              <input type="hidden" ng-model="sinceDate" id="sinceDate" name="sinceDate" value="{{rolLiquidation.firstDay|date:'yyyy-MM-dd'}}">
+              <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
             </div>
-            <p ng-show="settlementForm.untilDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group" ng-class="{ ''has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
+            <label class="control-label"><u>F</u>echa Hasta:</label>
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" tabindex="2" ng-disabled="true" value="{{rolLiquidation.lastDay|date:'yyyy-MM-dd'}}">
+              <input type="hidden" ng-model="untilDate" id="untilDate" name="untilDate" value="{{rolLiquidation.lastDay|date:'yyyy-MM-dd'}}">
+              <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+            </div>
           </div>
         </div>
       </div>
