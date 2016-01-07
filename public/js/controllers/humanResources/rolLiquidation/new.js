@@ -110,6 +110,27 @@ angular.module('app').controller('RolLiquidationCtrl', [
       //buscar si hay liquidaciones en el mes/quincena seleccionada y arrojar mensaje si ya fue hecha
     };
 
+      $scope.listFechas= function(){
+          //alert('Tipo ' + $scope.typeSettlement);
+          $scope.rolLiquidation.firstDay='';
+          $scope.rolLiquidation.lastDay='';
+
+          $scope.date = new Date();
+          $scope.anhoAct = $scope.date.getFullYear();
+
+          if($scope.typeSettlement=='monthly'){
+              $scope.mesSel = $scope.rolLiquidation.monthSettlement;
+
+              //alert('Año ' + $scope.anhoAct + ' ,  Mes' + $scope.rolLiquidation.monthSettlement);
+
+              $scope.rolLiquidation.firstDay =  new Date($scope.anhoAct, $scope.mesSel - 1, 1);
+              $scope.rolLiquidation.lastDay = new Date($scope.anhoAct,$scope.mesSel, 0);
+          }
+
+          //console.log('Debes imprimir', $scope.rolLiquidation.firstDay, $scope.rolLiquidation.lastDay);
+
+
+      };
 
 
 
