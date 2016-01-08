@@ -14,7 +14,7 @@
     <h4 class="panel-title">PreLiquidación de Rol</h4>
   </div>
   <div class="panel-body">
-    <form ng-submit="save(settlementForm.$valid)" name="settlementForm">
+    <form ng-submit="save(settlementForm.$valid)" name="settlementForm" ng-controller="RolLiquidationCtrl">
 
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -150,7 +150,7 @@
 
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
-          <button class="btn btn-primary" type="botton" ng-click="openDptoEmployeModal()" ng-controller="RolLiquidationCtrl">Seleccionar Empleados</button>
+          <button class="btn btn-primary" type="botton" ng-click="openDptoEmployeModal()" ng-controller="EmployeeLiquidationSelection">Seleccionar Empleados</button>
         </div>
       </div>
 
