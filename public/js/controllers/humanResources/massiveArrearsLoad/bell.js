@@ -23,15 +23,15 @@ angular.module('app').controller('BellCtrl', [
             $scope.bells.splice(index, 1);
         };
 
-       /*server.post('getBells').success(function(result){
+       server.post('getBells').success(function(result){
             $scope.bells = (result);
-        });*/
+        });
 
-        var editBell = function(selectedBell){
+        /*var editBell = function(selectedBell){
             $scope.isUpdate = true;
             $scope.bells = selectedBell;
             $scope.$digest();
-        };
+        };*/
 
         var validateCountBell = function(){
             if ($scope.countBell.length == 0){
