@@ -86,18 +86,19 @@
                 </thead>
                 <tbody ng-show="endheader">
 
-                    <tr  ng-repeat="datosarchivo in resultdata track by $index"  class="cursorPointer">
+                    <tr  ng-repeat="datosarchivo in data"  class="cursorPointer">
 
-                            <td>{{ datosarchivo[0].Fecha }} </td>
+                            <td>{{ datosarchivo.Fecha }}</td>
 
-                            <td ng-repeat="colconfiguration in configuration "  class="cursorPointer" >
-                                <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
-                                    <div ng-if=" col.hour == colconfiguration.hour "  >
-                                        {{col.register.hora}}
-                                    </div>
-                                </div>
+                          <td ng-repeat="colarray in datosarchivo.Columnas "  class="cursorPointer" >
+                              {{colarray}}
+                              <!--   <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
+                                   <div ng-if=" col.hour == colconfiguration.hour "  >
+                                       {{col.register.hora}}
+                                   </div>
+                               </div>-->
 
-                            </td>
+                          </td>
                     </tr>
                 </tbody>
             </table>
