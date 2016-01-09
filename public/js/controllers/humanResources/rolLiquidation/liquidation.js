@@ -92,8 +92,22 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.ReserveFund = function(employee){
-          var reserve_fund =  (employee.grossSalary + $scope.addBonus(employee.bonus))/12 ;
+
+          var DateTime = new Date();
+          var date = DateTime.getFullYear();
+          var objDate = new Date(employee.lastStateDate),
+              locale = "en-us",
+              year = objDate.toLocaleString(locale, { year: "numeric" });
+          var antiguedad = parseInt(date) - parseInt(year);
+          if(antiguedad>1){
+              var reserve_fund =  (employee.grossSalary + $scope.addBonus(employee.bonus))/12 ;
+          }else{
+              var reserve_fund =0;
+          }
+
           return reserve_fund;
+
+
       };
 
       $scope.LessPersonal = function(employee){
@@ -180,6 +194,15 @@ angular.module('app').controller('LiquidationCtrl', [
           });
           return acumulador;
 
+      };
+
+
+      $scope.clean = function () {
+          $scope.typeSettlement='';
+          $scope.rolLiquidation.monthSettlement = '';
+          $scope.rolLiquidation.firstDay='';
+          $scope.rolLiquidation.lastDay='';
+          $scope.employeSelections = [];
       };
 
       $scope.savePreLiquidarTemp = function(){
@@ -323,7 +346,12 @@ angular.module('app').controller('LiquidationCtrl', [
                   });
                   console.log($scope.liquidation);
                   server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
-                      toastr[data.type]('Liquidación de Rol satisfactoria');
+                      if (data.type == 'success') {
+                          toastr[data.type]('Liquidación de Rol satisfactoria');
+                          $scope.clean();
+                      }else{
+                          toastr[data.type]('No se pudo realizar la Liquidación de Rol');
+                      }
                       $modalInstance.dismiss();
                   });
               },
