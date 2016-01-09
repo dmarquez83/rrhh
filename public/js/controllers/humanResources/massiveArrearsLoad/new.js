@@ -165,7 +165,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             var i=0;
             angular.forEach(($scope.configuration),function(conf){
               if(dataRegister.hour == conf.hour ){
-                $scope.columnas[i]=dataRegister.register.hora;
+                $scope.columnas[i]={Hora: dataRegister.register.hora, Color:dataRegister.register.color};
               }else{
                 if(!$scope.columnas[i]){
                   $scope.columnas[i]='';
@@ -175,11 +175,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             });
           });
         });
-        console.log(data[0].Fecha,'fecha',$scope.columnas,'hora conf');
         $scope.data.push({Fecha:data[0].Fecha, Columnas:$scope.columnas});
       });
-
-      console.log($scope.data);
     };
 
 
