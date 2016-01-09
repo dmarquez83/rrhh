@@ -25,7 +25,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.employeesFile =  [];
     $scope.employeeFile = [];
     $scope.assignedDiscounts = {};
-    $scope.descuento = 0;
+    $scope.descuento = 0.00;
     var countsheets = 0;
     var quantitycol = 0;
     var col1 = '';
@@ -165,8 +165,10 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.save = function(){
 
+      //falta validaciones que tengo seleccionado un empleado para grabar  y que el descuento sea numerico
+
       $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
-      $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:$scope.descuento}};
+      $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
       $scope.assignedDiscounts.date = moment().format();
       $scope.assignedDiscounts.frequency = 'once';
       $scope.employeeFile.discounts.push($scope.assignedDiscounts);
