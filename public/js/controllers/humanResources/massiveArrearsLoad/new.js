@@ -182,18 +182,18 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.save = function(){
 
-      //falta validaciones que tengo seleccionado un empleado para grabar  y que el descuento sea numerico
+       $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
+       $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
+       $scope.assignedDiscounts.date = moment().format();
+       $scope.assignedDiscounts.frequency = 'once';
+       $scope.employeeFile.discounts.push($scope.assignedDiscounts);
+       var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
+       //console.log(discounts);
+       server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
+         toastr[data.type](data.msg);
+       });
 
-      $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
-      $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
-      $scope.assignedDiscounts.date = moment().format();
-      $scope.assignedDiscounts.frequency = 'once';
-      $scope.employeeFile.discounts.push($scope.assignedDiscounts);
-      var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
-      //console.log(discounts);
-      server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
-        toastr[data.type](data.msg);
-      });
+
     };
     handlePanelAction();
   }
