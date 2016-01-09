@@ -12,6 +12,18 @@ angular.module('app').controller('EmployeeRollLiquidation', [
         $scope.employeSelections = [];
         $scope.countEmployee = 0;
 
+        server.post('getEmployees').success(function (result) {
+            $scope.employees = _(result).where({'status': 'Activo'});
+            $rootScope.$broadcast('employees', {employeSelections: $scope.employees});
+            $scope.selectedAll = true;
+            $scope.countEmployee = $scope.employees.length;
+            angular.forEach($scope.employees, function (employe) {
+                employe.Selected = $scope.selectedAll;
+            });
+        });
+
+
+
         $scope.$on('employees', function (event, values) {
             $scope.employeSelections = values.employeSelections;
         });

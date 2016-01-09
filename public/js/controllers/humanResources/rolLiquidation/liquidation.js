@@ -151,6 +151,26 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.totalToPay = '';
           $scope.liquidation_.status = '';
           $scope.liquidation_.monthliquidation = '';
+
+          if($scope.typeSettlement=='monthly'){
+              $scope.mesSel = $scope.monthSettlement;
+          }else{
+              $scope.mesSel = $scope.monthSettlement;
+              if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mesSel= 1;
+              if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mesSel= 2;
+              if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mesSel= 3;
+              if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mesSel= 4;
+              if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mesSel= 5;
+              if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mesSel= 6;
+              if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mesSel= 7;
+              if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mesSel= 8;
+              if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mesSel= 9;
+              if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mesSel= 10;
+              if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mesSel= 11;
+              if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mesSel= 12;
+
+          }
+
           angular.forEach(($scope.employeSelections), function(employe){
               $scope.liquidation_.identification = employe.identification;
               $scope.liquidation_.name = employe.names;
@@ -166,7 +186,7 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
               $scope.liquidation_.status = 'preliquidation';
-              $scope.liquidation_.monthliquidation = $scope.monthSettlement;
+              $scope.liquidation_.monthliquidation = $scope.mesSel;
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -201,6 +221,26 @@ angular.module('app').controller('LiquidationCtrl', [
                   $scope.liquidation_.totalToPay = '';
                   $scope.liquidation_.status = '';
                   $scope.liquidation_.monthliquidation = '';
+
+                  if($scope.typeSettlement=='monthly'){
+                      $scope.mesSel = $scope.monthSettlement;
+                  }else{
+                      $scope.mesSel = $scope.monthSettlement;
+                      if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mesSel= 1;
+                      if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mesSel= 2;
+                      if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mesSel= 3;
+                      if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mesSel= 4;
+                      if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mesSel= 5;
+                      if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mesSel= 6;
+                      if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mesSel= 7;
+                      if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mesSel= 8;
+                      if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mesSel= 9;
+                      if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mesSel= 10;
+                      if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mesSel= 11;
+                      if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mesSel= 12;
+
+                  }
+
                   angular.forEach(($scope.employeSelections), function(employe){
                       $scope.liquidation_.identification = employe.identification;
                       $scope.liquidation_.name = employe.names;
@@ -216,7 +256,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.discounts_ = $scope.discounts(employe);
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
                       $scope.liquidation_.status = 'liquidation';
-                      $scope.liquidation_.monthliquidation = $scope.monthSettlement;
+                      $scope.liquidation_.monthliquidation = $scope.mesSel;
 
                       $scope.liquidation.push($scope.liquidation_);
                       $scope.liquidation_ = {};

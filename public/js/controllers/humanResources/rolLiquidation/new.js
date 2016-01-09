@@ -15,6 +15,10 @@ angular.module('app').controller('RolLiquidationCtrl', [
         $scope.prueba = 'hola';
         $scope.paymenthroles=[];
 
+        $rootScope.$on('employees', function (event, values) {
+            $scope.employeSelections = values.employeSelections;
+        });
+
 
         $scope.searchEmployeAct = function () {
 
