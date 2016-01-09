@@ -62,7 +62,7 @@
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
             <div class="input-group input-group-sm">
-              <select class="form-control" placeholder=""  ng-model="rolLiquidation.monthSettlement" ng-required="true" tabindex="21">
+              <select class="form-control" placeholder=""  ng-model="rolLiquidation.monthSettlement" ng-required="true" tabindex="21" ng-change="listFechas()">
                 <option value=""></option>
                 <option value="1">Enero 1</option>
                 <option value="2">Enero 2</option>
@@ -99,7 +99,7 @@
       <br/>
 
 
-      <div class="row" ng-if="typeSettlement == 'monthly'">
+      <div class="row" ng-if="typeSettlement">
 
         <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.rolLiquidation.firstDay.$invalid && settlementForm.$submitted}">
@@ -120,28 +120,6 @@
               <input type="text" class="form-control" tabindex="2" ng-disabled="true" ng-model="rolLiquidation.lastDay"   >
               <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row" ng-if="typeSettlement == 'biweekly' ">
-        <div class="col-lg-3 col-sm-6 col-xs-12">
-          <div class="form-group" ng-class="{ 'has-error' : settlementForm.sinceDate.$invalid && settlementForm.$submitted}">
-            <label class="control-label"><u>F</u>echa Desde:</label>
-            <div class="input-group input-group-sm"
-                 input-date ng-model="sinceDate" date-id="sinceDate" date-name="sinceDate" ng-disabled="isUpdate" ng-required="true">
-            </div>
-            <p ng-show="settlementForm.sinceDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-sm-6 col-xs-12">
-          <div class="form-group" ng-class="{ 'has-error' : settlementForm.untilDate.$invalid && settlementForm.$submitted}">
-            <label class="control-label"><u>F</u>echa Hasta:</label>
-            <div class="input-group input-group-sm"
-                 input-date ng-model="untilDate" date-id="untilDate" date-name="untilDate" ng-disabled="isUpdate" ng-required="true">
-            </div>
-            <p ng-show="settlementForm.untilDate.$invalid && settlementForm.$submitted" class="help-block">Campo Obligatorio</p>
           </div>
         </div>
       </div>
