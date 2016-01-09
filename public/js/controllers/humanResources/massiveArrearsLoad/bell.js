@@ -9,10 +9,11 @@ angular.module('app').controller('BellCtrl', [
         $scope.isUpdate = false;
         $scope.bells = [];
         $scope._id = null;
-        $scope.countBell = '';
-        $scope.hourBell= '';
-        $scope.typeBell= '';
+        $scope.countBell =[];
+        $scope.hourBell= [];
+        $scope.typeBell= [];
         $scope.bellInfo = [];
+
 
         $scope.addBell = function() {
             $scope.bells.push({ hecho: true });
@@ -23,9 +24,21 @@ angular.module('app').controller('BellCtrl', [
             $scope.bells.splice(index, 1);
         };
 
-       /*server.post('getBells').success(function(result){
+       server.post('getBells').success(function(result){
             $scope.bells = (result);
-        });*/
+           var indice =0;
+           angular.forEach(($scope.bells), function(row){
+
+               console.log(row,'este',row.countBellindice);
+               $scope.countBell[indice] = row.countBell;
+               $scope.hourBell[indice] = row.hourBell;
+               $scope.typeBell[indice] = row.typeBell;
+               indice++;
+
+           });
+        });
+
+
 
         var editBell = function(selectedBell){
             $scope.isUpdate = true;
