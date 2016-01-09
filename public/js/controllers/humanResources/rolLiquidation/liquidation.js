@@ -18,6 +18,42 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
 
+      $scope.deleteBonus = function(employe){
+          var i=0;
+          var id = employe._id;
+          angular.forEach((employe.bonus), function(datos){
+              var objDate = new Date(datos.date),
+                  locale = "en-us",
+                  month = objDate.toLocaleString(locale, { month: "2-digit" });
+              if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                  //console.log('entro',datos,i);
+                  employe.bonus.splice(i, 1);
+                  var bonus = { 'bonus': angular.copy(employe.bonus) };
+                  server.update('employee', bonus, id).success(function (data) {
+                  });
+              }
+              i++;
+          });
+      };
+
+      $scope.deleteDiscount = function(employe){
+          var i=0;
+          var id = employe._id;
+          angular.forEach((employe.discounts), function(datos){
+              var objDate = new Date(datos.date),
+                  locale = "en-us",
+                  month = objDate.toLocaleString(locale, { month: "2-digit" });
+              if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                  //console.log('entro',datos,i);
+                  employe.discounts.splice(i, 1);
+                  var discounts = { 'discounts': angular.copy(employe.discounts) };
+                  server.update('employee', discounts, id).success(function (data) {
+                  });
+              }
+              i++;
+          });
+      };
+
        $scope.addBonus = function(bonus){
            var acumulador = 0;
 
@@ -143,6 +179,7 @@ angular.module('app').controller('LiquidationCtrl', [
               acumulador = acumulador + $scope.totalToPay(datos);
           });
           return acumulador;
+
       };
 
       $scope.savePreLiquidarTemp = function(){
@@ -274,20 +311,14 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_ = {};
 
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
+                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
                       var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
                       server.update('employee', paymenthRole, employe._id).success(function (data) {
-
+                          $scope.deleteBonus(employe);
+                          $scope.deleteDiscount(employe);
                       });
 
-                      var discounts = { 'discounts': [] };
-                      server.update('employee', discounts, employe._id).success(function (data) {
-
-                      });
-
-                      var bonus = { 'bonus': [] };
-                      server.update('employee', bonus, employe._id).success(function (data) {
-
-                      });
+                    //ojo revisar la validacion si ya tiene un bonus o descuento agregado no lo deje agregar en masivo de bonus y descuneto
 
                   });
                   console.log($scope.liquidation);
