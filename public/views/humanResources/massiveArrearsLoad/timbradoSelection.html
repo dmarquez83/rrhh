@@ -1,38 +1,8 @@
-
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Recursos Humanos</a></li>
+    <li><a href="javascript:;">Configuraci&oacute;n de Timbrado</a></li>
+</ol>
 <h1 class="page-header">Configuraci&oacute;n de Timbrado</h1>
-
-<!--<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
-    <div class="panel-heading">
-        <div class="panel-heading-btn">
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-        </div>
-        <h4 class="panel-title">Timbres</h4>
-    </div>
-    <div class="panel-body" data-ng-controller="BellCtrl">
-        <table class="table-condensed" datatable="bells">
-            <thead>
-            <tr>
-                <th> Contador </th>
-                <th> Hora </th>
-                <th> Tipo </th>
-                <th> </th>
-                <th> </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="bell in bells track by $index"  class="cursorPointer">
-                <td> {{ bell.countBell }} </td>
-                <td> {{ bell.hourBell }} </td>
-                <td> {{ bell.typeBell }} </td>
-                <td> <a href="javascript:void(0);" class="btn btn-info" ng-click="editBell($index)">Editar</a></td>
-                <td> <a href="javascript:void(0);" class="btn btn-danger" ng-click="delete($index)">Eliminar</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
--->
 
 <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
     <div class="panel-heading">
@@ -59,7 +29,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.countBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>C</u>ontador</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" ng-value="{{ countBell }} " ng-model="countBell[0]" id="countBell[0]" name="countBell[0]" required class="form-control" tabindex="2">
+                                <input type="text" ng-model="countBell[0]" id="countBell[0]" name="countBell[0]" required class="form-control" tabindex="1">
                             <span class="input-group-addon"><i class="fa fa-credit-card"></i></span></div>
                         </div>
                     </div>
@@ -68,7 +38,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>H</u>ora</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" id="hourBell[0]" name="hourBell[0]" ng-model="hourBell[0]" placeholder="HH:mm:ss"  class="form-control" required tabindex="2" >
+                                <input type="text" ng-model="hourBell[0]" id="hourBell[0]" name="hourBell[0]"  placeholder="HH:mm:ss"  class="form-control" required tabindex="2" >
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                             </div>
                             <!--<p ng-show="timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted" class="help-block">Hora no valida</p>-->
@@ -81,8 +51,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.typeBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>T</u>ipo</label>
                             <div class="input-group input-group-sm">
-                                <select class="form-control" placeholder="" ng-required="true" ng-model="typeBell[0]" id="typeBell[0]" name="typeBell[0]" tabindex="21">
-                                    <option value=""></option>
+                                <select class="form-control" ng-model="typeBell[0]" placeholder="" ng-required="true"  id="typeBell[0]" name="typeBell[0]" tabindex="3">
                                     <option value="in">Entrada</option>
                                     <option value="out">Salida</option>
                                 </select>
@@ -93,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="row" ng-repeat="bell in bells track by $index">
+                <div class="row" ng-repeat="bell in bells">
 
                     <div class="col-md-1">
                         <div class="form-group" >
@@ -108,7 +77,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.countBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>C</u>ontador</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" ng-model="countBell[$index+1]" name="countBell[{{ $index+1 }}]" id="countBell[{{ $index+1 }}]" ng-value="{{ $index+1 }}" required class="form-control" tabindex="2">
+                                <input type="text" ng-model="countBell[$index+1]" name="countBell[{{ $index+1 }}]" id="countBell[{{ $index+1 }}]" ng-value="{{ $index+1 }}" required class="form-control" tabindex="{{ ($index+1)*3 + 1 }}">
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span></div>
                         </div>
                     </div>
@@ -117,7 +86,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>H</u>ora</label>
                             <div class="input-group input-group-sm">
-                                <input  type="text" id="hourBell[{{ $index+1 }}]" name="hourBell[{{ $index+1 }}]" ng-model="hourBell[$index+1]" placeholder="HH:mm:ss"  ng-value="{{ $index+1 }}"  class="form-control" required tabindex="2" >
+                                <input  type="text" ng-model="hourBell[$index+1]" id="hourBell[{{ $index+1 }}]" name="hourBell[{{ $index+1 }}]" placeholder="HH:mm:ss"  ng-value="{{ $index+1 }}"  class="form-control" required tabindex="{{ ($index+1)*3 + 2 }}" >
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
                             </div>
                             <!--<p ng-show="timbradoSelectionForm.hourBell.$error.time && timbradoSelectionForm.$submitted" class="help-block">Hora no valida</p>-->
@@ -129,8 +98,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.typeBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>T</u>ipo</label>
                             <div class="input-group input-group-sm">
-                                <select class="form-control" placeholder="" ng-model="typeBell[$index+1]" ng-required="true" id="typeBell[{{$index+1}}]" name="typeBell[{{$index+1}}]" tabindex="21"  ng-value="{{ $index+1 }}">
-                                    <option value=""></option>
+                                <select class="form-control" ng-model="typeBell[$index+1]" ng-required="true" id="typeBell[{{$index+1}}]" name="typeBell[{{$index+1}}]" tabindex="{{ ($index+1)*3 + 3 }}"  ng-value="{{ $index+1 }}" placeholder="Seleccione..." >
                                     <option value="in">Entrada</option>
                                     <option value="out">Salida</option>
                                 </select>
@@ -156,7 +124,7 @@
             </fieldset>
             <br/>
             <div class="btn-group">
-                <input type="submit" class="btn btn-primary btn-sm" id="save" value="Guardar" ng-disabled="serverProcess" tabindex="34" />
+                <input type="submit" class="btn btn-primary btn-sm" id="save" value="Guardar" ng-disabled="serverProcess" tabindex="100" />
             </div>
         </form>
 
