@@ -5,19 +5,20 @@ angular.module('app').controller('LiquidationCtrl', [
   'server',
   'EmployeSelectionsModal',
   'TypeSettlement',
+  'MonthSettlement',
+  'SinceDate',
+  'UntilDate',
   '$rootScope',
-  function ($scope, $modalInstance, server, EmployeSelectionsModal, TypeSettlement, $location, $rootScope) {
+  function ($scope, $modalInstance, server, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location, $rootScope) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
 
-      /*   $scope.monthSettlement = MonthSettlement;
+      $scope.monthSettlement = MonthSettlement;
       $scope.sinceDate = SinceDate;
-      $scope.untilDate = UntilDate;*/
-      //MonthSettlement,SinceDate,UntilDate,
-      /* 'MonthSettlement',
-       'SinceDate',
-       'UntilDate',*/
+      $scope.untilDate = UntilDate;
+
+
 
        $scope.addBonus = function(bonus){
            var acumulador = 0;

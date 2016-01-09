@@ -34,24 +34,59 @@ angular.module('app').controller('RolLiquidationCtrl', [
         };
 
         $scope.listFechas= function(){
-            //alert('Tipo ' + $scope.typeSettlement);
+
             $scope.rolLiquidation.firstDay='';
             $scope.rolLiquidation.lastDay='';
 
             $scope.date = new Date();
             $scope.anhoAct = $scope.date.getFullYear();
 
+
             if($scope.typeSettlement=='monthly'){
-                $scope.mesSel = $scope.rolLiquidation.monthSettlement;
 
                 //alert('Año ' + $scope.anhoAct + ' ,  Mes' + $scope.rolLiquidation.monthSettlement);
+                $scope.mesSel = $scope.rolLiquidation.monthSettlement;
+                var objDate1 = new Date($scope.anhoAct, $scope.mesSel - 1, 1);
+                $scope.rolLiquidation.firstDay =  new Intl.DateTimeFormat().format(objDate1);
+                var objDate2 = new Date($scope.anhoAct,$scope.mesSel, 0);
+                $scope.rolLiquidation.lastDay  = new Intl.DateTimeFormat().format(objDate2);
 
-                $scope.rolLiquidation.firstDay =  new Date($scope.anhoAct, $scope.mesSel - 1, 1);
-                $scope.rolLiquidation.lastDay = new Date($scope.anhoAct,$scope.mesSel, 0);
+            }else{
+               if(parseInt($scope.rolLiquidation.monthSettlement) % 2 == 0)
+                {
+                    var inicio =15;
+                    var fin =0;
+                    var resta = 0;
+                }
+                else
+                {
+                    var inicio =1;
+                    var fin =15;
+                    var resta = 1;
+                }
+
+                //alert('Año ' + $scope.anhoAct + ' ,  Mes' + $scope.rolLiquidation.monthSettlement);
+                $scope.mesSel = $scope.rolLiquidation.monthSettlement;
+
+                if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mesSel= 1;
+                if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mesSel= 2;
+                if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mesSel= 3;
+                if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mesSel= 4;
+                if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mesSel= 5;
+                if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mesSel= 6;
+                if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mesSel= 7;
+                if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mesSel= 8;
+                if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mesSel= 9;
+                if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mesSel= 10;
+                if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mesSel= 11;
+                if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mesSel= 12;
+
+                var objDate1 = new Date($scope.anhoAct, $scope.mesSel - 1, inicio);
+                $scope.rolLiquidation.firstDay =  new Intl.DateTimeFormat().format(objDate1);
+                var objDate2 = new Date($scope.anhoAct,$scope.mesSel - resta, fin);
+                $scope.rolLiquidation.lastDay  = new Intl.DateTimeFormat().format(objDate2);
+
             }
-
-            //console.log('Debes imprimir', $scope.rolLiquidation.firstDay, $scope.rolLiquidation.lastDay);
-
 
         };
 
