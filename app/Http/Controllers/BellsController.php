@@ -15,29 +15,76 @@ class BellsController extends Controller {
         $bells = Bells::all();
         return $bells;
     }
+    /*
+        public function store()
+        {
+            $bells = Input::all();
+            var_dump($bells);
+            foreach($bells as $bell){
+                Bells::create($bell);
+            }
+            return ResultMsgMaker::saveSuccess();
+        }
+
+
+
+
+    public function update($id)
+        {
+            $bell = Input::all();
+            $savedBell = Bells::find($id);
+            if($savedBell->update($bell)){
+                return ResultMsgMaker::updateSuccess();
+            }else{
+                return ResultMsgMaker::error();
+            }
+        }*/
 
     public function store()
     {
+        //Config::set('database.default', 'matriz');
+        $action = Input::get('action');
         $bells = Input::all();
         var_dump($bells);
-        foreach($bells as $bell){
-            Bells::create($bell);
+        if ($action == 'save') {
+            foreach($bells as $bell){
+                Bells::create($bell);
+            }
+
+            $resultado = array(
+                'type' => 'success',
+                'msg' => 'El cliente se ha guardado con Exito');
+
+            if (!Bells::create($bell)) {
+                $resultado['type'] = 'danger';
+                $resultado['msg'] = 'Ocurrio un Problema al guardar los timbres';
+                return $resultado;
+            }
+            return $resultado;
         }
-        return ResultMsgMaker::saveSuccess();
+
+        if($action == 'update'){
+            return $this->update($bells);
+        }
     }
 
 
-
-
-public function update($id)
+    public function update($data)
     {
-        $bell = Input::all();
-        $savedBell = Bells::find($id);
-        if($savedBell->update($bell)){
-            return ResultMsgMaker::updateSuccess();
-        }else{
-            return ResultMsgMaker::error();
+        $bell = Bells::first();
+        $bell->update($data);
+
+        $resultado = array(
+            'type' => 'success',
+            'msg' => 'Se ha guardado la modificación de timbres');
+
+        if (!$bell->save()) {
+            $resultado['type'] = 'danger';
+            $resultado['msg'] = 'Ocurrio un problema al guardar los timbres';
+            return $resultado;
         }
+
+        return $resultado;
     }
 
     public function getBells() {
