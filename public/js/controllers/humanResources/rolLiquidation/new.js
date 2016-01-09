@@ -98,7 +98,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel });
                 //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
                 if($scope.paymenthroles.length>0){
-                    alert('Ya a sido hecha la liquidacion de este mes');
+                    toastr.error('Ya a sido hecha la liquidacion de este mes');
                     $scope.rolLiquidation.monthSettlement = '';
                     $scope.rolLiquidation.firstDay = '';
                     $scope.rolLiquidation.lastDay = '';

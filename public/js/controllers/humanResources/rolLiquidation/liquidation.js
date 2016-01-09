@@ -22,8 +22,17 @@ angular.module('app').controller('LiquidationCtrl', [
            var acumulador = 0;
 
            angular.forEach((bonus), function(datos){
-               acumulador = acumulador + datos.bonus.value;
-              // acumulador = acumulador + datos.value;
+               var objDate = new Date(datos.date),
+                   locale = "en-us",
+                   month = objDate.toLocaleString(locale, { month: "2-digit" });
+               //console.log('mes',parseInt(month),parseInt($scope.monthSettlement),'frecuencia',datos.frequency);
+               if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                   return acumulador = acumulador + datos.bonus.value;
+               }else{
+                   if(datos.frequency=='monthly'){
+                       return acumulador = acumulador + datos.bonus.value;
+                   }
+               } // acumulador = acumulador + datos.value;
            });
 
        return acumulador;
@@ -32,8 +41,16 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.addDiscount = function(discount){
           var acumulador = 0;
           angular.forEach((discount), function(datos){
-              acumulador = acumulador + datos.discount.value;
-            //  acumulador = acumulador + datos.value;
+              var objDate = new Date(datos.date),
+                  locale = "en-us",
+                  month = objDate.toLocaleString(locale, { month: "2-digit" });
+              if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                  return acumulador = acumulador + datos.discount.value;
+              }else{
+                  if(datos.frequency=='monthly'){
+                      return acumulador = acumulador + datos.discount.value;
+                  }
+              }
           });
           return acumulador;
       };
@@ -74,10 +91,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalBonus = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              angular.forEach((datos.bonus), function(bonusEmp){
-                  acumulador = acumulador + bonusEmp.bonus.value;
-                //  acumulador = acumulador + bonusEmp.value;
-              });
+              acumulador = acumulador + $scope.addBonus(datos.bonus);
+            //  acumulador = acumulador + bonusEmp.value;
           });
           return acumulador;
       };
@@ -101,10 +116,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalDiscounts = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              angular.forEach((datos.discounts), function(discountEmp){
-                  acumulador = acumulador + discountEmp.discount.value;
-                 // acumulador = acumulador + discountEmp.value;
-              });
+              acumulador = acumulador + $scope.addDiscount(datos.discounts);
           });
           return acumulador;
       };

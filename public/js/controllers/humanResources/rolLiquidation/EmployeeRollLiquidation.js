@@ -12,6 +12,8 @@ angular.module('app').controller('EmployeeRollLiquidation', [
         $scope.employeSelections = [];
         $scope.countEmployee = 0;
 
+        /*aqui selecciono a todo los empleados lo realiza pero solo muestra activo el boton de todo*/
+
         server.post('getEmployees').success(function (result) {
             $scope.employees = _(result).where({'status': 'Activo'});
             $rootScope.$broadcast('employees', {employeSelections: $scope.employees});
@@ -21,8 +23,6 @@ angular.module('app').controller('EmployeeRollLiquidation', [
                 employe.Selected = $scope.selectedAll;
             });
         });
-
-
 
         $scope.$on('employees', function (event, values) {
             $scope.employeSelections = values.employeSelections;
