@@ -46,8 +46,11 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
                 //alert('Año ' + $scope.anhoAct + ' ,  Mes' + $scope.rolLiquidation.monthSettlement);
 
-                $scope.rolLiquidation.firstDay =  new Date($scope.anhoAct, $scope.mesSel - 1, 1);
-                $scope.rolLiquidation.lastDay = new Date($scope.anhoAct,$scope.mesSel, 0);
+                var objDate1 = new Date($scope.anhoAct, $scope.mesSel - 1, 1);
+                $scope.rolLiquidation.firstDay =  new Intl.DateTimeFormat().format(objDate1);
+                var objDate2 = new Date($scope.anhoAct,$scope.mesSel, 0);
+                $scope.rolLiquidation.lastDay  = new Intl.DateTimeFormat().format(objDate2);
+
             }
 
             //console.log('Debes imprimir', $scope.rolLiquidation.firstDay, $scope.rolLiquidation.lastDay);

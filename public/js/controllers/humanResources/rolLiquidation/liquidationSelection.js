@@ -33,14 +33,15 @@ angular.module('app').controller('liquidationSelectionCtrl', [
             },
             SinceDate:function() //scope del modal
             {
-              console.log($scope.sinceDate,'sinceDate');
-              return $scope.sinceDate;
+              console.log($scope.rolLiquidation.firstDay,'firstDay');
+              return $scope.rolLiquidation.firstDay;
 
             },
             UntilDate:function() //scope del modal
             {
-              console.log($scope.untilDate,'untilDate');
-              return $scope.untilDate;
+              //date:'yyyy-MM-dd'
+              console.log($scope.rolLiquidation.lastDay,'lastDay');
+              return $scope.rolLiquidation.lastDay;
 
             }
           }
