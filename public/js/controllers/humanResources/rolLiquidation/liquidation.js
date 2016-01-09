@@ -18,6 +18,39 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
 
+      if ($scope.monthSettlement=='monthly'){
+          $scope.tipo = 'Mensual';
+          $scope.mesSel = $scope.monthSettlement;
+          if($scope.mesSel=='1') $scope.mes= 'Enero';
+          if($scope.mesSel=='2') $scope.mes= 'Febrero';
+          if($scope.mesSel=='3') $scope.mes= 'Marzo';
+          if($scope.mesSel=='4') $scope.mes= 'Abril';
+          if($scope.mesSel=='5') $scope.mes= 'Mayo';
+          if($scope.mesSel=='6') $scope.mes= 'Junio';
+          if($scope.mesSel=='7') $scope.mes= 'Julio';
+          if($scope.mesSel=='8') $scope.mes= 'Agosto';
+          if($scope.mesSel=='9') $scope.mes= 'Septiembre';
+          if($scope.mesSel=='10') $scope.mes= 'Octubre';
+          if($scope.mesSel=='11') $scope.mes= 'Noviembre';
+          if($scope.mesSel=='12') $scope.mes= 'Dicembre';
+      }else{
+          $scope.tipo = 'Quincinal';
+          $scope.mesSel = $scope.monthSettlement;
+          if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mes= 'Enero';
+          if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mes= 'Febrero';
+          if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mes= 'Marzo';
+          if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mes= 'Abril';
+          if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mes= 'Mayo';
+          if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mes= 'Junio';
+          if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mes= 'Julio';
+          if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mes= 'Agosto';
+          if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mes= 'Septiembre';
+          if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mes= 'Octubre';
+          if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mes= 'Noviembre';
+          if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mes= 'Dicembre';
+      }
+
+
       $scope.deleteBonus = function(employe){
           var i=0;
           var id = employe._id;
