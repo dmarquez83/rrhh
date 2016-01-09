@@ -74,13 +74,9 @@ angular.module('app').controller('EmployeeRollLiquidation', [
             $modalInstance.dismiss();
         };
 
-
-
-
         $scope.cancel = function () {
             $modalInstance.dismiss();
         }
-
 
         handlePanelAction();
     }

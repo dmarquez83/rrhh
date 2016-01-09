@@ -18,8 +18,6 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
 
-
-
        $scope.addBonus = function(bonus){
            var acumulador = 0;
 
@@ -151,6 +149,8 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.revenues = '';
           $scope.liquidation_.discounts_ = '';
           $scope.liquidation_.totalToPay = '';
+          $scope.liquidation_.status = '';
+          $scope.liquidation_.monthliquidation = '';
           angular.forEach(($scope.employeSelections), function(employe){
               $scope.liquidation_.identification = employe.identification;
               $scope.liquidation_.name = employe.names;
@@ -166,7 +166,7 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
               $scope.liquidation_.status = 'preliquidation';
-              $scope.liquidation_.date = 1
+              $scope.liquidation_.monthliquidation = $scope.monthSettlement;
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -200,6 +200,7 @@ angular.module('app').controller('LiquidationCtrl', [
                   $scope.liquidation_.discounts_ = '';
                   $scope.liquidation_.totalToPay = '';
                   $scope.liquidation_.status = '';
+                  $scope.liquidation_.monthliquidation = '';
                   angular.forEach(($scope.employeSelections), function(employe){
                       $scope.liquidation_.identification = employe.identification;
                       $scope.liquidation_.name = employe.names;
@@ -215,7 +216,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.discounts_ = $scope.discounts(employe);
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
                       $scope.liquidation_.status = 'liquidation';
-                      $scope.liquidation_.date = 1;
+                      $scope.liquidation_.monthliquidation = $scope.monthSettlement;
 
                       $scope.liquidation.push($scope.liquidation_);
                       $scope.liquidation_ = {};
@@ -237,7 +238,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       });
 
                   });
-
+                  console.log($scope.liquidation);
                   server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
                       toastr[data.type]('Liquidación de Rol satisfactoria');
                       $modalInstance.dismiss();

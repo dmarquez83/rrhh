@@ -13,25 +13,27 @@ angular.module('app').controller('RolLiquidationCtrl', [
         $scope.employeSelections = [];
         $scope.countEmployee = 0;
         $scope.prueba = 'hola';
+        $scope.paymenthroles=[];
 
 
         $scope.searchEmployeAct = function () {
-            server.post('getEmployees').success(function(result){
-                $scope.employees = _(result).where({ 'status':  'Activo' });
-            });
-            $rootScope.$broadcast('employees', { employeSelections: $scope.employees });
 
+            if($scope.rolLiquidation.monthSettlement) {
+                server.post('getEmployees').success(function (result) {
+                    $scope.employees = _(result).where({'status': 'Activo'});
+                    $rootScope.$broadcast('employees', {employeSelections: $scope.employees});
+                });
+
+                $rootScope.$on('employees', function (event, values) {
+                    $scope.employeSelections = values.employeSelections;
+                });
+            }else{
+                $scope.selectedAllEmp=false;
+                toastr.error('Seleccione el Mes de Liquidacion para poder seleccionar los empleados');
+
+            }
         };
 
-        $rootScope.$on('employees', function (event, values) {
-            $scope.employeSelections = values.employeSelections;
-        });
-
-
-        $scope.searchSettlement = function (fecha) {
-
-            //buscar si hay liquidaciones en el mes/quincena seleccionada y arrojar mensaje si ya fue hecha
-        };
 
         $scope.listFechas= function(){
 
@@ -87,6 +89,20 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 $scope.rolLiquidation.lastDay  = new Intl.DateTimeFormat().format(objDate2);
 
             }
+
+            server.post('getPaymenthRoles').success(function(result){
+                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel });
+                //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
+                if($scope.paymenthroles.length>0){
+                    alert('Ya a sido hecha la liquidacion de este mes');
+                    $scope.rolLiquidation.monthSettlement = '';
+                    $scope.rolLiquidation.firstDay = '';
+                    $scope.rolLiquidation.lastDay = '';
+                }
+            });
+            //preguntar si esta validacion es solo con estatus liquidation o para ambas liquidation y preliquidation
+
+
 
         };
 

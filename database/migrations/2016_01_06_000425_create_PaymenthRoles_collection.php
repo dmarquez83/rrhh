@@ -14,7 +14,7 @@ class CreatePaymenthRolesCollection extends Migration {
   {
 	Schema::create('PaymenthRoles', function($collection)
 	{
-	  $collection->unique(['code']);
+	  $collection->unique(['identification']);
 	});
   }
 

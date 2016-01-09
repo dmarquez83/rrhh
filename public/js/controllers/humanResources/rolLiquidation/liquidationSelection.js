@@ -27,20 +27,20 @@ angular.module('app').controller('liquidationSelectionCtrl', [
             },
             MonthSettlement:function() //scope del modal
             {
-              console.log($scope.rolLiquidation.monthSettlement,'el mes');
+              //console.log($scope.rolLiquidation.monthSettlement,'el mes');
               return $scope.rolLiquidation.monthSettlement;
 
             },
             SinceDate:function() //scope del modal
             {
-              console.log($scope.rolLiquidation.firstDay,'firstDay');
+              //console.log($scope.rolLiquidation.firstDay,'firstDay');
               return $scope.rolLiquidation.firstDay;
 
             },
             UntilDate:function() //scope del modal
             {
               //date:'yyyy-MM-dd'
-              console.log($scope.rolLiquidation.lastDay,'lastDay');
+              //console.log($scope.rolLiquidation.lastDay,'lastDay');
               return $scope.rolLiquidation.lastDay;
 
             }
