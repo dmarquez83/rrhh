@@ -5,26 +5,103 @@ angular.module('app').controller('LiquidationCtrl', [
   'server',
   'EmployeSelectionsModal',
   'TypeSettlement',
+  'MonthSettlement',
+  'SinceDate',
+  'UntilDate',
   '$rootScope',
-  function ($scope, $modalInstance, server, EmployeSelectionsModal, TypeSettlement, $location, $rootScope) {
+  function ($scope, $modalInstance, server, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location, $rootScope) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
 
-      /*   $scope.monthSettlement = MonthSettlement;
+      $scope.monthSettlement = MonthSettlement;
       $scope.sinceDate = SinceDate;
-      $scope.untilDate = UntilDate;*/
-      //MonthSettlement,SinceDate,UntilDate,
-      /* 'MonthSettlement',
-       'SinceDate',
-       'UntilDate',*/
+      $scope.untilDate = UntilDate;
+
+      if ($scope.monthSettlement=='monthly'){
+          $scope.tipo = 'Mensual';
+          $scope.mesSel = $scope.monthSettlement;
+          if($scope.mesSel=='1') $scope.mes= 'Enero';
+          if($scope.mesSel=='2') $scope.mes= 'Febrero';
+          if($scope.mesSel=='3') $scope.mes= 'Marzo';
+          if($scope.mesSel=='4') $scope.mes= 'Abril';
+          if($scope.mesSel=='5') $scope.mes= 'Mayo';
+          if($scope.mesSel=='6') $scope.mes= 'Junio';
+          if($scope.mesSel=='7') $scope.mes= 'Julio';
+          if($scope.mesSel=='8') $scope.mes= 'Agosto';
+          if($scope.mesSel=='9') $scope.mes= 'Septiembre';
+          if($scope.mesSel=='10') $scope.mes= 'Octubre';
+          if($scope.mesSel=='11') $scope.mes= 'Noviembre';
+          if($scope.mesSel=='12') $scope.mes= 'Dicembre';
+      }else{
+          $scope.tipo = 'Quincinal';
+          $scope.mesSel = $scope.monthSettlement;
+          if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mes= 'Enero';
+          if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mes= 'Febrero';
+          if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mes= 'Marzo';
+          if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mes= 'Abril';
+          if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mes= 'Mayo';
+          if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mes= 'Junio';
+          if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mes= 'Julio';
+          if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mes= 'Agosto';
+          if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mes= 'Septiembre';
+          if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mes= 'Octubre';
+          if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mes= 'Noviembre';
+          if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mes= 'Dicembre';
+      }
+
+
+      $scope.deleteBonus = function(employe){
+          var i=0;
+          var id = employe._id;
+          angular.forEach((employe.bonus), function(datos){
+              var objDate = new Date(datos.date),
+                  locale = "en-us",
+                  month = objDate.toLocaleString(locale, { month: "2-digit" });
+              if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                  //console.log('entro',datos,i);
+                  employe.bonus.splice(i, 1);
+                  var bonus = { 'bonus': angular.copy(employe.bonus) };
+                  server.update('employee', bonus, id).success(function (data) {
+                  });
+              }
+              i++;
+          });
+      };
+
+      $scope.deleteDiscount = function(employe){
+          var i=0;
+          var id = employe._id;
+          angular.forEach((employe.discounts), function(datos){
+              var objDate = new Date(datos.date),
+                  locale = "en-us",
+                  month = objDate.toLocaleString(locale, { month: "2-digit" });
+              if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                  //console.log('entro',datos,i);
+                  employe.discounts.splice(i, 1);
+                  var discounts = { 'discounts': angular.copy(employe.discounts) };
+                  server.update('employee', discounts, id).success(function (data) {
+                  });
+              }
+              i++;
+          });
+      };
 
        $scope.addBonus = function(bonus){
            var acumulador = 0;
 
            angular.forEach((bonus), function(datos){
-               acumulador = acumulador + datos.bonus.value;
-              // acumulador = acumulador + datos.value;
+               var objDate = new Date(datos.date),
+                   locale = "en-us",
+                   month = objDate.toLocaleString(locale, { month: "2-digit" });
+               //console.log('mes',parseInt(month),parseInt($scope.monthSettlement),'frecuencia',datos.frequency);
+               if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                   return acumulador = acumulador + datos.bonus.value;
+               }else{
+                   if(datos.frequency=='monthly'){
+                       return acumulador = acumulador + datos.bonus.value;
+                   }
+               } // acumulador = acumulador + datos.value;
            });
 
        return acumulador;
@@ -33,15 +110,37 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.addDiscount = function(discount){
           var acumulador = 0;
           angular.forEach((discount), function(datos){
-              acumulador = acumulador + datos.discount.value;
-            //  acumulador = acumulador + datos.value;
+              var objDate = new Date(datos.date),
+                  locale = "en-us",
+                  month = objDate.toLocaleString(locale, { month: "2-digit" });
+              if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
+                  return acumulador = acumulador + datos.discount.value;
+              }else{
+                  if(datos.frequency=='monthly'){
+                      return acumulador = acumulador + datos.discount.value;
+                  }
+              }
           });
           return acumulador;
       };
 
       $scope.ReserveFund = function(employee){
-          var reserve_fund =  (employee.grossSalary + $scope.addBonus(employee.bonus))/12 ;
+
+          var DateTime = new Date();
+          var date = DateTime.getFullYear();
+          var objDate = new Date(employee.lastStateDate),
+              locale = "en-us",
+              year = objDate.toLocaleString(locale, { year: "numeric" });
+          var antiguedad = parseInt(date) - parseInt(year);
+          if(antiguedad>1){
+              var reserve_fund =  (employee.grossSalary + $scope.addBonus(employee.bonus))/12 ;
+          }else{
+              var reserve_fund =0;
+          }
+
           return reserve_fund;
+
+
       };
 
       $scope.LessPersonal = function(employee){
@@ -75,10 +174,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalBonus = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              angular.forEach((datos.bonus), function(bonusEmp){
-                  acumulador = acumulador + bonusEmp.bonus.value;
-                //  acumulador = acumulador + bonusEmp.value;
-              });
+              acumulador = acumulador + $scope.addBonus(datos.bonus);
+            //  acumulador = acumulador + bonusEmp.value;
           });
           return acumulador;
       };
@@ -102,10 +199,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalDiscounts = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              angular.forEach((datos.discounts), function(discountEmp){
-                  acumulador = acumulador + discountEmp.discount.value;
-                 // acumulador = acumulador + discountEmp.value;
-              });
+              acumulador = acumulador + $scope.addDiscount(datos.discounts);
           });
           return acumulador;
       };
@@ -132,6 +226,16 @@ angular.module('app').controller('LiquidationCtrl', [
               acumulador = acumulador + $scope.totalToPay(datos);
           });
           return acumulador;
+
+      };
+
+
+      $scope.clean = function () {
+          $scope.typeSettlement='';
+          $scope.rolLiquidation.monthSettlement = '';
+          $scope.rolLiquidation.firstDay='';
+          $scope.rolLiquidation.lastDay='';
+          $scope.employeSelections = [];
       };
 
       $scope.savePreLiquidarTemp = function(){
@@ -150,6 +254,28 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.revenues = '';
           $scope.liquidation_.discounts_ = '';
           $scope.liquidation_.totalToPay = '';
+          $scope.liquidation_.status = '';
+          $scope.liquidation_.monthliquidation = '';
+
+          if($scope.typeSettlement=='monthly'){
+              $scope.mesSel = $scope.monthSettlement;
+          }else{
+              $scope.mesSel = $scope.monthSettlement;
+              if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mesSel= 1;
+              if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mesSel= 2;
+              if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mesSel= 3;
+              if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mesSel= 4;
+              if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mesSel= 5;
+              if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mesSel= 6;
+              if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mesSel= 7;
+              if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mesSel= 8;
+              if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mesSel= 9;
+              if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mesSel= 10;
+              if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mesSel= 11;
+              if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mesSel= 12;
+
+          }
+
           angular.forEach(($scope.employeSelections), function(employe){
               $scope.liquidation_.identification = employe.identification;
               $scope.liquidation_.name = employe.names;
@@ -165,7 +291,7 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
               $scope.liquidation_.status = 'preliquidation';
-              $scope.liquidation_.date = 1
+              $scope.liquidation_.monthliquidation = $scope.mesSel;
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -199,6 +325,27 @@ angular.module('app').controller('LiquidationCtrl', [
                   $scope.liquidation_.discounts_ = '';
                   $scope.liquidation_.totalToPay = '';
                   $scope.liquidation_.status = '';
+                  $scope.liquidation_.monthliquidation = '';
+
+                  if($scope.typeSettlement=='monthly'){
+                      $scope.mesSel = $scope.monthSettlement;
+                  }else{
+                      $scope.mesSel = $scope.monthSettlement;
+                      if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mesSel= 1;
+                      if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mesSel= 2;
+                      if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mesSel= 3;
+                      if($scope.mesSel=='7' ||  $scope.mesSel=='8') $scope.mesSel= 4;
+                      if($scope.mesSel=='9' ||  $scope.mesSel=='10') $scope.mesSel= 5;
+                      if($scope.mesSel=='11' ||  $scope.mesSel=='12') $scope.mesSel= 6;
+                      if($scope.mesSel=='13' ||  $scope.mesSel=='14') $scope.mesSel= 7;
+                      if($scope.mesSel=='15' ||  $scope.mesSel=='16') $scope.mesSel= 8;
+                      if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mesSel= 9;
+                      if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mesSel= 10;
+                      if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mesSel= 11;
+                      if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mesSel= 12;
+
+                  }
+
                   angular.forEach(($scope.employeSelections), function(employe){
                       $scope.liquidation_.identification = employe.identification;
                       $scope.liquidation_.name = employe.names;
@@ -214,31 +361,30 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.discounts_ = $scope.discounts(employe);
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
                       $scope.liquidation_.status = 'liquidation';
-                      $scope.liquidation_.date = 1;
+                      $scope.liquidation_.monthliquidation = $scope.mesSel;
 
                       $scope.liquidation.push($scope.liquidation_);
                       $scope.liquidation_ = {};
 
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
+                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
                       var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
                       server.update('employee', paymenthRole, employe._id).success(function (data) {
-
+                          $scope.deleteBonus(employe);
+                          $scope.deleteDiscount(employe);
                       });
 
-                      var discounts = { 'discounts': [] };
-                      server.update('employee', discounts, employe._id).success(function (data) {
-
-                      });
-
-                      var bonus = { 'bonus': [] };
-                      server.update('employee', bonus, employe._id).success(function (data) {
-
-                      });
+                    //ojo revisar la validacion si ya tiene un bonus o descuento agregado no lo deje agregar en masivo de bonus y descuneto
 
                   });
-
+                  console.log($scope.liquidation);
                   server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
-                      toastr[data.type]('Liquidación de Rol satisfactoria');
+                      if (data.type == 'success') {
+                          toastr[data.type]('Liquidación de Rol satisfactoria');
+                          $scope.clean();
+                      }else{
+                          toastr[data.type]('No se pudo realizar la Liquidación de Rol');
+                      }
                       $modalInstance.dismiss();
                   });
               },

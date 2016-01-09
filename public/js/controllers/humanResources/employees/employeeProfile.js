@@ -81,6 +81,7 @@ angular.module('app').controller('EmployeeProfileCtrl', [
 
     $scope.deleteBonus = function(index){
       $scope.employee.bonus.splice(index, 1);
+      console.log($scope.employee.bonus);
       var bonus = { 'bonus': angular.copy($scope.employee.bonus) };
       server.update('employee', bonus, $scope.employee._id).success(function (data) {
       });

@@ -118,6 +118,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       $scope.datarow_groupby = [];
       $scope.dataemployeedate={};
       $scope.resultdata = '';
+      $scope.data =[];
 
       $scope.dataemployee = _.map(
           _.where($scope.databackup, {Codigo : $scope.employeeFile.code}),
@@ -154,29 +155,45 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         $scope.datarow_groupby =_.groupBy($scope.datarow_, 'Fecha');
 
       });
-      //console.log($scope.datarow_groupby,'agrupado');
+
       $scope.resultdata = _.values($scope.datarow_groupby);
-      console.log(JSON.stringify($scope.resultdata),'json');
-      console.log($scope.resultdata,'normal');
-      //estoy parada con el  <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
-      // si le envio 0 sale el de los otros empleados si le paso el index solo de uno
+
+      angular.forEach(($scope.resultdata),function(data){
+        $scope.columnas = [];
+        angular.forEach(data,function(dataColumns){
+          angular.forEach(dataColumns.Columns,function(dataRegister){
+            var i=0;
+            angular.forEach(($scope.configuration),function(conf){
+              if(dataRegister.hour == conf.hour ){
+                $scope.columnas[i]={Hora: dataRegister.register.hora, Color:dataRegister.register.color};
+              }else{
+                if(!$scope.columnas[i]){
+                  $scope.columnas[i]='';
+                }
+              }
+              i++;
+            });
+          });
+        });
+        $scope.data.push({Fecha:data[0].Fecha, Columnas:$scope.columnas});
+      });
     };
 
 
     $scope.save = function(){
 
-      //falta validaciones que tengo seleccionado un empleado para grabar  y que el descuento sea numerico
+       $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
+       $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
+       $scope.assignedDiscounts.date = moment().format();
+       $scope.assignedDiscounts.frequency = 'once';
+       $scope.employeeFile.discounts.push($scope.assignedDiscounts);
+       var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
+       //console.log(discounts);
+       server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
+         toastr[data.type](data.msg);
+       });
 
-      $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
-      $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
-      $scope.assignedDiscounts.date = moment().format();
-      $scope.assignedDiscounts.frequency = 'once';
-      $scope.employeeFile.discounts.push($scope.assignedDiscounts);
-      var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
-      //console.log(discounts);
-      server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
-        toastr[data.type](data.msg);
-      });
+
     };
     handlePanelAction();
   }

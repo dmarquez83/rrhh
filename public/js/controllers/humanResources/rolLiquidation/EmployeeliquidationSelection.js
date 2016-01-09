@@ -7,15 +7,23 @@ angular.module('app').controller('EmployeeLiquidationSelection', [
   '$window',
   function ($scope,$modal,server,$state, $window) {
 
+
     $scope.openDptoEmployeModal = function () {
-      var modalInstance = $modal.open({
-        templateUrl: '../../views/humanResources/rolLiquidation/dptoEmployeSelections.html',
-        controller: 'EmployeeRollLiquidation',
-        size: 'lg'
-      });
-      modalInstance.result.then(function () {
-        $window.location.reload();
-      });
+
+      if($scope.rolLiquidation.monthSettlement){
+        var modalInstance = $modal.open({
+          templateUrl: '../../views/humanResources/rolLiquidation/dptoEmployeSelections.html',
+          controller: 'EmployeeRollLiquidation',
+          size: 'lg'
+        });
+        modalInstance.result.then(function () {
+          $window.location.reload();
+        });
+      }else
+      {
+        toastr.error('Seleccione el Mes de Liquidacion para poder seleccionar los empleados');
+      }
+
     };
 
   }
