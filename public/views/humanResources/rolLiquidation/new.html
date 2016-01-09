@@ -37,7 +37,7 @@
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
             <div class="input-group input-group-sm">
-              <select class="form-control" ng-change="listFechas()" ng-required="true" ng-model="rolLiquidation.monthSettlement" id="monthSettlementM" name="monthSettlementM" tabindex="21">
+              <select class="form-control" ng-model="rolLiquidation.monthSettlement" ng-change="listFechas()" ng-required="true" tabindex="21">
                 <option value=""></option>
                 <option value="1">Enero</option>
                 <option value="2">Febrero</option>
@@ -62,7 +62,7 @@
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
             <div class="input-group input-group-sm">
-              <select class="form-control" placeholder="" ng-required="true" ng-model="rolLiquidation.monthSettlement" id="monthSettlementB" name="monthSettlementB" tabindex="21">
+              <select class="form-control" placeholder=""  ng-model="rolLiquidation.monthSettlement" ng-required="true" tabindex="21">
                 <option value=""></option>
                 <option value="1">Enero 1</option>
                 <option value="2">Enero 2</option>

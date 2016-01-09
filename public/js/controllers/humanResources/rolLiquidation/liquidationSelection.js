@@ -21,22 +21,25 @@ angular.module('app').controller('liquidationSelectionCtrl', [
             },
             TypeSettlement:function() //scope del modal
             {
+              //console.log($scope.typeSettlement,'el tipo');
               return $scope.typeSettlement;
 
             },
             MonthSettlement:function() //scope del modal
             {
-              //console.log($scope.monthSettlementM);
-              return $scope.monthSettlementM;
+              console.log($scope.rolLiquidation.monthSettlement,'el mes');
+              return $scope.rolLiquidation.monthSettlement;
 
             },
             SinceDate:function() //scope del modal
             {
+              console.log($scope.sinceDate,'sinceDate');
               return $scope.sinceDate;
 
             },
             UntilDate:function() //scope del modal
             {
+              console.log($scope.untilDate,'untilDate');
               return $scope.untilDate;
 
             }
