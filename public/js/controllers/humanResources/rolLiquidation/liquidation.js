@@ -232,10 +232,11 @@ angular.module('app').controller('LiquidationCtrl', [
 
       $scope.clean = function () {
           $scope.typeSettlement='';
-          $scope.rolLiquidation.monthSettlement = '';
-          $scope.rolLiquidation.firstDay='';
-          $scope.rolLiquidation.lastDay='';
+          $scope.monthSettlement = '';
+          $scope.sinceDate='';
+          $scope.untilDate='';
           $scope.employeSelections = [];
+          $scope.liquidationArray= [];
       };
 
       $scope.savePreLiquidarTemp = function(){
@@ -299,11 +300,9 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_ = {};
 
           });
-          //buscar al cargar el mes y los empleados los registros de esa colection para saber si hay empleados para liquidar
 
           server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
               toastr[data.type]('Liquidación de Rol satisfactoria');
-
           });
 
           $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
@@ -381,14 +380,13 @@ angular.module('app').controller('LiquidationCtrl', [
                           $scope.deleteDiscount(employe);
                       });
 
-                    //ojo revisar la validacion si ya tiene un bonus o descuento agregado no lo deje agregar en masivo de bonus y descuneto
-
                   });
-                  console.log($scope.liquidation);
-                  server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
+
+                  server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
                           $scope.clean();
+                          $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
                           $modalInstance.dismiss();
                       }else{
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
@@ -396,6 +394,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       }
 
                   });
+
               },
               function(){
                   alertify.error('Cancel');
