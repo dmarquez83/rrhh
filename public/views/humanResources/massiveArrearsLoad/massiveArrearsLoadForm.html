@@ -80,7 +80,8 @@
                 <tr>
                     <th>Fecha</th>
                     <th ng-repeat="colconfiguration in configuration track by $index"  class="cursorPointer">
-                        {{ colconfiguration.hourBell}} - {{ colconfiguration.typeBell}}
+                        {{ colconfiguration.hourBell}} - {{ typeBells(colconfiguration.typeBell)}}
+
                     </th>
                 </tr>
                 </thead>

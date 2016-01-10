@@ -38,6 +38,13 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       $scope.configuration = _.sortBy(result, 'countBell');
     });
 
+    $scope.typeBells=function(type){
+
+        if(type=='in') return 'Entrada';
+        else return 'Salida';
+
+    };
+
 
     $scope.fileChanged = function(files) {
       $scope.namefile = (files[0].name);
