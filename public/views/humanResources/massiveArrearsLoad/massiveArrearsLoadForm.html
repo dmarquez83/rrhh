@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <label><u>D</u>escuentos</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control text-right" ng-model="descuento" required  money>
+                                <input type="text" class="form-control text-right" ng-model="descuento" required   ui-money-mask>
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
                             </div>
                         </div>
@@ -80,24 +80,20 @@
                 <tr>
                     <th>Fecha</th>
                     <th ng-repeat="colconfiguration in configuration track by $index"  class="cursorPointer">
-                        {{ colconfiguration.hour}} - {{ colconfiguration.type}}
+                        {{ colconfiguration.hourBell}} - {{ typeBells(colconfiguration.typeBell)}}
+
                     </th>
                 </tr>
                 </thead>
                 <tbody ng-show="endheader">
 
-                    <tr  ng-repeat="datosarchivo in resultdata track by $index"  class="cursorPointer">
+                    <tr  ng-repeat="datosarchivo in data  track by $index"  class="cursorPointer">
 
-                            <td>{{ datosarchivo[0].Fecha }} </td>
+                            <td>{{ datosarchivo.Fecha }}</td>
 
-                            <td ng-repeat="colconfiguration in configuration "  class="cursorPointer" >
-                                <div ng-repeat="col in datosarchivo[$index].Columns" style="background: {{col.register.color}}; color: darkblue">
-                                    <div ng-if=" col.hour == colconfiguration.hour "  >
-                                        {{col.register.hora}}
-                                    </div>
-                                </div>
-
-                            </td>
+                          <td ng-repeat="colarray in datosarchivo.Columnas  track by $index"  style="background: {{colarray.Color}}; color: darkblue" >
+                              {{colarray.Hora}}
+                          </td>
                     </tr>
                 </tbody>
             </table>
@@ -106,7 +102,7 @@
             <div class="form-group" >
                 <label class="control-label"></label>
                 <div class="input-group input-group-sm">
-                    <button class="btn btn-primary" type="botton" ng-click="save()">Guardar</button>
+                    <button class="btn btn-primary" ng-if="data.length>0" type="botton" ng-click="save()">Guardar</button>
                 </div>
             </div>
         </div>

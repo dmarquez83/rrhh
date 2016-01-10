@@ -158,9 +158,6 @@ class EmployeeController extends Controller {
   }
 
   public function getEmployees() {
-   /* $Employees = DB::table('Employees')->select('_id', 'identification', 'code',
-      'photo', 'names', 'surnames',
-      'email')->get();*/
 
     $Employees = Employee::with('department', 'office', 'maritalStatus','bank')->get();
 

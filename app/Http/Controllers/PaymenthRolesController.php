@@ -93,4 +93,10 @@ class PaymenthRolesController extends Controller {
 	}
   }
 
+  public function getPaymenthRoles()
+  {
+	$PaymenthRoles = PaymenthRoles::get();
+	return $PaymenthRoles;
+  }
+
 }

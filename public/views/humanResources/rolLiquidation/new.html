@@ -171,7 +171,7 @@
     <h4 class="panel-title">Resumen PreLiquidaciones de Rol</h4>
   </div>
   <div class="panel-body">
-    <table datatable="ng" class="table-condensed">
+    <table class="table-condensed" >
       <thead>
       <tr>
         <th>Fecha</th>
@@ -180,10 +180,10 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="settlement in settlements track by $index"  class="cursorPointer">
-        <td>{{ settlement.settlementDate}}</td>
-        <td>{{ settlement.settlementCount}}</td>
-        <td>{{ settlement.settlementMount}}</td>
+      <tr  class="cursorPointer" >
+        <td>{{ summary[0].fecha }}</td>
+        <td>{{ summary[0].cantidad }}</td>
+        <td >{{ summary[0].monto | currency }} </td>
       </tr>
       </tbody>
     </table>

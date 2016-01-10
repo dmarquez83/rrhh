@@ -13,25 +13,32 @@ angular.module('app').controller('RolLiquidationCtrl', [
         $scope.employeSelections = [];
         $scope.countEmployee = 0;
         $scope.prueba = 'hola';
-
-
-        $scope.searchEmployeAct = function () {
-            server.post('getEmployees').success(function(result){
-                $scope.employees = _(result).where({ 'status':  'Activo' });
-            });
-            $rootScope.$broadcast('employees', { employeSelections: $scope.employees });
-
-        };
+        $scope.paymenthroles=[];
+        $scope.resumenpaymenthroles=[];
 
         $rootScope.$on('employees', function (event, values) {
             $scope.employeSelections = values.employeSelections;
         });
 
 
-        $scope.searchSettlement = function (fecha) {
+        $scope.searchEmployeAct = function () {
 
-            //buscar si hay liquidaciones en el mes/quincena seleccionada y arrojar mensaje si ya fue hecha
+            if($scope.rolLiquidation.monthSettlement) {
+                server.post('getEmployees').success(function (result) {
+                    $scope.employees = _(result).where({'status': 'Activo'});
+                    $rootScope.$broadcast('employees', {employeSelections: $scope.employees});
+                });
+
+                $rootScope.$on('employees', function (event, values) {
+                    $scope.employeSelections = values.employeSelections;
+                });
+            }else{
+                $scope.selectedAllEmp=false;
+                toastr.error('Seleccione el Mes de Liquidacion para poder seleccionar los empleados');
+
+            }
         };
+
 
         $scope.listFechas= function(){
 
@@ -88,8 +95,41 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
             }
 
+            server.post('getPaymenthRoles').success(function(result){
+                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel });
+                //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
+                if($scope.paymenthroles.length>0){
+                    toastr.error('Ya a sido hecha la liquidacion de este mes');
+                    $scope.rolLiquidation.monthSettlement = '';
+                    $scope.rolLiquidation.firstDay = '';
+                    $scope.rolLiquidation.lastDay = '';
+                }
+            });
+            //preguntar si esta validacion es solo con estatus liquidation o para ambas liquidation y preliquidation
         };
 
+        var sum = function(numbers) {
+            return _.reduce(numbers, function (result, current) {
+                return result + parseFloat(current || 0);
+            }, 0);
+        };
+//aqui pasar con el $rootscope el mes luego de guardar
+        server.post('getPaymenthRoles').success(function(result){
+            $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  1 });
+
+            $scope.summary = _($scope.resumenpaymenthroles).chain()
+                .flatten()
+                .groupBy("monthliquidation")
+                .map(function (value, key) {
+                    return {
+                        _id: key,
+                        fecha: value[0].sinceDate,
+                        cantidad: value.length,
+                        monto: sum(_(value).chain().pluck("totalToPay").value())
+                    }
+                })
+                .value();
+        });
 
         handlePanelAction();
     }
