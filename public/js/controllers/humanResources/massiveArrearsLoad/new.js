@@ -192,23 +192,34 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       });
     };
 
+     var validarDescuento = function(){
+         if (parseFloat($scope.descuento) <= 0){
+             toastr.warning('Debe Ingresar un Descuento');
+             return false;
+         }
+         return true;
+     };
+
 
     $scope.save = function(){
 
-        /*falta validar que seleccinar al meno un empleado
-        * que el descuento sea numerico
-        * que si ta tiene el descuento no lo vuelva asignar preguntar al cliente*/
+        /*que si ta tiene el descuento no lo vuelva asignar preguntar al cliente*/
 
-       $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
-       $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
-       $scope.assignedDiscounts.date = moment().format();
-       $scope.assignedDiscounts.frequency = 'once';
-       $scope.employeeFile.discounts.push($scope.assignedDiscounts);
-       var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
-       //console.log(discounts);
-       server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
-         toastr[data.type](data.msg);
-       });
+        if(validarDescuento()){
+            $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
+            $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
+            $scope.assignedDiscounts.date = moment().format();
+            $scope.assignedDiscounts.frequency = 'once';
+            $scope.employeeFile.discounts.push($scope.assignedDiscounts);
+            var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
+            //console.log(discounts);
+            server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
+                toastr[data.type](data.msg);
+            });
+        }else{
+            toastr.warning("Debe Ingresar un descuento");
+        }
+
 
 
     };

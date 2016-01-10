@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <label><u>D</u>escuentos</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control text-right" ng-model="descuento" required  money>
+                                <input type="text" class="form-control text-right" ng-model="descuento" required   ui-money-mask>
                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
             <div class="form-group" >
                 <label class="control-label"></label>
                 <div class="input-group input-group-sm">
-                    <button class="btn btn-primary" type="botton" ng-click="save()">Guardar</button>
+                    <button class="btn btn-primary" ng-if="data.length>0" type="botton" ng-click="save()">Guardar</button>
                 </div>
             </div>
         </div>
