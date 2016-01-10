@@ -1,10 +1,11 @@
 'use strict';
 angular.module('app').controller('MassiveArrearsLoadCtrl', [
   '$scope',
+  '$state',
   'documentValidate',
   'server',
   'XLSXReaderService','FactorysubtractHours','FactoryArrears',
-  function ($scope, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears) {
+  function ($scope, $state, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears) {
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
@@ -88,7 +89,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       {
         toastr.error('Error', 'El Tipo de archivo permitido es .xls y .xlsx');
       }
-      console.log($scope.datafile);
+     // console.log($scope.datafile);
     };
 
     $scope.send = function(){
@@ -124,6 +125,10 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
       }
     }
+
+      $scope.reloadPage = function() {
+          $state.reload();
+      }
 
     $scope.serachEmploye = function(){
       $scope.datarow = [];
