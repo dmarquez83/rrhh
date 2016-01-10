@@ -126,7 +126,7 @@
 
       <br/>
 
-      <div class="row">
+      <div class="row" ng-show="statusPreLiquidation">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
           <button class="btn btn-primary" type="botton" ng-click="openDptoEmployeModal()" ng-controller="EmployeeLiquidationSelection">Seleccionar Empleados</button>
         </div>
@@ -134,7 +134,7 @@
 
       <br/>
 
-      <div >
+      <div ng-show="statusPreLiquidation">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
           <input type="checkbox" ng-model="selectedAllEmp" ng-click="searchEmployeAct()" /> Todos
         </div>
@@ -142,7 +142,7 @@
 
       <br/>
 
-      <div class="row">
+      <div class="row" ng-show="statusPreLiquidation" >
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" align="center">
           <h4>Se encuentran seleccionados  {{employeSelections.length }} empleados.</h4>
         </div>
@@ -150,9 +150,15 @@
 
       <br/>
 
-      <div class="row">
+      <div class="row" ng-show="statusPreLiquidation">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
           <button class="btn btn-primary" type="botton" ng-click="openPreLiquidarModal()" ng-controller="liquidationSelectionCtrl">Preliquidar</button>
+        </div>
+      </div>
+
+      <div class="row" ng-show="!statusPreLiquidation">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12" >
+          <button class="btn btn-primary" type="botton" ng-click="openLiquidarModal()" ng-controller="liquidationSelectionCtrl">Liquidar</button>
         </div>
       </div>
 

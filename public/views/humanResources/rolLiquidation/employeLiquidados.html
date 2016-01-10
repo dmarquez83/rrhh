@@ -1,0 +1,61 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h3 class="modal-title">Pre - Liquidacion  { {{tipo}} } { {{mes}} }</h3>
+    </div>
+    <div class="modal-body">
+        <table datatable="ng" class="table-condensed">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+                <th>Sueldo Bruto</th>
+                <th>Bonos</th>
+                <th>Comisiones</th>
+                <th>Fondo de Reserva</th>
+                <th>IEES Personal</th>
+                <th>Descuentos</th>
+                <th>Anticipos</th>
+                <th>Total Ingresos</th>
+                <th>Total Descuentos</th>
+                <th>A PAGAR</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="employe in employeSelections track by $index"  class="cursorPointer">
+                <td>{{ $index+1 }}</td>
+                <td>{{ employe.name}}</td>
+                <td>{{ employe.department }}</td>
+                <td>{{ employe.grossSalary | currency}}</td>
+                <td>{{ employe.bonus | currency}}</td>
+                <td>{{ employe.commission | currency}}</td>
+                <td>{{ employe.ReserveFund | currency}}</td>
+                <td>{{ employe.LessPersonal | currency}}</td>
+                <td>{{ employe.discount | currency }}</td>
+                <td>{{ employe.advances | currency }}</td>
+                <td>{{ employe.revenues | currency  }}</td>
+                <td>{{ employe.discounts_ | currency}}</td>
+                <td>{{ employe.totalToPay | currency }}</td>
+            </tr>
+            </tbody>
+            <tr>
+                <td colspan="3">TOTAL</td>
+                <td>{{ totalSalaryS() | currency }}</td>
+                <td>{{ totalBonusS() | currency }}</td>
+                <td>{{ 0 | currency}}</td>
+                <td>{{ totalReserveFundS() | currency }}</td>
+                <td>{{ totalLessPersonalS() | currency}}</td>
+                <td>{{ totalDiscountsS() | currency}}</td>
+                <td>{{ 0 | currency}}</td>
+                <td>{{ totalRevenuesS() | currency}}</td>
+                <td>{{ totalExpendituresS() | currency}}</td>
+                <td>{{ totalToPayGS() | currency}} {{liquidation()}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
+
+        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+    </div>
+</div>

@@ -55,6 +55,52 @@ angular.module('app').controller('liquidationSelectionCtrl', [
 
     };
 
+    $scope.openLiquidarModal = function () {
+      if($scope.employeSelections.length==0){
+        var modalInstance = $modal.open({
+          templateUrl: '../../views/humanResources/rolLiquidation/employeLiquidados.html',
+          controller: 'LiquidationCtrl',
+          size: 'lg',
+          resolve: {
+            EmployeSelectionsModal: function() //scope del modal
+            {
+              return $scope.paymenthroles;
+
+            },
+            TypeSettlement:function() //scope del modal
+            {
+              //console.log($scope.typeSettlement,'el tipo');
+              return $scope.typeSettlement;
+
+            },
+            MonthSettlement:function() //scope del modal
+            {
+              //console.log($scope.rolLiquidation.monthSettlement,'el mes');
+              return $scope.rolLiquidation.monthSettlement;
+
+            },
+            SinceDate:function() //scope del modal
+            {
+              //console.log($scope.rolLiquidation.firstDay,'firstDay');
+              return $scope.rolLiquidation.firstDay;
+
+            },
+            UntilDate:function() //scope del modal
+            {
+              //date:'yyyy-MM-dd'
+              //console.log($scope.rolLiquidation.lastDay,'lastDay');
+              return $scope.rolLiquidation.lastDay;
+
+            }
+          }
+        });
+        modalInstance.result.then(function () {
+          $window.location.reload();
+        });
+      }
+
+    };
+
   }
 
 ]);

@@ -15,27 +15,33 @@ angular.module('app').controller('RolLiquidationCtrl', [
         $scope.prueba = 'hola';
         $scope.paymenthroles=[];
         $scope.resumenpaymenthroles=[];
+        $scope.statusPreLiquidation=true;
 
         $rootScope.$on('employees', function (event, values) {
             $scope.employeSelections = values.employeSelections;
         });
 
-
         $scope.searchEmployeAct = function () {
 
-            if($scope.rolLiquidation.monthSettlement) {
-                server.post('getEmployees').success(function (result) {
-                    $scope.employees = _(result).where({'status': 'Activo'});
-                    $rootScope.$broadcast('employees', {employeSelections: $scope.employees});
-                });
+            //console.log($scope.selectedAllEmp,'estatus')
 
-                $rootScope.$on('employees', function (event, values) {
-                    $scope.employeSelections = values.employeSelections;
-                });
+            if($scope.rolLiquidation.monthSettlement) {
+                if($scope.selectedAllEmp){
+                    server.post('getEmployees').success(function (result) {
+                        $scope.employees = _(result).where({'status': 'Activo'});
+                        $rootScope.$broadcast('employees', {employeSelections: $scope.employees});
+                    });
+
+                    $rootScope.$on('employees', function (event, values) {
+                        $scope.employeSelections = values.employeSelections;
+                    });
+                }else{
+                    $scope.employeSelections=[];
+                }
+
             }else{
                 $scope.selectedAllEmp=false;
                 toastr.error('Seleccione el Mes de Liquidacion para poder seleccionar los empleados');
-
             }
         };
 
@@ -44,14 +50,11 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
             $scope.rolLiquidation.firstDay='';
             $scope.rolLiquidation.lastDay='';
-
             $scope.date = new Date();
             $scope.anhoAct = $scope.date.getFullYear();
 
-
             if($scope.typeSettlement=='monthly'){
 
-                //alert('Año ' + $scope.anhoAct + ' ,  Mes' + $scope.rolLiquidation.monthSettlement);
                 $scope.mesSel = $scope.rolLiquidation.monthSettlement;
                 var objDate1 = new Date($scope.anhoAct, $scope.mesSel - 1, 1);
                 $scope.rolLiquidation.firstDay =  new Intl.DateTimeFormat().format(objDate1);
@@ -72,9 +75,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
                     var resta = 1;
                 }
 
-                //alert('Año ' + $scope.anhoAct + ' ,  Mes' + $scope.rolLiquidation.monthSettlement);
                 $scope.mesSel = $scope.rolLiquidation.monthSettlement;
-
                 if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mesSel= 1;
                 if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mesSel= 2;
                 if($scope.mesSel=='5' ||  $scope.mesSel=='6') $scope.mesSel= 3;
@@ -92,12 +93,10 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 $scope.rolLiquidation.firstDay =  new Intl.DateTimeFormat().format(objDate1);
                 var objDate2 = new Date($scope.anhoAct,$scope.mesSel - resta, fin);
                 $scope.rolLiquidation.lastDay  = new Intl.DateTimeFormat().format(objDate2);
-
             }
 
             server.post('getPaymenthRoles').success(function(result){
                 $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'liquidation' });
-                //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
                 if($scope.paymenthroles.length>0){
                     toastr.error('Ya a sido hecha la liquidacion de este mes');
                     $scope.rolLiquidation.monthSettlement = '';
@@ -106,13 +105,12 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 }
 
                 $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'preliquidation' });
-                //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
                 if($scope.paymenthroles.length>0){
                     toastr.warning('El mes de esta liquidacion esta PreLiquidada Se mostrara para que sea liquidada');
-
+                    $scope.statusPreLiquidation=false;
                 }
             });
-            //preguntar si esta validacion es solo con estatus liquidation o para ambas liquidation y preliquidation
+            $scope.statusPreLiquidation=true;
         };
 
         var sum = function(numbers) {

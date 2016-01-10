@@ -229,6 +229,74 @@ angular.module('app').controller('LiquidationCtrl', [
 
       };
 
+      /*aqui total cuando ya esta guardada*/
+      $scope.totalSalaryS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.grossSalary;
+          });
+          return acumulador;
+      };
+
+      $scope.totalBonusS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.bonus;
+              //  acumulador = acumulador + bonusEmp.value;
+          });
+          return acumulador;
+      };
+
+      $scope.totalReserveFundS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.ReserveFund;
+          });
+          return acumulador;
+      };
+
+      $scope.totalLessPersonalS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.LessPersonal;
+          });
+          return acumulador;
+      };
+
+      $scope.totalDiscountsS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.discount;
+          });
+          return acumulador;
+      };
+
+      $scope.totalRevenuesS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.revenues;
+          });
+          return acumulador;
+      };
+
+      $scope.totalExpendituresS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.discounts_;
+          });
+          return acumulador;
+      };
+
+      $scope.totalToPayGS = function(){
+          var acumulador = 0;
+          angular.forEach(($scope.employeSelections), function(datos){
+              acumulador = acumulador + datos.totalToPay;
+          });
+          return acumulador;
+
+      };
+      /*fin*/
+
 
       $scope.clean = function () {
           $scope.typeSettlement='';
@@ -395,6 +463,64 @@ angular.module('app').controller('LiquidationCtrl', [
 
                   });
 
+              },
+              function(){
+                  alertify.error('Cancel');
+              });
+
+
+      };
+
+      $scope.savePreLiquidarS = function(){
+
+          $scope.liquidationArray= [];
+          $scope.liquidation_ = {};
+
+          alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
+              function(){
+                  angular.forEach(($scope.employeSelections), function(employe){
+                      $scope.liquidation_.identification = employe.identification;
+                      $scope.liquidation_.name = employe.name;
+                      $scope.liquidation_.department = employe.department;
+                      $scope.liquidation_.grossSalary = employe.grossSalary;
+                      $scope.liquidation_.bonus = employe.bonus;
+                      $scope.liquidation_.commission = employe.commission;
+                      $scope.liquidation_.ReserveFund = employe.ReserveFund;
+                      $scope.liquidation_.LessPersonal = employe.LessPersonal;
+                      $scope.liquidation_.discount = employe.discount;
+                      $scope.liquidation_.advances = employe.advances;
+                      $scope.liquidation_.revenues = employe.revenues;
+                      $scope.liquidation_.discounts_ = employe.discounts_;
+                      $scope.liquidation_.totalToPay = employe.totalToPay;
+                      $scope.liquidation_.status = 'liquidation';
+                      $scope.liquidation_.monthliquidation = employe.monthliquidation;
+                      $scope.liquidation_.sinceDate = employe.sinceDate;
+                      $scope.liquidation_.untilDate = employe.untilDate;
+
+                      server.update('paymenthRolesController', $scope.liquidation_,employe._id).success(function (data) {
+
+                      });
+                      $scope.liquidationArray= [];
+                      $scope.liquidation_ = {};
+
+                      //ojo con este me invertio todo los datos de posicion
+
+                      //aqui debo buscar por cada empleado sus datos para poder limpiar los bonos y descuentos
+
+
+                     /* employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
+                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
+                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
+                      server.update('employee', paymenthRole, employe._id).success(function (data) {
+                          $scope.deleteBonus(employe);
+                          $scope.deleteDiscount(employe);
+                      });*/
+
+                  });
+
+
+                  $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
+                  $modalInstance.dismiss();
               },
               function(){
                   alertify.error('Cancel');

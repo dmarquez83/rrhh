@@ -66,12 +66,16 @@ class PaymenthRolesController extends Controller {
   public function update($id)
   {
 	$condition = Input::all();
+	//dd($condition);
 	$savedcondition = PaymenthRoles::find($id);
-	if($savedcondition->update($condition)){
+	//dd($savedcondition);
+	$savedcondition->update($condition);
+	//dd($savedcondition);
+	/*if($savedcondition->update($condition)){
 	  return ResultMsgMaker::updateSuccess();
 	}else{
 	  return ResultMsgMaker::error();
-	}
+	}*/
   }
 
   public function destroy($id)
