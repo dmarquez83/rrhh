@@ -14,11 +14,11 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.databackup = [];
     $scope.initialheader = true;
     $scope.endheader = false;
-    $scope.configuration =
+   /* $scope.configuration =
          [{_id: 1, hour: '08:00', type: 'in'},
           {_id: 2, hour: '13:00', type: 'out'},
           {_id: 3, hour: '14:00', type: 'in'},
-          {_id: 4, hour: '17:00', type: 'out'}];
+          {_id: 4, hour: '17:00', type: 'out'}];*/
     $scope.Math = window.Math;
     $scope.validated = false;
     $scope.employees = [];
@@ -32,6 +32,12 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     var col2 = '';
     var col3 = '';
     var message='';
+
+
+    server.post('getBells').success(function(result){
+      $scope.configuration = _.sortBy(result, 'countBell');
+    });
+
 
     $scope.fileChanged = function(files) {
       $scope.namefile = (files[0].name);
@@ -139,11 +145,11 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
           var valorInicial = 99;
           $scope.hourconf = 0;
           angular.forEach(($scope.configuration), function(conf){ //itero los datos de la configuracion para compararlos con la hora del marcaje
-            var resultRest = FactorysubtractHours.subtractHours(conf.hour,datos.Hora);
+            var resultRest = FactorysubtractHours.subtractHours(conf.hourBell,datos.Hora);
             if (parseInt(valorInicial) >= $scope.Math.abs(parseInt(resultRest)) ){
               valorInicial = resultRest;
-              $scope.hourconf = conf.hour;
-              $scope.hourconfType = conf.type;
+              $scope.hourconf = conf.hourBell;
+              $scope.hourconfType = conf.typeBell;
             }
           });
           var color =  FactoryArrears.Arrears($scope.hourconf,datos.Hora,$scope.hourconfType);
@@ -164,7 +170,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
           angular.forEach(dataColumns.Columns,function(dataRegister){
             var i=0;
             angular.forEach(($scope.configuration),function(conf){
-              if(dataRegister.hour == conf.hour ){
+              if(dataRegister.hour == conf.hourBell ){
                 $scope.columnas[i]={Hora: dataRegister.register.hora, Color:dataRegister.register.color};
               }else{
                 if(!$scope.columnas[i]){
@@ -181,6 +187,10 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
 
     $scope.save = function(){
+
+        /*falta validar que seleccinar al meno un empleado
+        * que el descuento sea numerico
+        * que si ta tiene el descuento no lo vuelva asignar preguntar al cliente*/
 
        $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
        $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
