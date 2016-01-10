@@ -113,9 +113,18 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 return result + parseFloat(current || 0);
             }, 0);
         };
-//aqui pasar con el $rootscope el mes luego de guardar
+
+        //aqui pasar con el $rootscope el mes luego de guardar
+
+        $rootScope.$on('monthliquidation', function (event, values) {
+            console.log(values.monthSelections,'aquiiiiiiiiiiiiiiiiii');
+            $scope.monthSelections = values.monthSelections;
+        });
+
+        console.log($scope.monthSelections,'afuera aqui no llega');
+
         server.post('getPaymenthRoles').success(function(result){
-            $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  1 });
+            $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  $scope.monthSelections });
 
             $scope.summary = _($scope.resumenpaymenthroles).chain()
                 .flatten()

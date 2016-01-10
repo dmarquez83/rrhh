@@ -3,13 +3,13 @@ angular.module('app').controller('LiquidationCtrl', [
   '$scope',
   '$modalInstance',
   'server',
+  '$rootScope',
   'EmployeSelectionsModal',
   'TypeSettlement',
   'MonthSettlement',
   'SinceDate',
   'UntilDate',
-  '$rootScope',
-  function ($scope, $modalInstance, server, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location, $rootScope) {
+  function ($scope, $modalInstance, server, $rootScope, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
@@ -239,7 +239,7 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.savePreLiquidarTemp = function(){
-          $scope.liquidation = [];
+          $scope.liquidationArray= [];
           $scope.liquidation_ = {};
           $scope.liquidation_.identification = '';
           $scope.liquidation_.name = '';
@@ -295,23 +295,26 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.sinceDate = $scope.sinceDate;
               $scope.liquidation_.untilDate = $scope.untilDate;
 
-              $scope.liquidation.push($scope.liquidation_);
+              $scope.liquidationArray.push($scope.liquidation_);
               $scope.liquidation_ = {};
 
           });
           //buscar al cargar el mes y los empleados los registros de esa colection para saber si hay empleados para liquidar
 
-          server.save('paymenthRolesController', $scope.liquidation).success(function (data) {
+          server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
               toastr[data.type]('Liquidación de Rol satisfactoria');
-              $modalInstance.dismiss();
+
           });
+
+          $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
+          $modalInstance.dismiss();
       };
 
       $scope.savePreLiquidar = function(){
 
           alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
               function(){
-                  $scope.liquidation = [];
+                  $scope.liquidationArray= [];
                   $scope.liquidation_ = {};
                   $scope.liquidation_.identification = '';
                   $scope.liquidation_.name = '';
@@ -367,7 +370,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.sinceDate = $scope.sinceDate;
                       $scope.liquidation_.untilDate = $scope.untilDate;
 
-                      $scope.liquidation.push($scope.liquidation_);
+                      $scope.liquidationArray.push($scope.liquidation_);
                       $scope.liquidation_ = {};
 
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
