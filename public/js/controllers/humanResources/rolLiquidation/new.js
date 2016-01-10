@@ -113,7 +113,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 return result + parseFloat(current || 0);
             }, 0);
         };
-
+//aqui pasar con el $rootscope el mes luego de guardar
         server.post('getPaymenthRoles').success(function(result){
             $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  1 });
 
@@ -121,7 +121,6 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 .flatten()
                 .groupBy("monthliquidation")
                 .map(function (value, key) {
-                    console.log(value);
                     return {
                         _id: key,
                         fecha: value[0].sinceDate,
@@ -130,8 +129,6 @@ angular.module('app').controller('RolLiquidationCtrl', [
                     }
                 })
                 .value();
-
-            console.log($scope.summary,'sumaru');
         });
 
         handlePanelAction();
