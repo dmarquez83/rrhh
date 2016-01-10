@@ -28,6 +28,7 @@
                 <td>{{ employe.department.name }}</td>
                 <td>{{ employe.grossSalary | currency}}
                     <button class="btn btn-primary" type="botton" ng-click="openRolPagoEmployeModal(employe)" ng-controller="RolPagoEmployeeSelection">Ver</button>
+                <!--<a  href="" ng-click="openRolPagoEmployeModal(employe)">{{ employe.grossSalary | currency}}</a>-->
                 </td>
                 <td>{{ addBonus(employe.bonus) | currency}}</td>
                 <td>{{ 0 | currency}}</td>
