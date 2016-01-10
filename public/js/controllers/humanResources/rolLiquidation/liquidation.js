@@ -292,6 +292,8 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
               $scope.liquidation_.status = 'preliquidation';
               $scope.liquidation_.monthliquidation = $scope.mesSel;
+              $scope.liquidation_.sinceDate = $scope.sinceDate;
+              $scope.liquidation_.untilDate = $scope.untilDate;
 
               $scope.liquidation.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -362,6 +364,8 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
                       $scope.liquidation_.status = 'liquidation';
                       $scope.liquidation_.monthliquidation = $scope.mesSel;
+                      $scope.liquidation_.sinceDate = $scope.sinceDate;
+                      $scope.liquidation_.untilDate = $scope.untilDate;
 
                       $scope.liquidation.push($scope.liquidation_);
                       $scope.liquidation_ = {};
@@ -382,10 +386,12 @@ angular.module('app').controller('LiquidationCtrl', [
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
                           $scope.clean();
+                          $modalInstance.dismiss();
                       }else{
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
+                          $modalInstance.dismiss();
                       }
-                      $modalInstance.dismiss();
+
                   });
               },
               function(){

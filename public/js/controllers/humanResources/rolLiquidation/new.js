@@ -14,6 +14,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
         $scope.countEmployee = 0;
         $scope.prueba = 'hola';
         $scope.paymenthroles=[];
+        $scope.resumenpaymenthroles=[];
 
         $rootScope.$on('employees', function (event, values) {
             $scope.employeSelections = values.employeSelections;
@@ -105,11 +106,33 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 }
             });
             //preguntar si esta validacion es solo con estatus liquidation o para ambas liquidation y preliquidation
-
-
-
         };
 
+        var sum = function(numbers) {
+            return _.reduce(numbers, function (result, current) {
+                return result + parseFloat(current || 0);
+            }, 0);
+        };
+
+        server.post('getPaymenthRoles').success(function(result){
+            $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  1 });
+
+            $scope.summary = _($scope.resumenpaymenthroles).chain()
+                .flatten()
+                .groupBy("monthliquidation")
+                .map(function (value, key) {
+                    console.log(value);
+                    return {
+                        _id: key,
+                        fecha: value[0].sinceDate,
+                        cantidad: value.length,
+                        monto: sum(_(value).chain().pluck("totalToPay").value())
+                    }
+                })
+                .value();
+
+            console.log($scope.summary,'sumaru');
+        });
 
         handlePanelAction();
     }
