@@ -15,7 +15,7 @@ angular.module('app').controller('BellCtrl', [
 
         $scope.addBell = function() {
             $scope.bells.push({ hecho: true });
-            console.log($scope.bells,'agregarasss');
+            //console.log($scope.bells,'agregara linea');
         };
 
         $scope.deleteBell = function(index){
@@ -35,7 +35,7 @@ angular.module('app').controller('BellCtrl', [
 
                 $scope.cuenta = $scope.bells.length;
 
-            console.log('cuantos tengo',$scope.cuenta);
+            //console.log('cuantos tengo',$scope.cuenta);
 
         });
 
@@ -77,7 +77,9 @@ angular.module('app').controller('BellCtrl', [
                 angular.forEach(($scope.bells), function(row){
                     server.delete('bells',row._id).success(function(result){
                         if(result.type == 'success') {
-                            console.log('documento borrado',row._id);
+                            //console.log('documento borrado',row._id);
+                            var borrado = true;
+                            console.log('borrado es ', borrado);
                         }
                     });
                    indice++;
@@ -100,7 +102,6 @@ angular.module('app').controller('BellCtrl', [
                 $scope.bellInfo.typeBell  =  $scope.typeBell[index];
                 $scope.bellInfo_.push($scope.bellInfo);
 
-                console.log($scope.bellInfo,'revisa lo que tienes aqui');
                 console.log($scope.bellInfo_,'arreglo');
 
                 $scope.bellInfo = {};
@@ -110,17 +111,17 @@ angular.module('app').controller('BellCtrl', [
 
 
             server.save('bells',$scope.bellInfo_).success(function (data) {
-
+                toastr[data.type](data.msg);
             });
         };
 
 
         $scope.save = function () {
-            if ($scope.cuenta>=1) {
-                eliminar();
+           if ($scope.cuenta>=1) {
+               eliminar();
+               save();
            }
-
-           save();
+           else save();
 
         };
 

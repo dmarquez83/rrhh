@@ -1,10 +1,11 @@
 'use strict';
 angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
   '$scope',
+  '$state',
   'documentValidate',
   'server',
   '$rootScope',
-  function ($scope, documentValidate, server, $rootScope) {
+  function ($scope,$state,documentValidate, server, $rootScope) {
     var typeBonus = '';
     var dateMassive = moment().format();
     $scope.massiveBonus = {};
@@ -67,16 +68,15 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
       if($scope.employeSelections){
         angular.forEach($scope.employeSelections, function (employee) {
           var index = 0;
-
           angular.forEach($scope.massiveBonus.typeBonus, function (type) {
             if(type == 'discounts'){
-              var existe = false;
-              angular.forEach(employee.discounts, function (employeeDiscounts) {
-                if(employeeDiscounts.discount.code == $scope.massiveBonus.type[index].code){
-                  existe = true;
-                }
-              });
-              if(existe == false){
+              $scope.searchDiscount = _.map(
+                  _.where(employee.discounts, {code : $scope.massiveBonus.type[index].code}),
+                  function(person) {
+                    return { Name: person.name};
+                  }
+              );
+              if($scope.searchDiscount.length == 0){
                 employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
                 $scope.assignedDiscounts = {'discount': angular.copy($scope.massiveBonus.type[index])};
                 $scope.assignedDiscounts.date = moment().format();
@@ -85,24 +85,19 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
                 var discounts = { 'discounts': angular.copy(employee.discounts) };
                 server.update('employee', discounts, employee._id).success(function (data) {
                   toastr[data.type](data.msg);
+                  $scope.reloadPage();
+                  //console.log('guardo descuento');
                 });
               }
             }
             if(type == 'bonus'){
-              /*$scope.searchBonus = _.map(
+              $scope.searchBonus = _.map(
                   _.where(employee.bonus, {code : $scope.massiveBonus.type[index].code}),
                   function(person) {
                     return { Name: person.name};
                   }
               );
-              if($scope.searchBonus.length == 0){*/
-              var existe = false;
-              angular.forEach(employee.bonus, function (employeeBonus) {
-                if(employeeBonus.bonus.code == $scope.massiveBonus.type[index].code){
-                  existe = true;
-                }
-              });
-              if(existe == false){
+              if($scope.searchBonus.length == 0){
                 employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
                 $scope.assignedBonus = { 'bonus': angular.copy($scope.massiveBonus.type[index]) };
                 $scope.assignedBonus.date = moment().format();
@@ -111,6 +106,8 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
                 var bonus = { 'bonus': angular.copy(employee.bonus) };
                 server.update('employee', bonus, employee._id).success(function (data) {
                   toastr[data.type](data.msg);
+                  $scope.reloadPage();
+                  //console.log('guardo bono');
                 });
               }
             }
@@ -121,7 +118,12 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
         toastr.warning('Debe seleccionar al Menos un Empleado');
       }
     };
+
+    $scope.reloadPage = function() {
+      $state.reload();
+      //console.log('refresque pantalla');
+    }
+
     handlePanelAction();
   }
 ]);
-/*hojo redireccionar al home cuando guarde*/
