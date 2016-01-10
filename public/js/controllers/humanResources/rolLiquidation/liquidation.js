@@ -18,7 +18,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
 
-      if ($scope.monthSettlement=='monthly'){
+      if ($scope.typeSettlement=='monthly'){
           $scope.tipo = 'Mensual';
           $scope.mesSel = $scope.monthSettlement;
           if($scope.mesSel=='1') $scope.mes= 'Enero';

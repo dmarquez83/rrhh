@@ -96,13 +96,20 @@ angular.module('app').controller('RolLiquidationCtrl', [
             }
 
             server.post('getPaymenthRoles').success(function(result){
-                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel });
+                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'liquidation' });
                 //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
                 if($scope.paymenthroles.length>0){
                     toastr.error('Ya a sido hecha la liquidacion de este mes');
                     $scope.rolLiquidation.monthSettlement = '';
                     $scope.rolLiquidation.firstDay = '';
                     $scope.rolLiquidation.lastDay = '';
+                }
+
+                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'preliquidation' });
+                //console.log($scope.paymenthroles,'mes',$scope.mesSel,result,$scope.paymenthroles.length);
+                if($scope.paymenthroles.length>0){
+                    toastr.warning('El mes de esta liquidacion esta PreLiquidada Se mostrara para que sea liquidada');
+
                 }
             });
             //preguntar si esta validacion es solo con estatus liquidation o para ambas liquidation y preliquidation
