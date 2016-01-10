@@ -114,30 +114,24 @@ angular.module('app').controller('RolLiquidationCtrl', [
             }, 0);
         };
 
-        //aqui pasar con el $rootscope el mes luego de guardar
-
         $rootScope.$on('monthliquidation', function (event, values) {
-            console.log(values.monthSelections,'aquiiiiiiiiiiiiiiiiii');
             $scope.monthSelections = values.monthSelections;
-        });
+            server.post('getPaymenthRoles').success(function(result){
+                $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  $scope.monthSelections });
 
-        console.log($scope.monthSelections,'afuera aqui no llega');
-
-        server.post('getPaymenthRoles').success(function(result){
-            $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  $scope.monthSelections });
-
-            $scope.summary = _($scope.resumenpaymenthroles).chain()
-                .flatten()
-                .groupBy("monthliquidation")
-                .map(function (value, key) {
-                    return {
-                        _id: key,
-                        fecha: value[0].sinceDate,
-                        cantidad: value.length,
-                        monto: sum(_(value).chain().pluck("totalToPay").value())
-                    }
-                })
-                .value();
+                $scope.summary = _($scope.resumenpaymenthroles).chain()
+                    .flatten()
+                    .groupBy("monthliquidation")
+                    .map(function (value, key) {
+                        return {
+                            _id: key,
+                            fecha: value[0].sinceDate,
+                            cantidad: value.length,
+                            monto: sum(_(value).chain().pluck("totalToPay").value())
+                        }
+                    })
+                    .value();
+            });
         });
 
         handlePanelAction();
