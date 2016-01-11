@@ -43,7 +43,7 @@ class BellsController extends Controller {
     {
         $canRemove = DocumentReferenceVerificator::verify("bells_id", $id, ['Bells']);
 
-        var_dump($canRemove, 'puedo borrar ', $id);
+        //var_dump($canRemove, 'puedo borrar ', $id);
 
         if($canRemove === true){
             if ($bell = Bells::find($id)->delete()){
