@@ -532,7 +532,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.cancel = function () {
          alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.",
              function() {
-             //$modalInstance.close($location.path( "/" ));/*aqui buscar o preguntar como redirecciono a otra ruta
+                 //aqui refrescar
                  $modalInstance.dismiss();
              },
              function() {

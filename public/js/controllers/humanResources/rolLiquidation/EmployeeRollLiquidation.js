@@ -20,7 +20,7 @@ angular.module('app').controller('EmployeeRollLiquidation', [
          server.post('getEmployees').success(function(result){
             $scope.employees = (result);
             $scope.countEmployee = $scope.employees.length;
-             /*aqui selecciono a todo los empleados lo realiza pero solo muestra activo el boton de todo*/
+             /*aqui selecciono a todo los empleados */
              $scope.selectedAll = true;
              angular.forEach($scope.employees, function (employe) {
                  employe.Selected = $scope.selectedAll;
