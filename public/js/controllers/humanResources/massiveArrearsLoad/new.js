@@ -142,6 +142,11 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
           toastr.error('error', 'Archivo vacio, ningun codigo es correcto');
           $scope.endheader = false;
       }
+
+      if($scope.configuration.length==0){
+          toastr.error('error', 'No hay una configuracion de timbre establecida');
+          $scope.endheader = false;
+      }
     }
 
       $scope.reloadPage = function() {
