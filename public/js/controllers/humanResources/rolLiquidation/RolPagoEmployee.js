@@ -27,9 +27,9 @@ angular.module('app').controller('RolPagoEmployeeCtrl', [
             if($scope.mesSel=='9') $scope.mes= 'Septiembre';
             if($scope.mesSel=='10') $scope.mes= 'Octubre';
             if($scope.mesSel=='11') $scope.mes= 'Noviembre';
-            if($scope.mesSel=='12') $scope.mes= 'Dicembre';
+            if($scope.mesSel=='12') $scope.mes= 'Diciembre';
         }else{
-            $scope.tipo = 'Quincinal';
+            $scope.tipo = 'Quincenal';
             $scope.mesSel = $scope.monthSettlementModal;
             if($scope.mesSel=='1' ||  $scope.mesSel=='2') $scope.mes= 'Enero';
             if($scope.mesSel=='3' ||  $scope.mesSel=='4') $scope.mes= 'Febrero';
@@ -42,7 +42,7 @@ angular.module('app').controller('RolPagoEmployeeCtrl', [
             if($scope.mesSel=='17' ||  $scope.mesSel=='18') $scope.mes= 'Septiembre';
             if($scope.mesSel=='19' ||  $scope.mesSel=='20') $scope.mes= 'Octubre';
             if($scope.mesSel=='21' ||  $scope.mesSel=='22') $scope.mes= 'Noviembre';
-            if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mes= 'Dicembre';
+            if($scope.mesSel=='23' ||  $scope.mesSel=='24') $scope.mes= 'Diciembre';
         }
 
 

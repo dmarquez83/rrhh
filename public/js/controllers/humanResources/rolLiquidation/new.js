@@ -41,7 +41,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
             }else{
                 $scope.selectedAllEmp=false;
-                toastr.error('Seleccione el Mes de Liquidacion para poder seleccionar los empleados');
+                toastr.error('Seleccione el Mes de Liquidación para poder seleccionar los empleados');
             }
         };
 
@@ -98,7 +98,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
             server.post('getPaymenthRoles').success(function(result){
                 $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'liquidation' });
                 if($scope.paymenthroles.length>0){
-                    toastr.error('Ya a sido hecha la liquidacion de este mes');
+                    toastr.error('Ya ha sido hecha la liquidación de este mes');
                     $scope.rolLiquidation.monthSettlement = '';
                     $scope.rolLiquidation.firstDay = '';
                     $scope.rolLiquidation.lastDay = '';
@@ -106,7 +106,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
                 $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'preliquidation' });
                 if($scope.paymenthroles.length>0){
-                    toastr.warning('El mes de esta liquidacion esta PreLiquidada Se mostrara para que sea liquidada');
+                    toastr.warning('El mes de esta liquidación esta PreLiquidado. Se mostrará para que sea liquidado');
                     $scope.statusPreLiquidation=false;
                 }
             });
