@@ -70,13 +70,20 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
           var index = 0;
           angular.forEach($scope.massiveBonus.typeBonus, function (type) {
             if(type == 'discounts'){
-              $scope.searchDiscount = _.map(
+              /*$scope.searchDiscount = _.map(
                   _.where(employee.discounts, {code : $scope.massiveBonus.type[index].code}),
                   function(person) {
                     return { Name: person.name};
                   }
               );
-              if($scope.searchDiscount.length == 0){
+              if($scope.searchDiscount.length == 0){*/
+                var searchDiscount = true;
+                angular.forEach(employee.discounts,function(discountsEmp){
+                  if(discountsEmp.discount.code == $scope.massiveBonus.type[index].code){
+                    searchDiscount = false;
+                  }
+                });
+                if(searchDiscount){
                 employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
                 $scope.assignedDiscounts = {'discount': angular.copy($scope.massiveBonus.type[index])};
                 $scope.assignedDiscounts.date = moment().format();
@@ -86,18 +93,17 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
                 server.update('employee', discounts, employee._id).success(function (data) {
                   toastr[data.type](data.msg);
                   $scope.reloadPage();
-                  //console.log('guardo descuento');
                 });
               }
             }
             if(type == 'bonus'){
-              $scope.searchBonus = _.map(
-                  _.where(employee.bonus, {code : $scope.massiveBonus.type[index].code}),
-                  function(person) {
-                    return { Name: person.name};
-                  }
-              );
-              if($scope.searchBonus.length == 0){
+              var searchBonus = true;
+              angular.forEach(employee.bonus,function(bonusEmp){
+                   if(bonusEmp.bonus.code == $scope.massiveBonus.type[index].code){
+                     searchBonus = false;
+                   }
+              });
+              if(searchBonus){
                 employee.bonus = _(employee).has('bonus') ? employee.bonus : [];
                 $scope.assignedBonus = { 'bonus': angular.copy($scope.massiveBonus.type[index]) };
                 $scope.assignedBonus.date = moment().format();
@@ -107,7 +113,6 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
                 server.update('employee', bonus, employee._id).success(function (data) {
                   toastr[data.type](data.msg);
                   $scope.reloadPage();
-                  //console.log('guardo bono');
                 });
               }
             }

@@ -1,6 +1,7 @@
 'use strict';
 angular.module('app').controller('LiquidationCtrl', [
   '$scope',
+  '$state',
   '$modalInstance',
   'server',
   '$rootScope',
@@ -10,7 +11,7 @@ angular.module('app').controller('LiquidationCtrl', [
   'SinceDate',
   'UntilDate',
   'Status',
-  function ($scope, $modalInstance, server, $rootScope, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate,Status, $location) {
+  function ($scope, $state, $modalInstance, server, $rootScope, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate,Status, $location) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
@@ -515,8 +516,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.cancel = function () {
          alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.",
              function() {
-                 //aqui refrescar
                  $modalInstance.dismiss();
+                 $state.reload();
              },
              function() {
                  alertify.error('Cancel');

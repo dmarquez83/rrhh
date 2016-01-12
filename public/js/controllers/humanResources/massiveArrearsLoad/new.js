@@ -60,6 +60,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
           countsheets = (Object.keys($scope.sheets).length);
           if(countsheets > 1){
             toastr.error('Error', 'El archivo Excel tiene mas de 1 Hoja de trabajo');
+            $state.reload();
           }else{
             angular.forEach($scope.sheets, function (sheetData, sheetName) {
               angular.forEach(sheetData, function (row) {
@@ -76,11 +77,15 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
                 }else{
                   message = 'La cantidad de Columnas debe ser igual a 3, este archivo tiene: '+quantitycol+' Columnas';
                 }
+                if(row.Codigo.substr(0,1) != '0'){
+                    toastr.warning('Cuidado', 'Los Codigos de empleados que no comiencen con 0 no seran tomados en cuenta');
+                }
               });
               if ($scope.validated) {
                 $scope.datafile = sheetData;
               }else{
                 toastr.error('Error', message);
+                $state.reload();
               }
             });
           }
@@ -88,6 +93,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       }else
       {
         toastr.error('Error', 'El Tipo de archivo permitido es .xls y .xlsx');
+        $state.reload();
       }
      // console.log($scope.datafile);
     };
@@ -95,6 +101,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.send = function(){
 
       var dateval = false;
+      var codval = false;
 
       angular.forEach($scope.datafile, function (row) {
         var myarr = row.Fecha.split("/");
@@ -104,25 +111,36 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             month = objDate.toLocaleString(locale, { month: "long" });
         if($scope.monthSearch==month){
           dateval = true;
-          $scope.datafilset.push(row);
+            if(row.Codigo.substr(0,1) == '0'){
+                codval = true;
+                $scope.datafilset.push(row);
+            }
         }
       });
 
       server.post('getEmployees').success(function(result){
         var Codigos = _($scope.datafile).pluck('Codigo').map(function (value){return {'Codigo': value } });
         angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
-          $scope.employees = _(result).where({ 'code':  row[0].Codigo });
-          $scope.employeesFile.push($scope.employees[0]);
+            if(row[0].Codigo.substr(0,1) == '0') {
+                $scope.employees = _(result).where({'code': row[0].Codigo});
+                $scope.employeesFile.push($scope.employees[0]);
+            }
         });
       });
 
-      $scope.datafile = $scope.datafilset;
+     // $scope.datafile = $scope.datafilset;
       $scope.databackup = $scope.datafile;
       $scope.initialheader = false;
       $scope.endheader = true;
 
       if(!dateval){
-        alert('Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
+         toastr.error('Error', 'Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
+         $scope.endheader = false;
+      }
+
+      if(!codval){
+          toastr.error('error', 'Archivo vacio, ningun codigo es correcto');
+          $scope.endheader = false;
       }
     }
 
