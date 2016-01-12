@@ -77,9 +77,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
                 }else{
                   message = 'La cantidad de Columnas debe ser igual a 3, este archivo tiene: '+quantitycol+' Columnas';
                 }
-                if(row.Codigo.substr(0,1) != '0'){
-                    toastr.warning('Cuidado', 'Los Codigos de empleados que no comiencen con 0 no seran tomados en cuenta');
-                }
               });
               if ($scope.validated) {
                 $scope.datafile = sheetData;
@@ -101,7 +98,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.send = function(){
 
       var dateval = false;
-      var codval = false;
 
       angular.forEach($scope.datafile, function (row) {
         var myarr = row.Fecha.split("/");
@@ -112,7 +108,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         if($scope.monthSearch==month){
           dateval = true;
             if(row.Codigo.substr(0,1) == '0'){
-                codval = true;
                 $scope.datafilset.push(row);
             }
         }
@@ -136,11 +131,6 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       if(!dateval){
          toastr.error('Error', 'Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
          $scope.endheader = false;
-      }
-
-      if(!codval){
-          toastr.error('error', 'Archivo vacio, ningun codigo es correcto');
-          $scope.endheader = false;
       }
 
       if($scope.configuration.length==0){
