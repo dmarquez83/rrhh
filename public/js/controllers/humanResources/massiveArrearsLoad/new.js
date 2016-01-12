@@ -72,7 +72,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
                   if(col1=='Codigo' && col2=='Fecha' && col3=='Hora'){
                     $scope.validated = true;
                   }else{
-                    message = 'El Nombre correcto de las columnas es "codigo","fecha" y "hora ';
+                    message = 'El Nombre correcto de las columnas es "codigo","fecha" y "hora" ';
                   }
                 }else{
                   message = 'La cantidad de Columnas debe ser igual a 3, este archivo tiene: '+quantitycol+' Columnas';
@@ -89,7 +89,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         });
       }else
       {
-        toastr.error('Error', 'El Tipo de archivo permitido es .xls y .xlsx');
+        toastr.error('Error', 'El Tipo de archivo permitido es .xls o .xlsx');
         $state.reload();
       }
      // console.log($scope.datafile);

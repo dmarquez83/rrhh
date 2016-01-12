@@ -2,10 +2,12 @@
 
         <fieldset>
             <div class="hr-line-dashed"></div>
+
+
+
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group" >
-                        <label class="control-label"><u>M</u>es</label>
+                    <div class="form-group"><label class="control-label"><u>M</u>es</label>
                         <div class="input-group input-group-sm">
                             <select class="form-control" placeholder="" ng-model="monthSearch" ng-required="true" id="monthSearch" name="monthSearch"
                                     ng-change="searchMonth()" tabindex="21">
@@ -27,15 +29,25 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="col-lg-3 col-md-7 col-sm-6 col-xs-12"><label class="control-label"></label>
+                    <div style="position:relative;">
+                        <a class='btn btn-primary' href='javascript:;'>Examinar...
+                            <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="excel_file" accept=".xlsx"  onchange='angular.element(this).scope().fileChanged(this.files);$("#upload-file-info").html($(this).val());' required="true" >
+                        </a>
+                        &nbsp;
+                        <span class='label label-info' id="upload-file-info"></span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12"><label class="control-label"></label>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="botton" ng-click="send()" >Enviar</button>
+                    </div>
+                </div>
+            </div>
         </fieldset>
-        <div class='form-group'>
-            <input type="file" name="excel_file" accept=".xlsx" onchange="angular.element(this).scope().fileChanged(this.files);" required="true">
-            <button class="btn btn-primary" type="botton" ng-click="send()" >Enviar</button>
-        </div>
 
         <div class="modal-body">
-            <table datatable="ng" class="table-condensed">
+            <table datatable="ng" class="table table-condensed">
                 <thead ng-show="initialheader">
                     <tr>
                         <th>Codigo</th>
