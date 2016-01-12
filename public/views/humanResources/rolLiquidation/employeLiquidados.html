@@ -1,6 +1,6 @@
 <div class="inmodal">
     <div class="modal-header">
-        <h3 class="modal-title">Pre - Liquidacion  { {{tipo}} } { {{mes}} }</h3>
+        <h3 class="modal-title">Liquidacion  { {{tipo}} } { {{mes}} } </h3>
     </div>
     <div class="modal-body">
         <table datatable="ng" class="table-condensed">
@@ -54,8 +54,11 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
 
-        <button class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+        <button ng-if="status=='preliquidation'" class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
+
+        <button ng-if="status=='preliquidation'" class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+
+        <button ng-if="status=='liquidation'" class="btn btn-danger btn-sm" ng-click="cerrar()">Cerrar</button>
     </div>
 </div>

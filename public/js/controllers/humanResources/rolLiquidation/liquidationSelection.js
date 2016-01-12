@@ -43,6 +43,10 @@ angular.module('app').controller('liquidationSelectionCtrl', [
               //console.log($scope.rolLiquidation.lastDay,'lastDay');
               return $scope.rolLiquidation.lastDay;
 
+            },
+            Status:function()
+            {
+              return '';
             }
           }
         });
@@ -55,8 +59,8 @@ angular.module('app').controller('liquidationSelectionCtrl', [
 
     };
 
-    $scope.openLiquidarModal = function () {
-      if($scope.employeSelections.length==0){
+    $scope.openLiquidarModal = function (status) {
+     // if($scope.employeSelections.length==0){
         var modalInstance = $modal.open({
           templateUrl: '../../views/humanResources/rolLiquidation/employeLiquidados.html',
           controller: 'LiquidationCtrl',
@@ -64,8 +68,10 @@ angular.module('app').controller('liquidationSelectionCtrl', [
           resolve: {
             EmployeSelectionsModal: function() //scope del modal
             {
-              return $scope.paymenthroles;
-
+             if($scope.paymenthroles.length>0)
+                return $scope.paymenthroles;
+             else
+                return $scope.resumenpaymenthroles;
             },
             TypeSettlement:function() //scope del modal
             {
@@ -91,13 +97,17 @@ angular.module('app').controller('liquidationSelectionCtrl', [
               //console.log($scope.rolLiquidation.lastDay,'lastDay');
               return $scope.rolLiquidation.lastDay;
 
+            },
+            Status:function()
+            {
+              return status;
             }
           }
         });
         modalInstance.result.then(function () {
           $window.location.reload();
         });
-      }
+    //  }
 
     };
 

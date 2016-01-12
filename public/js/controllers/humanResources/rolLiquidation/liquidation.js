@@ -9,7 +9,8 @@ angular.module('app').controller('LiquidationCtrl', [
   'MonthSettlement',
   'SinceDate',
   'UntilDate',
-  function ($scope, $modalInstance, server, $rootScope, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location) {
+  'Status',
+  function ($scope, $modalInstance, server, $rootScope, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate,Status, $location) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
@@ -17,6 +18,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.monthSettlement = MonthSettlement;
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
+      $scope.status= Status;
 
       if ($scope.typeSettlement=='monthly'){
           $scope.tipo = 'Mensual';
@@ -325,6 +327,8 @@ angular.module('app').controller('LiquidationCtrl', [
           $scope.liquidation_.totalToPay = '';
           $scope.liquidation_.status = '';
           $scope.liquidation_.monthliquidation = '';
+          $scope.liquidation_.typeSettlement = '';
+          $scope.liquidation_.mesSel = '';
 
           if($scope.typeSettlement=='monthly'){
               $scope.mesSel = $scope.monthSettlement;
@@ -360,9 +364,11 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
               $scope.liquidation_.status = 'preliquidation';
-              $scope.liquidation_.monthliquidation = $scope.mesSel;
+              $scope.liquidation_.monthliquidation = $scope.monthSettlement;
               $scope.liquidation_.sinceDate = $scope.sinceDate;
               $scope.liquidation_.untilDate = $scope.untilDate;
+              $scope.liquidation_.typeSettlement = $scope.typeSettlement;
+              $scope.liquidation_.mesSel = $scope.mesSel;
 
               $scope.liquidationArray.push($scope.liquidation_);
               $scope.liquidation_ = {};
@@ -373,7 +379,7 @@ angular.module('app').controller('LiquidationCtrl', [
               toastr[data.type]('Liquidación de Rol satisfactoria');
           });
 
-          $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
+          $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.monthSettlement, typeSettlement: $scope.typeSettlement});
           $modalInstance.dismiss();
       };
 
@@ -398,6 +404,9 @@ angular.module('app').controller('LiquidationCtrl', [
                   $scope.liquidation_.totalToPay = '';
                   $scope.liquidation_.status = '';
                   $scope.liquidation_.monthliquidation = '';
+                  $scope.liquidation_.monthliquidation = '';
+                  $scope.liquidation_.typeSettlement = '';
+                  $scope.liquidation_.mesSel = '';
 
                   if($scope.typeSettlement=='monthly'){
                       $scope.mesSel = $scope.monthSettlement;
@@ -433,9 +442,11 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.discounts_ = $scope.discounts(employe);
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
                       $scope.liquidation_.status = 'liquidation';
-                      $scope.liquidation_.monthliquidation = $scope.mesSel;
+                      $scope.liquidation_.monthliquidation = $scope.monthSettlement;
                       $scope.liquidation_.sinceDate = $scope.sinceDate;
                       $scope.liquidation_.untilDate = $scope.untilDate;
+                      $scope.liquidation_.typeSettlement = $scope.typeSettlement;
+                      $scope.liquidation_.mesSel = $scope.mesSel;
 
                       $scope.liquidationArray.push($scope.liquidation_);
                       $scope.liquidation_ = {};
@@ -453,15 +464,14 @@ angular.module('app').controller('LiquidationCtrl', [
                   server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
-                          $scope.clean();
-                          $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
-                          $modalInstance.dismiss();
                       }else{
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
-                          $modalInstance.dismiss();
                       }
 
                   });
+
+                  $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.monthSettlement , typeSettlement: $scope.typeSettlement});
+                  $modalInstance.dismiss();
 
               },
               function(){
@@ -472,61 +482,34 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.savePreLiquidarS = function(){
-
-          $scope.liquidationArray= [];
           $scope.liquidation_ = {};
-
+          server.post('getEmployees').success(function(result){
+              $scope.employees = (result);
+          });
           alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
               function(){
                   angular.forEach(($scope.employeSelections), function(employe){
-                      $scope.liquidation_.identification = employe.identification;
-                      $scope.liquidation_.name = employe.name;
-                      $scope.liquidation_.department = employe.department;
-                      $scope.liquidation_.grossSalary = employe.grossSalary;
-                      $scope.liquidation_.bonus = employe.bonus;
-                      $scope.liquidation_.commission = employe.commission;
-                      $scope.liquidation_.ReserveFund = employe.ReserveFund;
-                      $scope.liquidation_.LessPersonal = employe.LessPersonal;
-                      $scope.liquidation_.discount = employe.discount;
-                      $scope.liquidation_.advances = employe.advances;
-                      $scope.liquidation_.revenues = employe.revenues;
-                      $scope.liquidation_.discounts_ = employe.discounts_;
-                      $scope.liquidation_.totalToPay = employe.totalToPay;
                       $scope.liquidation_.status = 'liquidation';
-                      $scope.liquidation_.monthliquidation = employe.monthliquidation;
-                      $scope.liquidation_.sinceDate = employe.sinceDate;
-                      $scope.liquidation_.untilDate = employe.untilDate;
-
                       server.update('paymenthRolesController', $scope.liquidation_,employe._id).success(function (data) {
-
                       });
-                      $scope.liquidationArray= [];
-                      $scope.liquidation_ = {};
+                      $scope.employeesLiquidar = _($scope.employees).where({ 'identification':  employe.identification });
 
-                      //ojo con este me invertio todo los datos de posicion
+                      employe.discounts = _($scope.employeesLiquidar[0]).has('discounts') ? $scope.employeesLiquidar[0].discounts : [];
+                      employe.bonus = _($scope.employeesLiquidar[0]).has('bonus') ? $scope.employeesLiquidar[0].bonus : [];
+                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy($scope.employeesLiquidar[0].discounts), 'bonus': angular.copy($scope.employeesLiquidar[0].bonus) }};
 
-                      //aqui debo buscar por cada empleado sus datos para poder limpiar los bonos y descuentos
-
-
-                     /* employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
-                      employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
-                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
-                      server.update('employee', paymenthRole, employe._id).success(function (data) {
-                          $scope.deleteBonus(employe);
-                          $scope.deleteDiscount(employe);
-                      });*/
+                      server.update('employee', paymenthRole, $scope.employeesLiquidar[0]._id).success(function (data) {
+                          $scope.deleteBonus($scope.employeesLiquidar[0]);
+                          $scope.deleteDiscount($scope.employeesLiquidar[0]);
+                      });
 
                   });
-
-
-                  $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.mesSel});
+                  $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.monthSettlement , typeSettlement: $scope.typeSettlement});
                   $modalInstance.dismiss();
               },
               function(){
                   alertify.error('Cancel');
               });
-
-
       };
 
       $scope.cancel = function () {
@@ -539,6 +522,10 @@ angular.module('app').controller('LiquidationCtrl', [
                  alertify.error('Cancel');
           });
 
+      };
+
+      $scope.cerrar = function () {
+          $modalInstance.dismiss();
       };
 
   }

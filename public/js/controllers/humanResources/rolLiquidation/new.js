@@ -120,10 +120,10 @@ angular.module('app').controller('RolLiquidationCtrl', [
         };
 
         $rootScope.$on('monthliquidation', function (event, values) {
-            $scope.monthSelections = values.monthSelections;
+            $scope.rolLiquidation.monthSettlement = values.monthSelections;
+            $scope.typeSettlement = values.typeSettlement;
             server.post('getPaymenthRoles').success(function(result){
-                $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  $scope.monthSelections });
-
+                $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  $scope.rolLiquidation.monthSettlement });
                 $scope.summary = _($scope.resumenpaymenthroles).chain()
                     .flatten()
                     .groupBy("monthliquidation")
@@ -132,6 +132,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
                             _id: key,
                             fecha: value[0].sinceDate,
                             cantidad: value.length,
+                            status: value[0].status,
                             monto: sum(_(value).chain().pluck("totalToPay").value())
                         }
                     })
