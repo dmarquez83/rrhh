@@ -20,16 +20,14 @@
         <th>Fecha</th>
         <th># Empleados</th>
         <th>Monto Total ($)</th>
-        <th>Ver</th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="paymenthroles in resumenpaymenthrolesLiq track by $index"  class="cursorPointer">
+      <tr ng-repeat="paymenthroles in resumenpaymenthrolesLiq track by $index"  class="cursorPointer" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Liq')" ng-controller="liquidationSelectionCtrl">
         <td>{{ $index+1 }}</td>
         <td>{{ paymenthroles.Fecha}}</td>
         <td>{{ paymenthroles.Cantidad}}</td>
         <td>{{ paymenthroles.Total | currency}}</td>
-        <td><button class="btn btn-primary" type="botton" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Liq')" ng-controller="liquidationSelectionCtrl">...</button></td>
       </tr>
       </tbody>
     </table>

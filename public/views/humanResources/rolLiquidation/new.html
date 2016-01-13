@@ -5,7 +5,8 @@
 </ol>
 <h1 class="page-header">Liquidación de Rol</h1>
 
-<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
   <div class="panel-heading">
     <div class="panel-heading-btn">
       <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -17,7 +18,7 @@
     <form ng-submit="save(settlementForm.$valid)" name="settlementForm" ng-controller="RolLiquidationCtrl">
 
       <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-xs-12">
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.typeSettlement.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>T</u>ipo de Liquidaci&oacute;n</label>
             <div class="input-group input-group-sm">
@@ -33,7 +34,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 col-xs-12" ng-if="typeSettlement == 'monthly'">
+        <div class="col-lg-6 col-md-6 col-xs-12" ng-if="typeSettlement == 'monthly'">
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
             <div class="input-group input-group-sm">
@@ -58,7 +59,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 col-xs-12" ng-if="typeSettlement == 'biweekly'">
+        <div class="col-lg-6 col-md-6 col-xs-12" ng-if="typeSettlement == 'biweekly'">
           <div class="form-group" ng-class="{ 'has-error' : settlementForm.monthSettlement.$invalid && settlementForm.$submitted}">
             <label class="control-label"><u>M</u>es Liquidaci&oacute;n:</label>
             <div class="input-group input-group-sm">
@@ -96,66 +97,61 @@
         </div>
       </div>
 
-      <br/>
-
-
-      <div class="row" ng-if="typeSettlement">
-        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-          <div class="form-group" ng-class="{ 'has-error' : settlementForm.rolLiquidation.firstDay.$invalid && settlementForm.$submitted}">
-            <label class="control-label"><u>F</u>echa Desde:</label>
-            <div class="input-group input-group-sm">
-              <input type="text" class="form-control" tabindex="3" ng-disabled="true" ng-model="rolLiquidation.firstDay" size="10" >
-
-              <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-            </div>
+      <div class="col-lg-6 col-md-6 col-xs-12" ng-if="typeSettlement">
+        <div class="form-group" ng-class="{ 'has-error' : bonusForm.value.$invalid && bonusForm.$submitted}">
+          <label class="control-label"><u>F</u>echa Desde:</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" tabindex="3" ng-disabled="true" ng-model="rolLiquidation.firstDay" size="10" >
+            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
           </div>
         </div>
+      </div>
 
-        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-          <div class="form-group" ng-class="{ 'has-error' : settlementForm.rolLiquidation.lastDay.$invalid && settlementForm.$submitted}">
-            <label class="control-label"><u>F</u>echa Hasta:</label>
-            <div class="input-group input-group-sm">
-              <input type="text" class="form-control" tabindex="4" ng-disabled="true" ng-model="rolLiquidation.lastDay"   >
-              <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
-            </div>
+      <div class="col-lg-6 col-md-6 col-xs-12" ng-if="typeSettlement">
+        <div class="form-group">
+          <label class="control-label"><u>F</u>echa Hasta:</label>
+          <div class="input-group input-group-sm">
+            <input type="text" class="form-control" tabindex="4" ng-disabled="true" ng-model="rolLiquidation.lastDay"   >
+            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
           </div>
         </div>
       </div>
 
       <br/>
 
-      <div class="row" ng-show="statusPreLiquidation">
-        <div class="col-md-6 col-xs-6" align="center" >
-          <button class="btn btn-primary" type="botton" ng-click="openDptoEmployeModal()" ng-controller="EmployeeLiquidationSelection">Seleccionar Empleados</button>
-        </div>
+      <div class="col-lg-6 col-md-6 col-xs-12"  align="center" >
+        <button class="btn btn-primary" type="botton" ng-click="openDptoEmployeModal()" ng-controller="EmployeeLiquidationSelection">Seleccionar Empleados</button>
       </div>
-
-      <br/>
-      <div class="row" ng-show="statusPreLiquidation">
-        <div class="col-md-6 col-xs-6" align="center" >
-          <input type="checkbox" ng-model="selectedAllEmp" ng-click="searchEmployeAct()"> Todos
-          <h4 align="center">Se encuentran seleccionados {{employeSelections.length }} empleados.</h4>
-        </div>
+      <div  class="col-lg-6 col-md-6 col-xs-12" align="center" >
+        <input type="checkbox" ng-model="selectedAllEmp" ng-click="searchEmployeAct()"> Todos
       </div>
 
       <br/>
 
+      <div  class="col-lg-12 col-md-12 col-xs-12" align="center" >
+        <h4 align="center">Se encuentran seleccionados {{employeSelections.length }} empleados.</h4>
+      </div>
+
+      <br/>
+
       <div class="row" ng-show="statusPreLiquidation">
-        <div class="col-md-6 col-xs-6" align="center">
+        <div  class="col-lg-12 col-md-12 col-xs-12" align="center" >
           <button class="btn btn-primary" type="botton" ng-click="openPreLiquidarModal()" ng-controller="liquidationSelectionCtrl">Preliquidar</button>
         </div>
       </div>
     </form>
   </div>
 </div>
+</div>
 
 
-<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
-  <div class="panel-heading">
-    <div class="panel-heading-btn">
-      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
-      <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-    </div>
+<div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+  <div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+    <div class="panel-heading">
+      <div class="panel-heading-btn">
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+      </div>
     <h4 class="panel-title">Resumen PreLiquidaciones de Rol</h4>
   </div>
   <div class="panel-body">
@@ -166,20 +162,18 @@
         <th>Fecha</th>
         <th># Empleados</th>
         <th>Monto Total ($)</th>
-        <th>Ver</th>
-
       </tr>
       </thead>
       <tbody>
-     <tr ng-repeat="paymenthroles in resumenpaymenthroles track by $index"  class="cursorPointer">
+     <tr ng-repeat="paymenthroles in resumenpaymenthroles track by $index"  class="cursorPointer" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Pre')" ng-controller="liquidationSelectionCtrl">
        <td>{{ $index+1 }}</td>
        <td>{{ paymenthroles.Fecha}}</td>
        <td>{{ paymenthroles.Cantidad}}</td>
        <td>{{ paymenthroles.Total | currency}}</td>
-       <td><button class="btn btn-primary" type="botton" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Pre')" ng-controller="liquidationSelectionCtrl">...</button></td>
      </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </div>
 

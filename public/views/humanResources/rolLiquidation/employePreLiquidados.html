@@ -26,9 +26,7 @@
                 <td>{{ $index+1 }}</td>
                 <td>{{ employe.names}}</td>
                 <td>{{ employe.department.name }}</td>
-                <td>{{ employe.grossSalary | currency}}
-                    <button class="btn btn-primary" type="botton" ng-click="openRolPagoEmployeModal(employe)" ng-controller="RolPagoEmployeeSelection">Ver</button>
-                <!--<a  href="" ng-click="openRolPagoEmployeModal(employe)">{{ employe.grossSalary | currency}}</a>-->
+                <td ng-click="openRolPagoEmployeModal(employe)" ng-controller="RolPagoEmployeeSelection">{{ employe.grossSalary | currency}}
                 </td>
                 <td>{{ addBonus(employe.bonus) | currency}}</td>
                 <td>{{ 0 | currency}}</td>
