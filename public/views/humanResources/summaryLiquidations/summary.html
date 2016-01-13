@@ -12,6 +12,26 @@
     </div>
     <h4 class="panel-title">Resumen de Liquidaciones</h4>
   </div>
-  <div class="panel-body">
+  <div class="panel-body" ng-controller="RolLiquidationCtrl">
+    <table datatable="ng" class="table-condensed">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th># Empleados</th>
+        <th>Monto Total ($)</th>
+        <th>Ver</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="paymenthroles in resumenpaymenthrolesLiq track by $index"  class="cursorPointer">
+        <td>{{ $index+1 }}</td>
+        <td>{{ paymenthroles.Fecha}}</td>
+        <td>{{ paymenthroles.Cantidad}}</td>
+        <td>{{ paymenthroles.Total | currency}}</td>
+        <td><button class="btn btn-primary" type="botton" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Liq')" ng-controller="liquidationSelectionCtrl">...</button></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div> 

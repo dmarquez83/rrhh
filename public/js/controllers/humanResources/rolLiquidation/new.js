@@ -125,6 +125,20 @@ angular.module('app').controller('RolLiquidationCtrl', [
              });
         });
 
+        server.post('getPaymenthRoles').success(function(result){
+            $scope.resumenpaymenthrolesLiq=[];
+            $scope.paymenthrolesLiq = _.groupBy(_(result).where({ 'status': 'liquidation'}), 'monthliquidation');
+            angular.forEach(($scope.paymenthrolesLiq), function(row) {
+                var total = 0;
+                angular.forEach((row), function(det) {
+                    total = total +  parseFloat(det.totalToPay);
+                });
+                $scope.resumenpaymenthrolesLiq.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
+            });
+        });
+
+
+
         handlePanelAction();
     }
 

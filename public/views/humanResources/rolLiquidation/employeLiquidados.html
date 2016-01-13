@@ -55,12 +55,12 @@
     </div>
     <div class="modal-footer">
 
-        <button  class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
+        <button ng-if="status=='Pre'" class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
 
-        <button  class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+        <button  ng-if="status=='Pre'" class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
 
         <button  class="btn btn-danger btn-sm" ng-click="cerrar()">Cerrar</button>
 
-        <button  class="btn btn-danger btn-sm" ng-click="eliminarLiq()">Eliminar</button>
+        <button  ng-if="status=='Pre'" class="btn btn-danger btn-sm" ng-click="eliminarLiq()">Eliminar</button>
     </div>
 </div>

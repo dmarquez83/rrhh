@@ -11,7 +11,8 @@ angular.module('app').controller('LiquidationCtrl', [
   'MonthSettlement',
   'SinceDate',
   'UntilDate',
-  function ($scope, $state, $modalInstance, server, $rootScope, SweetAlert, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location) {
+  'Status',
+  function ($scope, $state, $modalInstance, server, $rootScope, SweetAlert, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate,Status, $location) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
@@ -19,6 +20,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.monthSettlement = MonthSettlement;
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
+      $scope.status =Status;
 
       if ($scope.typeSettlement=='monthly'){
           $scope.tipo = 'Mensual';
