@@ -12,7 +12,7 @@ angular.module('app').controller('liquidationSelectionCtrl', [
         var modalInstance = $modal.open({
           templateUrl: '../../views/humanResources/rolLiquidation/employePreLiquidados.html',
           controller: 'LiquidationCtrl',
-          size: 'lg',
+          windowClass: 'xlg',
           resolve: {
             EmployeSelectionsModal: function() //scope del modal
             {
@@ -43,10 +43,6 @@ angular.module('app').controller('liquidationSelectionCtrl', [
               //console.log($scope.rolLiquidation.lastDay,'lastDay');
               return $scope.rolLiquidation.lastDay;
 
-            },
-            Status:function()
-            {
-              return '';
             }
           }
         });
@@ -59,30 +55,27 @@ angular.module('app').controller('liquidationSelectionCtrl', [
 
     };
 
-    $scope.openLiquidarModal = function (status) {
+    $scope.openLiquidarModal = function (datos, mes, tipo) {
      // if($scope.employeSelections.length==0){
         var modalInstance = $modal.open({
           templateUrl: '../../views/humanResources/rolLiquidation/employeLiquidados.html',
           controller: 'LiquidationCtrl',
-          size: 'lg',
+          windowClass: 'xlg',
           resolve: {
             EmployeSelectionsModal: function() //scope del modal
             {
-             if($scope.paymenthroles.length>0)
-                return $scope.paymenthroles;
-             else
-                return $scope.resumenpaymenthroles;
+                return datos;
             },
             TypeSettlement:function() //scope del modal
             {
-              //console.log($scope.typeSettlement,'el tipo');
-              return $scope.typeSettlement;
+             // console.log(tipo,'el tipo');
+              return tipo;
 
             },
             MonthSettlement:function() //scope del modal
             {
-              //console.log($scope.rolLiquidation.monthSettlement,'el mes');
-              return $scope.rolLiquidation.monthSettlement;
+             // console.log(mes,'el mes');
+              return mes;
 
             },
             SinceDate:function() //scope del modal
@@ -97,10 +90,6 @@ angular.module('app').controller('liquidationSelectionCtrl', [
               //console.log($scope.rolLiquidation.lastDay,'lastDay');
               return $scope.rolLiquidation.lastDay;
 
-            },
-            Status:function()
-            {
-              return status;
             }
           }
         });

@@ -2,8 +2,8 @@
     <div class="modal-header">
         <h3 class="modal-title">Liquidacion  { {{tipo}} } { {{mes}} } </h3>
     </div>
-    <div class="modal-body table-responsive">
-        <table datatable="ng" class="table-condensed table">
+    <div class="modal-body">
+        <table datatable="ng" class="table-condensed">
             <thead>
             <tr>
                 <th>#</th>
@@ -55,10 +55,12 @@
     </div>
     <div class="modal-footer">
 
-        <button ng-if="status=='preliquidation'" class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
+        <button  class="btn btn-primary btn-sm" ng-click="savePreLiquidarS()" ng-disabled="!employeSelections">Liquidar</button>
 
-        <button ng-if="status=='preliquidation'" class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
+        <button  class="btn btn-danger btn-sm" ng-click="cancel()">Cancelar</button>
 
-        <button ng-if="status=='liquidation'" class="btn btn-danger btn-sm" ng-click="cerrar()">Cerrar</button>
+        <button  class="btn btn-danger btn-sm" ng-click="cerrar()">Cerrar</button>
+
+        <button  class="btn btn-danger btn-sm" ng-click="eliminarLiq()">Eliminar</button>
     </div>
 </div>

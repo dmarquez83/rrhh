@@ -3,10 +3,8 @@ angular.module('app').controller('RolLiquidationCtrl', [
     '$scope',
     '$modal',
     'server',
-    '$state',
-    '$window',
     '$rootScope',
-    function ($scope,$modal,server,$state, $window,$rootScope) {
+    function ($scope,$modal,server,$rootScope) {
         $scope.rolLiquidation = {};
         $scope.rolLiquidation.departmentName = '';
         $scope.employees = [];
@@ -96,48 +94,35 @@ angular.module('app').controller('RolLiquidationCtrl', [
             }
 
             server.post('getPaymenthRoles').success(function(result){
-                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'liquidation' });
+                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.rolLiquidation.monthSettlement, 'status': 'liquidation' });
                 if($scope.paymenthroles.length>0){
-                    toastr.error('Ya ha sido hecha la liquidación de este mes');
+                    toastr.error('Ya ha sido hecha la liquidación de esta Fecha');
                     $scope.rolLiquidation.monthSettlement = '';
                     $scope.rolLiquidation.firstDay = '';
                     $scope.rolLiquidation.lastDay = '';
                 }
 
-                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.mesSel, 'status': 'preliquidation' });
+                $scope.paymenthroles = _(result).where({ 'monthliquidation':  $scope.rolLiquidation.monthSettlement, 'status': 'preliquidation' });
                 if($scope.paymenthroles.length>0){
-                    toastr.warning('El mes de esta liquidación esta PreLiquidado. Se mostrará para que sea liquidado');
-                    $scope.statusPreLiquidation=false;
+                    toastr.warning('La Fecha que selecciono ya fue pre-liquidado consulte en el resumen ');
+                    $scope.rolLiquidation.monthSettlement = '';
+                    $scope.rolLiquidation.firstDay = '';
+                    $scope.rolLiquidation.lastDay = '';
                 }
             });
             $scope.statusPreLiquidation=true;
         };
 
-        var sum = function(numbers) {
-            return _.reduce(numbers, function (result, current) {
-                return result + parseFloat(current || 0);
-            }, 0);
-        };
-
-        $rootScope.$on('monthliquidation', function (event, values) {
-            $scope.rolLiquidation.monthSettlement = values.monthSelections;
-            $scope.typeSettlement = values.typeSettlement;
-            server.post('getPaymenthRoles').success(function(result){
-                $scope.resumenpaymenthroles = _(result).where({ 'monthliquidation':  $scope.rolLiquidation.monthSettlement });
-                $scope.summary = _($scope.resumenpaymenthroles).chain()
-                    .flatten()
-                    .groupBy("monthliquidation")
-                    .map(function (value, key) {
-                        return {
-                            _id: key,
-                            fecha: value[0].sinceDate,
-                            cantidad: value.length,
-                            status: value[0].status,
-                            monto: sum(_(value).chain().pluck("totalToPay").value())
-                        }
-                    })
-                    .value();
-            });
+        server.post('getPaymenthRoles').success(function(result){
+            $scope.resumenpaymenthroles=[];
+            $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+             angular.forEach(($scope.paymenthroles), function(row) {
+             var total = 0;
+                  angular.forEach((row), function(det) {
+                    total = total +  parseFloat(det.totalToPay);
+                  });
+                 $scope.resumenpaymenthroles.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
+             });
         });
 
         handlePanelAction();

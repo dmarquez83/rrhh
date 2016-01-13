@@ -131,17 +131,9 @@
       </div>
 
       <br/>
-
-      <div ng-show="statusPreLiquidation">
-        <div class="col-md-6 col-xs-6" align="center" >
-          <input type="checkbox" ng-model="selectedAllEmp" ng-click="searchEmployeAct()" /> Todos
-        </div>
-      </div>
-
-      <br/>
-
       <div class="row" ng-show="statusPreLiquidation">
-        <div class="col-md-6 col-xs-6" >
+        <div class="col-md-6 col-xs-6" align="center" >
+          <input type="checkbox" ng-model="selectedAllEmp" ng-click="searchEmployeAct()"> Todos
           <h4 align="center">Se encuentran seleccionados {{employeSelections.length }} empleados.</h4>
         </div>
       </div>
@@ -153,20 +145,12 @@
           <button class="btn btn-primary" type="botton" ng-click="openPreLiquidarModal()" ng-controller="liquidationSelectionCtrl">Preliquidar</button>
         </div>
       </div>
-
-      <div class="row" ng-show="!statusPreLiquidation">
-        <div class="col-md-6 col-xs-6" align="center" >
-          <button class="btn btn-primary" type="botton" ng-click="openLiquidarModal('preliquidation')" ng-controller="liquidationSelectionCtrl">Liquidar</button>
-        </div>
-      </div>
-
-
     </form>
   </div>
 </div>
 
 
-<div ng-if="summary[0].monto>0" class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
+<div class="panel panel-inverse animated fadeInRight" data-sortable-id="form-plugins-9">
   <div class="panel-heading">
     <div class="panel-heading-btn">
       <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
@@ -175,9 +159,10 @@
     <h4 class="panel-title">Resumen PreLiquidaciones de Rol</h4>
   </div>
   <div class="panel-body">
-    <table class="table-condensed" >
+    <table datatable="ng" class="table-condensed">
       <thead>
       <tr>
+        <th>#</th>
         <th>Fecha</th>
         <th># Empleados</th>
         <th>Monto Total ($)</th>
@@ -186,12 +171,13 @@
       </tr>
       </thead>
       <tbody>
-      <tr  class="cursorPointer" >
-        <td>{{ summary[0].fecha }}</td>
-        <td>{{ summary[0].cantidad }}</td>
-        <td >{{ summary[0].monto | currency }} </td>
-        <td><button class="btn btn-primary" type="botton" ng-click="openLiquidarModal(summary[0].status)" ng-controller="liquidationSelectionCtrl">{{summary[0].status}}</button></td>
-      </tr>
+     <tr ng-repeat="paymenthroles in resumenpaymenthroles track by $index"  class="cursorPointer">
+       <td>{{ $index+1 }}</td>
+       <td>{{ paymenthroles.Fecha}}</td>
+       <td>{{ paymenthroles.Cantidad}}</td>
+       <td>{{ paymenthroles.Total | currency}}</td>
+       <td><button class="btn btn-primary" type="botton" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo)" ng-controller="liquidationSelectionCtrl">...</button></td>
+     </tr>
       </tbody>
     </table>
   </div>

@@ -80,21 +80,11 @@ class PaymenthRolesController extends Controller {
 
   public function destroy($id)
   {
-	//$modelList = ['PaymenthRoles'];
-	//$canRemove = DocumentReferenceVerificator::verify(['paymentMethod_id'], $id, $modelList);
-	$canRemove = true;
-	if($canRemove === true){
-	  if (PaymenthRoles::find($id)->delete()) {
+      if (PaymenthRoles::find($id)->delete()) {
 		return ResultMsgMaker::deleteSuccess();
 	  } else {
 		return ResultMsgMaker::error();
 	  }
-	} else {
-	  $modelName = $canRemove['modelName'];
-	  $modelName = Lang::get('modelNames.'.$modelName);
-
-	  return ResultMsgMaker::errorCannotDelete('el', 'método de pago', '', $modelName);
-	}
   }
 
   public function getPaymenthRoles()

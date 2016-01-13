@@ -5,13 +5,13 @@ angular.module('app').controller('LiquidationCtrl', [
   '$modalInstance',
   'server',
   '$rootScope',
+  'SweetAlert',
   'EmployeSelectionsModal',
   'TypeSettlement',
   'MonthSettlement',
   'SinceDate',
   'UntilDate',
-  'Status',
-  function ($scope, $state, $modalInstance, server, $rootScope, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate,Status, $location) {
+  function ($scope, $state, $modalInstance, server, $rootScope, SweetAlert, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate, $location) {
       $scope.less = 9.35;
       $scope.employeSelections = EmployeSelectionsModal;
       $scope.typeSettlement = TypeSettlement;
@@ -19,7 +19,6 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.monthSettlement = MonthSettlement;
       $scope.sinceDate = SinceDate;
       $scope.untilDate = UntilDate;
-      $scope.status= Status;
 
       if ($scope.typeSettlement=='monthly'){
           $scope.tipo = 'Mensual';
@@ -377,11 +376,10 @@ angular.module('app').controller('LiquidationCtrl', [
           });
 
           server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
-              toastr[data.type]('Liquidación de Rol satisfactoria');
+              toastr[data.type]('Pre-Liquidación de Rol satisfactoria');
+              $modalInstance.dismiss();
+              $state.reload();
           });
-
-          $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.monthSettlement, typeSettlement: $scope.typeSettlement});
-          $modalInstance.dismiss();
       };
 
       $scope.savePreLiquidar = function(){
@@ -465,21 +463,18 @@ angular.module('app').controller('LiquidationCtrl', [
                   server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
+                          $modalInstance.dismiss();
+                          $state.reload();
                       }else{
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
+                          $modalInstance.dismiss();
+                          $state.reload();
                       }
-
                   });
-
-                  $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.monthSettlement , typeSettlement: $scope.typeSettlement});
-                  $modalInstance.dismiss();
-
               },
               function(){
                   alertify.error('Cancel');
               });
-
-
       };
 
       $scope.savePreLiquidarS = function(){
@@ -487,43 +482,88 @@ angular.module('app').controller('LiquidationCtrl', [
           server.post('getEmployees').success(function(result){
               $scope.employees = (result);
           });
-          alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
-              function(){
-                  angular.forEach(($scope.employeSelections), function(employe){
-                      $scope.liquidation_.status = 'liquidation';
-                      server.update('paymenthRolesController', $scope.liquidation_,employe._id).success(function (data) {
+          SweetAlert.swal({
+                  title: "Esta seguro que desea liquidar?",
+                  text: "una vez hecha la liquidación no se podrán revertir los cambios",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",confirmButtonText: "Si, Liquidar",
+                  cancelButtonText: "No, Liquidar",
+                  closeOnConfirm: true,
+                  closeOnCancel: true },
+              function(isConfirm){
+                  if (isConfirm) {
+                      angular.forEach(($scope.employeSelections), function (employe) {
+                          $scope.liquidation_.status = 'liquidation';
+                          server.update('paymenthRolesController', $scope.liquidation_, employe._id).success(function (data) {
+
+                          });
+                          $scope.employeesLiquidar = _($scope.employees).where({'identification': employe.identification});
+
+                          employe.discounts = _($scope.employeesLiquidar[0]).has('discounts') ? $scope.employeesLiquidar[0].discounts : [];
+                          employe.bonus = _($scope.employeesLiquidar[0]).has('bonus') ? $scope.employeesLiquidar[0].bonus : [];
+                          var paymenthRole = {
+                              'paymenthRole': {
+                                  'discount': angular.copy($scope.employeesLiquidar[0].discounts),
+                                  'bonus': angular.copy($scope.employeesLiquidar[0].bonus)
+                              }
+                          };
+
+                          server.update('employee', paymenthRole, $scope.employeesLiquidar[0]._id).success(function (data) {
+                              $scope.deleteBonus($scope.employeesLiquidar[0]);
+                              $scope.deleteDiscount($scope.employeesLiquidar[0]);
+                          });
+
                       });
-                      $scope.employeesLiquidar = _($scope.employees).where({ 'identification':  employe.identification });
+                      $modalInstance.dismiss();
+                      $state.reload();
+                  }
+              });
+      };
 
-                      employe.discounts = _($scope.employeesLiquidar[0]).has('discounts') ? $scope.employeesLiquidar[0].discounts : [];
-                      employe.bonus = _($scope.employeesLiquidar[0]).has('bonus') ? $scope.employeesLiquidar[0].bonus : [];
-                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy($scope.employeesLiquidar[0].discounts), 'bonus': angular.copy($scope.employeesLiquidar[0].bonus) }};
-
-                      server.update('employee', paymenthRole, $scope.employeesLiquidar[0]._id).success(function (data) {
-                          $scope.deleteBonus($scope.employeesLiquidar[0]);
-                          $scope.deleteDiscount($scope.employeesLiquidar[0]);
+      $scope.eliminarLiq = function() {
+          SweetAlert.swal({
+                  title: "Está seguro de eliminar esta Preliquidacion?",
+                  text: "Si elimina la Preliquidacion no lo podrá recuperar",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",confirmButtonText: "Si, eliminar",
+                  cancelButtonText: "No, cancelar",
+                  closeOnConfirm: true,
+                  closeOnCancel: true },
+              function(isConfirm){
+                  if (isConfirm) {
+                      $scope.serverProcess = true;
+                      angular.forEach(($scope.employeSelections), function(employeSelections){
+                          server.delete('paymenthRolesController', employeSelections._id).success(function(result){
+                              SweetAlert.swal("Eliminado!", result.msg, result.type);
+                           })
                       });
-
-                  });
-                  $rootScope.$broadcast('monthliquidation', { monthSelections: $scope.monthSettlement , typeSettlement: $scope.typeSettlement});
-                  $modalInstance.dismiss();
-              },
-              function(){
-                  alertify.error('Cancel');
+                      $scope.serverProcess = false;
+                      $modalInstance.dismiss();
+                      $state.reload();
+                  }
               });
       };
 
       $scope.cancel = function () {
-         alertify.confirm("esta seguro que desea Cancelar? , se perderán los cambios.",
-             function() {
-                 $modalInstance.dismiss();
-                 $state.reload();
-             },
-             function() {
-                 alertify.error('Cancel');
-          });
-
+          SweetAlert.swal({
+                  title: "esta seguro que desea Cancelar? ",
+                  text: "se perderán los cambios",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",confirmButtonText: "Ok",
+                  cancelButtonText: "Cancelar",
+                  closeOnConfirm: true,
+                  closeOnCancel: true },
+              function(isConfirm){
+                  if (isConfirm) {
+                      $modalInstance.dismiss();
+                      $state.reload();
+                  }
+              });
       };
+
 
       $scope.cerrar = function () {
           $modalInstance.dismiss();
