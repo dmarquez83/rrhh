@@ -270,7 +270,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
          return true;
      };
 
-      $scope.clear = function(){
+      $scope.clean = function(){
         $scope.monthSearch = '';
         $scope.archivo = '';
         $scope.employeeFile=[];
@@ -298,7 +298,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             //console.log(discounts);
             server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
                 toastr[data.type](data.msg);
-                $scope.clear();
+                $scope.clean();
             });
         }else{
             toastr.warning("Debe Ingresar un descuento");

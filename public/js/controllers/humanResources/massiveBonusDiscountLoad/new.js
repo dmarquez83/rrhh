@@ -64,6 +64,20 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
       $scope.bonusdiscounts.splice(index, 1);
     }
 
+    $scope.clean = function(){
+      $scope.employeSelections=[];
+      $scope.massiveBonus = {};
+      $scope.massiveBonus.typeBonus = [];
+      $scope.massiveBonus.frequencyBonus = [];
+      $scope.departments = [];
+      $scope.bonusdiscounts = [];
+      $scope.type = [];
+      $scope.employeSelections = [];
+      $scope.assignedDiscounts = {};
+      $scope.assignedBonus = {};
+      $scope.quantityEmploye = 0;
+    }
+
     $scope.save = function(){
       if($scope.employeSelections){
         angular.forEach($scope.employeSelections, function (employee) {
@@ -91,8 +105,7 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
                 employee.discounts.push($scope.assignedDiscounts);
                 var discounts = { 'discounts': angular.copy(employee.discounts) };
                 server.update('employee', discounts, employee._id).success(function (data) {
-                  toastr[data.type](data.msg);
-                  $scope.reloadPage();
+
                 });
               }
             }
@@ -111,14 +124,15 @@ angular.module('app').controller('MassiveBonusDiscountLoadCtrl', [
                 employee.bonus.push($scope.assignedBonus);
                 var bonus = { 'bonus': angular.copy(employee.bonus) };
                 server.update('employee', bonus, employee._id).success(function (data) {
-                  toastr[data.type](data.msg);
-                  $scope.reloadPage();
+
                 });
               }
             }
             index++;
           });
         });
+        toastr.success('La carga masiva fue registrada exitosamente');
+        $scope.clean();
       }else {
         toastr.warning('Debe seleccionar al Menos un Empleado');
       }

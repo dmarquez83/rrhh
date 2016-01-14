@@ -303,12 +303,12 @@ angular.module('app').controller('LiquidationCtrl', [
 
 
       $scope.clean = function () {
-          $scope.typeSettlement='';
-          $scope.monthSettlement = '';
-          $scope.sinceDate='';
-          $scope.untilDate='';
+         /* $scope.typeSettlement='';
+          $scope.rolLiquidation.monthSettlement = '';
+          $scope.rolLiquidation.firstDay='';
+          $scope.rolLiquidation.lastDay='';
           $scope.employeSelections = [];
-          $scope.liquidationArray= [];
+          $scope.liquidationArray= [];*/
       };
 
       $scope.savePreLiquidarTemp = function(){
@@ -381,6 +381,7 @@ angular.module('app').controller('LiquidationCtrl', [
               toastr[data.type]('Pre-Liquidación de Rol satisfactoria');
               $modalInstance.dismiss();
               $state.reload();
+              $scope.clean();
           });
       };
 
@@ -471,6 +472,7 @@ angular.module('app').controller('LiquidationCtrl', [
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
                           $modalInstance.dismiss();
                           $state.reload();
+                          $scope.clean();
                       }
                   });
               },
@@ -510,15 +512,18 @@ angular.module('app').controller('LiquidationCtrl', [
                                   'bonus': angular.copy($scope.employeesLiquidar[0].bonus)
                               }
                           };
-
                           server.update('employee', paymenthRole, $scope.employeesLiquidar[0]._id).success(function (data) {
-                              $scope.deleteBonus($scope.employeesLiquidar[0]);
-                              $scope.deleteDiscount($scope.employeesLiquidar[0]);
+
                           });
+                          $scope.deleteBonus($scope.employeesLiquidar[0]);
+                          $scope.deleteDiscount($scope.employeesLiquidar[0]);
+
+                          $scope.employeesLiquidar='';
 
                       });
                       $modalInstance.dismiss();
                       $state.reload();
+                      $scope.clean();
                   }
               });
       };
@@ -544,6 +549,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.serverProcess = false;
                       $modalInstance.dismiss();
                       $state.reload();
+
                   }
               });
       };
