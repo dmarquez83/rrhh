@@ -4,8 +4,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
   '$state',
   'documentValidate',
   'server',
-  'XLSXReaderService','FactorysubtractHours','FactoryArrears',
-  function ($scope, $state, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears) {
+  'XLSXReaderService','FactorysubtractHours','FactoryArrears','FactoryaddingHours',
+  function ($scope, $state, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears,FactoryaddingHours) {
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
@@ -45,6 +45,25 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         else return 'Salida';
 
     };
+
+      $(document).on('change', '.btn-file :file', function () {
+          var input = $(this), numFiles = input.get(0).files ? input.get(0).files.length : 1, label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+          input.trigger('fileselect', [
+              numFiles,
+              label
+          ]);
+      });
+      $(document).ready(function () {
+          $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+              var input = $(this).parents('.input-group').find(':text'), log = numFiles > 1 ? numFiles + ' files selected' : label;
+              if (input.length) {
+                  input.val(log);
+              } else {
+                  if (log)
+                      alert(log);
+              }
+          });
+      });
 
 
     $scope.fileChanged = function(files) {
@@ -97,42 +116,50 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
     $scope.send = function(){
 
-      var dateval = false;
+        if($scope.monthSearch){
+            var dateval = false;
 
-      angular.forEach($scope.datafile, function (row) {
-        var myarr = row.Fecha.split("/");
-        var dateFile = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
-        var objDate = new Date(dateFile),
-            locale = "en-us",
-            month = objDate.toLocaleString(locale, { month: "long" });
-        if($scope.monthSearch==month){
-          dateval = true;
-            $scope.datafilset.push(row);
+            angular.forEach($scope.datafile, function (row) {
+                var myarr = row.Fecha.split("/");
+                var dateFile = myarr[1]+'/'+myarr[0]+'/'+myarr[2];
+                var objDate = new Date(dateFile),
+                    locale = "en-us",
+                    month = objDate.toLocaleString(locale, { month: "long" });
+                if($scope.monthSearch==month){
+                    dateval = true;
+                    $scope.datafilset.push(row);
+                }
+            });
+
+            server.post('getEmployees').success(function(result){
+                var Codigos = _($scope.datafile).pluck('Codigo').map(function (value){return {'Codigo': value } });
+                angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
+                    $scope.employees = _(result).where({'code': row[0].Codigo});
+                    $scope.employeesFile.push($scope.employees[0]);
+                });
+            });
+
+            // $scope.datafile = $scope.datafilset;
+            $scope.databackup = $scope.datafile;
+            $scope.initialheader = false;
+            $scope.endheader = true;
+
+            if(!dateval){
+                toastr.error('Error', 'Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
+                $scope.endheader = false;
+            }
+
+            if($scope.configuration.length==0){
+                toastr.error('error', 'No hay una configuracion de timbre establecida');
+                $scope.endheader = false;
+            }
+        }else{
+            toastr.error('error','Seleccione un Mes a Evaluar');
         }
-      });
 
-      server.post('getEmployees').success(function(result){
-        var Codigos = _($scope.datafile).pluck('Codigo').map(function (value){return {'Codigo': value } });
-        angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
-                $scope.employees = _(result).where({'code': row[0].Codigo});
-                $scope.employeesFile.push($scope.employees[0]);
-        });
-      });
-
-     // $scope.datafile = $scope.datafilset;
-      $scope.databackup = $scope.datafile;
-      $scope.initialheader = false;
-      $scope.endheader = true;
-
-      if(!dateval){
-         toastr.error('Error', 'Archivo vacio, ninguna fecha corresponde al mes seleccionado: '+ $scope.monthSearch);
-         $scope.endheader = false;
-      }
-
-      if($scope.configuration.length==0){
-          toastr.error('error', 'No hay una configuracion de timbre establecida');
-          $scope.endheader = false;
-      }
+        if($scope.datafile.length==0){
+            toastr.error('error','Seleccione un archivo');
+        }
     }
 
       $scope.reloadPage = function() {
@@ -188,20 +215,12 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
       angular.forEach(($scope.resultdata),function(data){
         $scope.columnas = [];
-
         angular.forEach(data,function(dataColumns){
-            var i=0;
+          var i=0;
           angular.forEach(dataColumns.Columns,function(dataRegister){
-            var acumulador = 0;
             angular.forEach(($scope.configuration),function(conf){
               if(dataRegister.hour == conf.hourBell ){
-                $scope.columnas[i]={Hora: dataRegister.register.hora, Color:dataRegister.register.color};
-
-                  if(dataRegister.register.color == 'red' && dataRegister.type=='in' ){
-                      console.log(conf.hourBell,dataRegister.register.hora,'resta');
-                      var resultado = FactorysubtractHours.subtractHours(conf.hourBell,dataRegister.register.hora);
-                      acumulador = parseInt(acumulador) + parseInt(resultado);
-                  }
+                $scope.columnas[i]={Hora: dataRegister.register.hora, Color:dataRegister.register.color, Type: dataRegister.type, HoraConf: dataRegister.hour};
               }else{
                 if(!$scope.columnas[i]){
                   $scope.columnas[i]='';
@@ -209,11 +228,38 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
               }
               i++;
             });
-              console.log(acumulador,'acumulador del resultado');
+
           });
         });
         $scope.data.push({Fecha:data[0].Fecha, Columnas:$scope.columnas});
       });
+
+        var i = 0;
+        $scope.total = [];
+        angular.forEach(($scope.configuration), function(conf) {
+            var acumulador ='00:00';
+            angular.forEach($scope.data, function (data) {
+                angular.forEach(data.Columnas,function(col){
+                    if(col.Color == 'red'  && col.HoraConf==conf.hourBell){
+                        if(col.Type=='in'){
+                            var resultado = FactorysubtractHours.subtractHours(conf.hourBell,col.Hora);
+                        }else{
+                            var resultado = FactorysubtractHours.subtractHours(col.Hora,conf.hourBell);
+                        }
+
+                        var resulacumulador = FactoryaddingHours.addingHours(acumulador,resultado);
+                        acumulador = resulacumulador;
+                    }
+                });
+            });
+            if(acumulador.substr(0,2)=='00'){
+                var tiempo = 'minutos';
+            }else {
+                var tiempo = 'horas';
+            }
+            $scope.total.push({Hora:conf.hourBell, Total: acumulador, Tiempo: tiempo});
+            i++;
+        });
     };
 
      var validarDescuento = function(){
@@ -223,6 +269,19 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
          }
          return true;
      };
+
+      $scope.clear = function(){
+        $scope.monthSearch = '';
+        $scope.archivo = '';
+        $scope.employeeFile=[];
+        $scope.descuento='';
+        $scope.data=[];
+        $scope.datafile=[];
+        $scope.initialheader = true;
+        $scope.endheader = false;
+        $scope.namefile='';
+        $scope.total=[];
+      };
 
 
     $scope.save = function(){
@@ -239,6 +298,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             //console.log(discounts);
             server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
                 toastr[data.type](data.msg);
+                $scope.clear();
             });
         }else{
             toastr.warning("Debe Ingresar un descuento");
