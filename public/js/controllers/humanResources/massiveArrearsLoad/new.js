@@ -107,19 +107,15 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
             month = objDate.toLocaleString(locale, { month: "long" });
         if($scope.monthSearch==month){
           dateval = true;
-            if(row.Codigo.substr(0,1) == '0'){
-                $scope.datafilset.push(row);
-            }
+            $scope.datafilset.push(row);
         }
       });
 
       server.post('getEmployees').success(function(result){
         var Codigos = _($scope.datafile).pluck('Codigo').map(function (value){return {'Codigo': value } });
         angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
-            if(row[0].Codigo.substr(0,1) == '0') {
                 $scope.employees = _(result).where({'code': row[0].Codigo});
                 $scope.employeesFile.push($scope.employees[0]);
-            }
         });
       });
 
@@ -188,15 +184,24 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       });
 
       $scope.resultdata = _.values($scope.datarow_groupby);
+      $scope.total={};
 
       angular.forEach(($scope.resultdata),function(data){
         $scope.columnas = [];
+
         angular.forEach(data,function(dataColumns){
-          angular.forEach(dataColumns.Columns,function(dataRegister){
             var i=0;
+          angular.forEach(dataColumns.Columns,function(dataRegister){
+            var acumulador = 0;
             angular.forEach(($scope.configuration),function(conf){
               if(dataRegister.hour == conf.hourBell ){
                 $scope.columnas[i]={Hora: dataRegister.register.hora, Color:dataRegister.register.color};
+
+                  if(dataRegister.register.color == 'red' && dataRegister.type=='in' ){
+                      console.log(conf.hourBell,dataRegister.register.hora,'resta');
+                      var resultado = FactorysubtractHours.subtractHours(conf.hourBell,dataRegister.register.hora);
+                      acumulador = parseInt(acumulador) + parseInt(resultado);
+                  }
               }else{
                 if(!$scope.columnas[i]){
                   $scope.columnas[i]='';
@@ -204,6 +209,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
               }
               i++;
             });
+              console.log(acumulador,'acumulador del resultado');
           });
         });
         $scope.data.push({Fecha:data[0].Fecha, Columnas:$scope.columnas});
