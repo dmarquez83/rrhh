@@ -2,13 +2,13 @@
     // Get angular app
     var app = angular.module("app");
 
-    app.factory("FactorysubtractHours", ['$q', '$rootScope',
+    app.factory("FactoryaddingHours", ['$q', '$rootScope',
         function($q, $rootScope) {
             var service = function(data) {
                 angular.extend(this, data);
             }
 
-            service.subtractHours = function(inicio,fin){
+            service.addingHours = function(inicio,fin){
                 //var inicio = '10:00';
                 //var fin = '08:05';
 
@@ -18,8 +18,8 @@
                 var finMinutos = parseInt(fin.substr(3,2));
                 var finHoras = parseInt(fin.substr(0,2));
 
-                var transcurridoMinutos = finMinutos - inicioMinutos;
-                var transcurridoHoras = finHoras - inicioHoras;
+                var transcurridoMinutos = finMinutos + inicioMinutos;
+                var transcurridoHoras = finHoras + inicioHoras;
 
                 if (transcurridoMinutos < 0) {
                     transcurridoHoras--;
@@ -36,7 +36,6 @@
                 if (horas.length < 2) {
                     horas = "0"+horas;
                 }
-
                 if(parseInt(minutos.length)==1){
                     minutos = '0' + minutos.toString();
                 }
@@ -44,6 +43,7 @@
 
                 return resultado;
             }
+
 
             return service;
         }

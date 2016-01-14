@@ -2,15 +2,12 @@
 
         <fieldset>
             <div class="hr-line-dashed"></div>
-
-
-
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <div class="form-group"><label class="control-label"><u>M</u>es</label>
                         <div class="input-group input-group-sm">
                             <select class="form-control" placeholder="" ng-model="monthSearch" ng-required="true" id="monthSearch" name="monthSearch"
-                                    ng-change="searchMonth()" tabindex="21">
+                                    ng-change="searchMonth()" tabindex="1">
                                 <option value=""></option>
                                 <option value="January">Enero</option>
                                 <option value="February">Febrero</option>
@@ -31,11 +28,18 @@
                 </div>
                 <div class="col-lg-4 col-md-4"><label class="control-label"></label>
                     <div style="position:relative;">
-                        <a class='btn btn-primary' href='javascript:;'>Examinar...
-                            <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="excel_file" accept=".xlsx"  onchange='angular.element(this).scope().fileChanged(this.files);$("#upload-file-info").html($(this).val());' required="true" >
-                        </a>
-                        &nbsp;
-                        <span class='label label-info' id="upload-file-info"></span>
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-primary btn-file">
+                                Examinar...
+                                <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' ng-model="archivo" name="excel_file" accept=".xlsx"  onchange='angular.element(this).scope().fileChanged(this.files);$("#upload-file-info").html($(this).val());' required="true" >
+                            </span>
+                        </span>
+                            <input type="text" class="form-control" ng-model="namefile" id="upload-file-info" readonly>
+                        </div>
+                    <span class="help-block">
+                        Seleccione un archivo
+                    </span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4"><label class="control-label"></label>
@@ -43,18 +47,44 @@
                         <button class="btn btn-primary" type="botton" ng-click="send()" >Enviar</button>
                     </div>
                 </div>
+
             </div>
+
+             <div class="row">
+                 <div ng-show="endheader" class="col-lg-4 col-md-4">
+                     <div class="form-group">
+                         <label><u>E</u>mpleado</label>
+                         <div class="input-group input-group-sm">
+                             <select  class="form-control"  ng-model="employeeFile" tabindex="2" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
+                                 <option value=""></option>
+                             </select>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div ng-show="endheader" class="col-lg-4 col-md-4">
+                     <div class="form-group">
+                         <label><u>D</u>escuentos</label>
+                         <div class="input-group input-group-sm">
+                             <input type="text" class="form-control text-right" ng-model="descuento" required   ui-money-mask>
+                             <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                         </div>
+                     </div>
+                 </div>
+         </div>
+
+
+
         </fieldset>
 
-        <div class="modal-body">
+        <div >
             <table datatable="ng" class="table table-condensed">
                 <thead ng-show="initialheader">
                     <tr>
                         <th>Codigo</th>
                         <th>Fecha</th>
-                        <th >Hora</th>
+                        <th>Hora</th>
                     </tr>
-
                 <tbody ng-show="initialheader">
                     <tr  ng-repeat="datosarchivo in datafile track by $index"  class="cursorPointer">
                         <td>{{ datosarchivo.Codigo}}</td>
@@ -64,31 +94,6 @@
                 </tbody>
 
                 <thead ng-show="endheader">
-
-                <div class="row">
-
-                    <div ng-show="endheader" class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label><u>E</u>mpleado</label>
-                            <div class="input-group input-group-sm">
-                                <select class="form-control" ng-model="employeeFile" tabindex="30" required name="employeeFile" id="employeeFile" ng-change="serachEmploye()"  ng-options="employe as employe.names for employe in employeesFile " >
-                                    <option value=""></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div ng-show="endheader" class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label><u>D</u>escuentos</label>
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control text-right" ng-model="descuento" required   ui-money-mask>
-                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
                 <tr>
                     <th>Fecha</th>
                     <th ng-repeat="colconfiguration in configuration track by $index"  class="cursorPointer">
@@ -108,6 +113,13 @@
                           </td>
                     </tr>
                 </tbody>
+                <tr>
+                    <th>Total</th>
+                    <th ng-repeat="totalArr in total track by $index"  class="cursorPointer">
+                        {{ totalArr.Total}} {{totalArr.Tiempo}}
+
+                    </th>
+                </tr>
             </table>
         </div>
         <div class="col-md-1">
