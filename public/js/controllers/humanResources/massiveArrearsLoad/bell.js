@@ -8,6 +8,7 @@ angular.module('app').controller('BellCtrl', [
         $scope.serverProcess = false;
         $scope.isUpdate = false;
         $scope.bells = [];
+        $scope._id = [];
         $scope.countBell =[];
         $scope.hourBell= [];
         $scope.typeBell= [];
@@ -18,14 +19,17 @@ angular.module('app').controller('BellCtrl', [
         };
 
         $scope.deleteBell = function(index){
-            $scope.bells.splice(index, 1);
+            $scope.bells.splice(index,1);
+            console.log('voy a quitar linea', index);
         };
+
 
         server.post('getBells').success(function(result){
                 $scope.bells = (result);
                 var indice =0;
                 angular.forEach(($scope.bells), function(row){
-                    //console.log(row,'este',row._id);
+                    console.log(row,'este',row._id);
+                    $scope._id[indice] = row._id;
                     $scope.countBell[indice] = row.countBell;
                     $scope.hourBell[indice] = row.hourBell;
                     $scope.typeBell[indice] = row.typeBell;
@@ -33,9 +37,6 @@ angular.module('app').controller('BellCtrl', [
                 });
 
                 $scope.cuenta = $scope.bells.length;
-
-            //console.log('cuantos tengo',$scope.cuenta);
-
         });
 
         var validateCountBell = function(){

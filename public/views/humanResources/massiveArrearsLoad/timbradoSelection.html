@@ -29,7 +29,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.countBell.$invalid && timbradoSelectionForm.$submitted}">
                             <label class="control-label"><u>C</u>ontador</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" ng-model="countBell[0]" id="countBell[0]" name="countBell[0]" required class="form-control" tabindex="1">
+                                <input type="text" ng-model="countBell[0]" id="countBell[0]" name="countBell[0]"  required class="form-control" tabindex="1">
                             <span class="input-group-addon"><i class="fa fa-credit-card"></i></span></div>
                         </div>
                     </div>
@@ -62,7 +62,8 @@
                     </div>
                 </div>
 
-                <div class="row" ng-repeat="bell in bells">
+
+                <div class="row" ng-repeat="bell in bells" ng-if="!$last">
 
                     <div class="col-md-1">
                         <div class="form-group" >
@@ -117,10 +118,7 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </fieldset>
             <br/>
             <div class="btn-group">
