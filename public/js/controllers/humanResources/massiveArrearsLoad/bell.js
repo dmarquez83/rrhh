@@ -1,10 +1,11 @@
 'use strict';
 angular.module('app').controller('BellCtrl', [
     '$scope',
+    '$state',
     'documentValidate',
     'server',
     'SweetAlert',
-    function ($scope, documentValidate, server, SweetAlert) {
+    function ($scope,$state,documentValidate, server, SweetAlert) {
         $scope.serverProcess = false;
         $scope.isUpdate = false;
         $scope.bells = [];
@@ -13,14 +14,43 @@ angular.module('app').controller('BellCtrl', [
         $scope.hourBell= [];
         $scope.typeBell= [];
 
+
         $scope.addBell = function() {
             $scope.bells.push({ hecho: true });
             //console.log($scope.bells,'agregara linea');
         };
 
         $scope.deleteBell = function(index){
+            console.log($scope);
             $scope.bells.splice(index,1);
-            console.log('voy a quitar linea', index);
+            //console.log('voy a quitar linea', index);
+
+            var idBell = $scope._id[index];
+
+            /*console.log('bells',  $scope.bells[index]);
+            console.log('idBell es', idBell);*/
+
+            if (idBell){
+                eliminar(idBell);
+                console.log('borre ', idBell);
+            }
+        };
+
+        var eliminar = function ($id) {
+            server.delete('bells',$id).success(function(result){
+                if(result.type == 'success') {
+                    toastr[data.type](data.msg);
+                    //console.log('borrado es ', $id);
+                    //$state.reload();
+                }
+            });
+        };
+
+        $scope.cleanBell = function() {
+            $scope._id = null;
+            $scope.countBell = [];
+            $scope.hourBell= [];
+            $scope.typeBell= [];
         };
 
 
@@ -94,6 +124,24 @@ angular.module('app').controller('BellCtrl', [
             server.save('bells',$scope.bellInfo_).success(function (data) {
                 toastr[data.type](data.msg);
             });
+        };
+
+
+        var eliminar = function ($id) {
+            server.delete('bells',$id).success(function(result){
+                        if(result.type == 'success') {
+                            toastr[data.type](data.msg);
+                            //console.log('borrado es ', $id);
+                            $state.reload();
+                        }
+                    });
+        };
+
+        $scope.cleanBell = function() {
+            $scope._id = null;
+            $scope.countBell = [];
+            $scope.hourBell= [];
+            $scope.typeBell= [];
         };
 
         handlePanelAction();
