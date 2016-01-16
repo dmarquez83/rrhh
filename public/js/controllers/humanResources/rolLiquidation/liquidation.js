@@ -545,7 +545,8 @@ angular.module('app').controller('LiquidationCtrl', [
                       });
                       $scope.serverProcess = false;
                       $modalInstance.dismiss();
-                      $state.reload();
+                      //$state.reload();
+                      $rootScope.$broadcast('cleanform', { clean: true });
 
                   }
               });
@@ -564,7 +565,8 @@ angular.module('app').controller('LiquidationCtrl', [
               function(isConfirm){
                   if (isConfirm) {
                       $modalInstance.dismiss();
-                      $state.reload();
+                      //$state.reload();
+                      $rootScope.$broadcast('cleanform', { clean: true });
                   }
               });
       };
