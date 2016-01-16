@@ -162,9 +162,9 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         }
     }
 
-      $scope.reloadPage = function() {
+    /*  $scope.reloadPage = function() {
           $state.reload();
-      }
+      }*/
 
     $scope.serachEmploye = function(){
       $scope.datarow = [];
