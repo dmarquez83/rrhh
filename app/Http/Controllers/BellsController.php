@@ -39,22 +39,11 @@ class BellsController extends Controller {
 
     public function destroy($id)
     {
-        $canRemove = DocumentReferenceVerificator::verify("bells_id", $id, ['Bells']);
 
-        var_dump($canRemove, 'puedo borrar ', $id);
-
-        if($canRemove === true){
-            if ($bell = Bells::find($id)->delete()){
-                   return ResultMsgMaker::deleteSuccess();
-                } else {
-                    return ResultMsgMaker::error();
-                }
-            }
-        else {
-            $modelName = $canRemove['modelName'];
-            $modelName = Lang::get('modelNames.'.$modelName);
-
-            return ResultMsgMaker::errorCannotDelete('el', 'timbre', '', $modelName);
+        if ($bell = Bells::find($id)->delete()){
+            return ResultMsgMaker::deleteSuccess();
+        } else {
+            return ResultMsgMaker::error();
         }
     }
 

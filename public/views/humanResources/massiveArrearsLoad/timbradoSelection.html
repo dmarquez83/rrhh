@@ -63,7 +63,7 @@
                 </div>
 
 
-                <div class="row" ng-repeat="bell in bells" ng-if="!$last">
+                <div class="row" ng-repeat="bell in bells track by $index" ng-if="!$last">
 
                     <div class="col-md-1">
                         <div class="form-group" >
@@ -76,7 +76,7 @@
 
                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group" ng-class="{ 'has-error' : timbradoSelectionForm.countBell.$invalid && timbradoSelectionForm.$submitted}">
-                            <label class="control-label"><u>C</u>ontador</label>
+                            <label class="control-label"><u>C</u>ontador </label>
                             <div class="input-group input-group-sm">
                                 <input type="text" ng-model="countBell[$index+1]" name="countBell[{{ $index+1 }}]" id="countBell[{{ $index+1 }}]" required class="form-control" tabindex="{{ ($index+1)*3 + 1 }}">
                                 <span class="input-group-addon"><i class="fa fa-credit-card"></i></span></div>
