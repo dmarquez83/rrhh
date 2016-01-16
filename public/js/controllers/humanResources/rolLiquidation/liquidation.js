@@ -314,23 +314,7 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.savePreLiquidarTemp = function(){
           $scope.liquidationArray= [];
           $scope.liquidation_ = {};
-          $scope.liquidation_.identification = '';
-          $scope.liquidation_.name = '';
-          $scope.liquidation_.department = '';
-          $scope.liquidation_.grossSalary = '';
-          $scope.liquidation_.bonus = '';
-          $scope.liquidation_.commission = '';
-          $scope.liquidation_.ReserveFund = '';
-          $scope.liquidation_.LessPersonal = '';
-          $scope.liquidation_.discount = '';
-          $scope.liquidation_.advances = '';
-          $scope.liquidation_.revenues = '';
-          $scope.liquidation_.discounts_ = '';
-          $scope.liquidation_.totalToPay = '';
-          $scope.liquidation_.status = '';
-          $scope.liquidation_.monthliquidation = '';
-          $scope.liquidation_.typeSettlement = '';
-          $scope.liquidation_.mesSel = '';
+
 
           if($scope.typeSettlement=='monthly'){
               $scope.mesSel = $scope.monthSettlement;
@@ -387,28 +371,19 @@ angular.module('app').controller('LiquidationCtrl', [
 
       $scope.savePreLiquidar = function(){
 
-          alertify.confirm("Esta seguro que desea liquidar rol, una vez hecha la liquidación no se podrán revertir los cambios..",
-              function(){
+          SweetAlert.swal({
+                  title: "Esta seguro que desea liquidar?",
+                  text: "una vez hecha la liquidación no se podrán revertir los cambios",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#DD6B55",confirmButtonText: "Si, Liquidar",
+                  cancelButtonText: "No, Liquidar",
+                  closeOnConfirm: true,
+                  closeOnCancel: true },
+              function(isConfirm){
+                  if (isConfirm) {
                   $scope.liquidationArray= [];
                   $scope.liquidation_ = {};
-                  $scope.liquidation_.identification = '';
-                  $scope.liquidation_.name = '';
-                  $scope.liquidation_.department = '';
-                  $scope.liquidation_.grossSalary = '';
-                  $scope.liquidation_.bonus = '';
-                  $scope.liquidation_.commission = '';
-                  $scope.liquidation_.ReserveFund = '';
-                  $scope.liquidation_.LessPersonal = '';
-                  $scope.liquidation_.discount = '';
-                  $scope.liquidation_.advances = '';
-                  $scope.liquidation_.revenues = '';
-                  $scope.liquidation_.discounts_ = '';
-                  $scope.liquidation_.totalToPay = '';
-                  $scope.liquidation_.status = '';
-                  $scope.liquidation_.monthliquidation = '';
-                  $scope.liquidation_.monthliquidation = '';
-                  $scope.liquidation_.typeSettlement = '';
-                  $scope.liquidation_.mesSel = '';
 
                   if($scope.typeSettlement=='monthly'){
                       $scope.mesSel = $scope.monthSettlement;
@@ -450,20 +425,30 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.typeSettlement = $scope.typeSettlement;
                       $scope.liquidation_.mesSel = $scope.mesSel;
 
-                      $scope.liquidationArray.push($scope.liquidation_);
-                      $scope.liquidation_ = {};
-
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
                       employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
-                      var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
+
+                      $scope.liquidation_.discount = angular.copy(employe.discounts);
+                      $scope.liquidation_.bonus = angular.copy(employe.bonus);
+
+                      //var paymenthRole = { 'paymenthRole':  {'discount': angular.copy(employe.discounts), 'bonus': angular.copy(employe.bonus) }};
+
+                      employe.paymentRole.push($scope.liquidation_);
+
+                      var paymenthRole = { 'paymentRole': angular.copy(employe.paymentRole) };
+
                       server.update('employee', paymenthRole, employe._id).success(function (data) {
                           $scope.deleteBonus(employe);
                           $scope.deleteDiscount(employe);
                       });
 
+                      $scope.liquidationArray.push($scope.liquidation_);
+                      $scope.liquidation_ = {};
+
                   });
 
                   server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
+
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
                           $modalInstance.dismiss();
@@ -475,11 +460,9 @@ angular.module('app').controller('LiquidationCtrl', [
                           $scope.clean();
                       }
                   });
-              },
-              function(){
-                  alertify.error('Cancel');
-              });
-      };
+              }
+      });
+  };
 
       $scope.savePreLiquidarS = function(){
           $scope.liquidation_ = {};
@@ -499,28 +482,36 @@ angular.module('app').controller('LiquidationCtrl', [
                   if (isConfirm) {
                       angular.forEach(($scope.employeSelections), function (employe) {
                           $scope.liquidation_.status = 'liquidation';
+                          employe.status = 'liquidation';
+
                           server.update('paymenthRolesController', $scope.liquidation_, employe._id).success(function (data) {
+
 
                           });
                           $scope.employeesLiquidar = _($scope.employees).where({'identification': employe.identification});
 
                           employe.discounts = _($scope.employeesLiquidar[0]).has('discounts') ? $scope.employeesLiquidar[0].discounts : [];
                           employe.bonus = _($scope.employeesLiquidar[0]).has('bonus') ? $scope.employeesLiquidar[0].bonus : [];
-                          var paymenthRole = {
-                              'paymenthRole': {
-                                  'discount': angular.copy($scope.employeesLiquidar[0].discounts),
-                                  'bonus': angular.copy($scope.employeesLiquidar[0].bonus)
-                              }
-                          };
+
+                          $scope.liquidation_.discount = angular.copy(employe.discounts);
+                          $scope.liquidation_.bonus = angular.copy(employe.bonus);
+
+                          $scope.employeesLiquidar[0].paymentRole.push(employe);
+
+                          var paymenthRole = { 'paymentRole': angular.copy($scope.employeesLiquidar[0].paymentRole) };
+
                           server.update('employee', paymenthRole, $scope.employeesLiquidar[0]._id).success(function (data) {
 
                           });
+
                           $scope.deleteBonus($scope.employeesLiquidar[0]);
                           $scope.deleteDiscount($scope.employeesLiquidar[0]);
 
                           $scope.employeesLiquidar='';
 
                       });
+
+                      toastr.success('Liquidación de Rol satisfactoria');
                       $modalInstance.dismiss();
                       $state.reload();
                       $scope.clean();
