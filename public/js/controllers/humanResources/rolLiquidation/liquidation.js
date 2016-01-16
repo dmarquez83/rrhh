@@ -550,9 +550,9 @@ angular.module('app').controller('LiquidationCtrl', [
                   title: "esta seguro que desea Cancelar? ",
                   text: "se perderán los cambios",
                   type: "warning",
-                  showCancelButton: true,
+                  showCancelButton: false,
                   confirmButtonColor: "#DD6B55",confirmButtonText: "Ok",
-                  cancelButtonText: "Cancelar",
+                  cancelButtonText: "",
                   closeOnConfirm: true,
                   closeOnCancel: true },
               function(isConfirm){
