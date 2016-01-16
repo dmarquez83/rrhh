@@ -404,7 +404,7 @@ angular.module('app').controller('LiquidationCtrl', [
                   }
 
                   angular.forEach(($scope.employeSelections), function(employe){
-                      employe.paymentRole = [];
+                      employe.paymentRole = _(employe).has('paymentRole') ? employe.paymentRole : [];
                       $scope.liquidation_.identification = employe.identification;
                       $scope.liquidation_.name = employe.names;
                       $scope.liquidation_.department = employe.department.name;
@@ -454,7 +454,7 @@ angular.module('app').controller('LiquidationCtrl', [
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
                           $modalInstance.dismiss();
-                          $state.reload();
+                          $rootScope.$broadcast('cleanform', { clean: true });
                       }else{
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
                           $modalInstance.dismiss();
@@ -493,7 +493,7 @@ angular.module('app').controller('LiquidationCtrl', [
 
                           });
                           $scope.employeesLiquidar = _($scope.employees).where({'identification': employe.identification});
-                          $scope.employeesLiquidar[0].paymentRole = [];
+                          $scope.employeesLiquidar[0].paymentRole = _($scope.employeesLiquidar[0]).has('paymentRole') ? $scope.employeesLiquidar[0].paymentRole : [];
 
                           employe.discounts = _($scope.employeesLiquidar[0]).has('discounts') ? $scope.employeesLiquidar[0].discounts : [];
                           employe.bonus = _($scope.employeesLiquidar[0]).has('bonus') ? $scope.employeesLiquidar[0].bonus : [];

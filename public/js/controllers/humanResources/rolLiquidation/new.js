@@ -35,19 +35,19 @@ angular.module('app').controller('RolLiquidationCtrl', [
         });
 
       $scope.listarRoles = function(){
-          server.post('getPaymenthRoles').success(function(result){
-              $scope.resumenpaymenthroles=[];
-              $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
-              angular.forEach(($scope.paymenthroles), function(row) {
-                  var total = 0;
-                  angular.forEach((row), function(det) {
-                      total = total +  parseFloat(det.totalToPay);
-                  });
-                  $scope.resumenpaymenthroles.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
-              });
+
+           server.post('getPaymenthRoles').success(function(result){
+               $scope.resumenpaymenthroles=[];
+               $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+               angular.forEach(($scope.paymenthroles), function(row) {
+                   var total = 0;
+                   angular.forEach((row), function(det) {
+                       total = total +  parseFloat(det.totalToPay);
+                   });
+                   $scope.resumenpaymenthroles.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
+               });
           });
       }
-
 
 
         $scope.searchEmployeAct = function () {
