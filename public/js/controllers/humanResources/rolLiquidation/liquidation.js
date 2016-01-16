@@ -364,8 +364,7 @@ angular.module('app').controller('LiquidationCtrl', [
           server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
               toastr[data.type]('Pre-Liquidación de Rol satisfactoria');
               $modalInstance.dismiss();
-              $state.reload();
-              $scope.clean();
+              $rootScope.$broadcast('cleanform', { clean: true });
           });
       };
 

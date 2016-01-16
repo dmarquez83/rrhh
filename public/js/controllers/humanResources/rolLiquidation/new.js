@@ -14,10 +14,41 @@ angular.module('app').controller('RolLiquidationCtrl', [
         $scope.paymenthroles=[];
         $scope.resumenpaymenthroles=[];
         $scope.statusPreLiquidation=true;
+        $scope.cleanform = false;
 
         $rootScope.$on('employees', function (event, values) {
             $scope.employeSelections = values.employeSelections;
         });
+
+        $rootScope.$on('cleanform', function (event, values) {
+            $scope.cleanform = values.clean;
+
+            if(values.clean){
+                $scope.typeSettlement='';
+                $scope.rolLiquidation.monthSettlement = '';
+                $scope.rolLiquidation.firstDay='';
+                $scope.rolLiquidation.lastDay='';
+                $scope.employeSelections = [];
+                $scope.listarRoles();
+            }
+
+        });
+
+      $scope.listarRoles = function(){
+          server.post('getPaymenthRoles').success(function(result){
+              $scope.resumenpaymenthroles=[];
+              $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+              angular.forEach(($scope.paymenthroles), function(row) {
+                  var total = 0;
+                  angular.forEach((row), function(det) {
+                      total = total +  parseFloat(det.totalToPay);
+                  });
+                  $scope.resumenpaymenthroles.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
+              });
+          });
+      }
+
+
 
         $scope.searchEmployeAct = function () {
 
@@ -125,6 +156,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
              });
         });
 
+
         server.post('getPaymenthRoles').success(function(result){
             $scope.resumenpaymenthrolesLiq=[];
             $scope.paymenthrolesLiq = _.groupBy(_(result).where({ 'status': 'liquidation'}), 'monthliquidation');
@@ -136,8 +168,6 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 $scope.resumenpaymenthrolesLiq.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
             });
         });
-
-
 
         handlePanelAction();
     }
