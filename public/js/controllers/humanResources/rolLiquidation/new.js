@@ -29,6 +29,7 @@ angular.module('app').controller('RolLiquidationCtrl', [
                 $scope.rolLiquidation.firstDay='';
                 $scope.rolLiquidation.lastDay='';
                 $scope.employeSelections = [];
+                $scope.selectedAllEmp = '';
                 $scope.listarRoles();
             }
 
@@ -38,7 +39,8 @@ angular.module('app').controller('RolLiquidationCtrl', [
 
            server.post('getPaymenthRoles').success(function(result){
                //console.log(result);
-               $scope.resumenpaymenthroles=[];
+               $scope.resumenpaymenthroles.splice(0,$scope.resumenpaymenthroles.length);
+               $scope.resumenpaymenthroles = [];
                $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
                //console.log($scope.paymenthroles);
                angular.forEach(($scope.paymenthroles), function(row) {
