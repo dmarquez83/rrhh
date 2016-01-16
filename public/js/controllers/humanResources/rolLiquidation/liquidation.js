@@ -404,6 +404,7 @@ angular.module('app').controller('LiquidationCtrl', [
                   }
 
                   angular.forEach(($scope.employeSelections), function(employe){
+                      employe.paymentRole = [];
                       $scope.liquidation_.identification = employe.identification;
                       $scope.liquidation_.name = employe.names;
                       $scope.liquidation_.department = employe.department.name;
@@ -424,6 +425,8 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.typeSettlement = $scope.typeSettlement;
                       $scope.liquidation_.mesSel = $scope.mesSel;
 
+                      $scope.liquidationArray.push($scope.liquidation_);
+
                       employe.discounts = _(employe).has('discounts') ? employe.discounts : [];
                       employe.bonus = _(employe).has('bonus') ? employe.bonus : [];
 
@@ -441,7 +444,7 @@ angular.module('app').controller('LiquidationCtrl', [
                           $scope.deleteDiscount(employe);
                       });
 
-                      $scope.liquidationArray.push($scope.liquidation_);
+
                       $scope.liquidation_ = {};
 
                   });
@@ -455,8 +458,9 @@ angular.module('app').controller('LiquidationCtrl', [
                       }else{
                           toastr[data.type]('No se pudo realizar la Liquidación de Rol');
                           $modalInstance.dismiss();
-                          $state.reload();
-                          $scope.clean();
+                          //$state.reload();
+                          $rootScope.$broadcast('cleanform', { clean: true });
+                          //$scope.clean();
                       }
                   });
               }
@@ -480,6 +484,7 @@ angular.module('app').controller('LiquidationCtrl', [
               function(isConfirm){
                   if (isConfirm) {
                       angular.forEach(($scope.employeSelections), function (employe) {
+
                           $scope.liquidation_.status = 'liquidation';
                           employe.status = 'liquidation';
 
@@ -488,6 +493,7 @@ angular.module('app').controller('LiquidationCtrl', [
 
                           });
                           $scope.employeesLiquidar = _($scope.employees).where({'identification': employe.identification});
+                          $scope.employeesLiquidar[0].paymentRole = [];
 
                           employe.discounts = _($scope.employeesLiquidar[0]).has('discounts') ? $scope.employeesLiquidar[0].discounts : [];
                           employe.bonus = _($scope.employeesLiquidar[0]).has('bonus') ? $scope.employeesLiquidar[0].bonus : [];
@@ -512,7 +518,8 @@ angular.module('app').controller('LiquidationCtrl', [
 
                       toastr.success('Liquidación de Rol satisfactoria');
                       $modalInstance.dismiss();
-                      $state.reload();
+                      //$state.reload();
+                      $rootScope.$broadcast('cleanform', { clean: true });
                       $scope.clean();
                   }
               });
