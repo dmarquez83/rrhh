@@ -37,8 +37,10 @@ angular.module('app').controller('RolLiquidationCtrl', [
       $scope.listarRoles = function(){
 
            server.post('getPaymenthRoles').success(function(result){
+               //console.log(result);
                $scope.resumenpaymenthroles=[];
                $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+               //console.log($scope.paymenthroles);
                angular.forEach(($scope.paymenthroles), function(row) {
                    var total = 0;
                    angular.forEach((row), function(det) {
