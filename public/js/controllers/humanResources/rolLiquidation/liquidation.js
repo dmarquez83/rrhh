@@ -561,22 +561,9 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.cancel = function () {
-          SweetAlert.swal({
-                  title: "esta seguro que desea Cancelar? ",
-                  text: "se perderán los cambios",
-                  type: "warning",
-                  showCancelButton: false,
-                  confirmButtonColor: "#DD6B55",confirmButtonText: "Ok",
-                  cancelButtonText: "",
-                  closeOnConfirm: true,
-                  closeOnCancel: true },
-              function(isConfirm){
-                  if (isConfirm) {
-                      $modalInstance.dismiss();
-                      //$state.reload();
-                      $rootScope.$broadcast('cleanform', { clean: true });
-                  }
-              });
+        $modalInstance.dismiss();
+        //$state.reload();
+        $rootScope.$broadcast('cleanform', { clean: true });
       };
 
 
