@@ -41,14 +41,15 @@ angular.module('app').controller('RolLiquidationCtrl', [
                //console.log(result);
                $scope.resumenpaymenthroles.splice(0,$scope.resumenpaymenthroles.length);
                $scope.resumenpaymenthroles = [];
-               $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+              // $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+                 $scope.paymenthroles = _(result).where({ 'status': 'preliquidation'});
                //console.log($scope.paymenthroles);
                angular.forEach(($scope.paymenthroles), function(row) {
                    var total = 0;
-                   angular.forEach((row), function(det) {
+                   angular.forEach((row.paymentRoles), function(det) {
                        total = total +  parseFloat(det.totalToPay);
                    });
-                   $scope.resumenpaymenthroles.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
+                   $scope.resumenpaymenthroles.push({Fecha:row.sinceDate, Cantidad:row.paymentRoles.length, Total:total, Tipo:row.typeSettlement, Mes:row.monthliquidation, DataPreLiq: row});
                });
           });
       }
@@ -149,28 +150,40 @@ angular.module('app').controller('RolLiquidationCtrl', [
         };
 
         server.post('getPaymenthRoles').success(function(result){
+            //console.log(result,'aqui');
             $scope.resumenpaymenthroles=[];
-            $scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+            //$scope.paymenthroles = _.groupBy(_(result).where({ 'status': 'preliquidation'}), 'monthliquidation');
+            $scope.paymenthroles = _(result).where({ 'status': 'preliquidation'});
+           // console.log($scope.paymenthroles,'aqui');
              angular.forEach(($scope.paymenthroles), function(row) {
              var total = 0;
-                  angular.forEach((row), function(det) {
+                  angular.forEach((row.paymentRoles), function(det) {
                     total = total +  parseFloat(det.totalToPay);
                   });
-                 $scope.resumenpaymenthroles.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
+                 $scope.resumenpaymenthroles.push({Fecha:row.sinceDate, Cantidad:row.paymentRoles.length, Total:total, Tipo:row.typeSettlement, Mes:row.monthliquidation, DataPreLiq: row});
              });
         });
 
 
-        server.post('getPaymenthRoles').success(function(result){
-            $scope.resumenpaymenthrolesLiq=[];
-            $scope.paymenthrolesLiq = _.groupBy(_(result).where({ 'status': 'liquidation'}), 'monthliquidation');
-            angular.forEach(($scope.paymenthrolesLiq), function(row) {
-                var total = 0;
-                angular.forEach((row), function(det) {
-                    total = total +  parseFloat(det.totalToPay);
+        server.post('getPaymenthRoles').success(function(result) {
+            $scope.resumenpaymenthrolesLiq = [];
+            //console.log(result);
+                $scope.paymenthrolesLiq = _(result).where({ 'status': 'liquidation'});
+               // console.log($scope.paymenthrolesLiq,'aqui');
+                angular.forEach(($scope.paymenthrolesLiq), function (row) {
+                    var total = 0;
+                    angular.forEach((row.paymentRoles), function (det) {
+                        total = total + parseFloat(det.totalToPay);
+                    });
+                    $scope.resumenpaymenthrolesLiq.push({
+                        Fecha: row.sinceDate,
+                        Cantidad: row.paymentRoles.length,
+                        Total: total,
+                        Tipo: row.typeSettlement,
+                        Mes: row.monthliquidation,
+                        DataPreLiq: row
+                    });
                 });
-                $scope.resumenpaymenthrolesLiq.push({Fecha:row[0].sinceDate, Cantidad:row.length, Total:total, Tipo:row[0].typeSettlement, Mes:row[0].monthliquidation, DatePreLiq: row});
-            });
         });
 
         handlePanelAction();

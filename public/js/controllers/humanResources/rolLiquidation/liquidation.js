@@ -14,7 +14,8 @@ angular.module('app').controller('LiquidationCtrl', [
   'Status',
   function ($scope, $state, $modalInstance, server, $rootScope, SweetAlert, EmployeSelectionsModal, TypeSettlement,MonthSettlement,SinceDate,UntilDate,Status, $location) {
       $scope.less = 9.35;
-      $scope.employeSelections = EmployeSelectionsModal;
+      $scope.employeSelections = EmployeSelectionsModal.paymentRoles;
+      $scope.idpaymentRoles = EmployeSelectionsModal._id;
       $scope.typeSettlement = TypeSettlement;
 
       $scope.monthSettlement = MonthSettlement;
@@ -313,6 +314,7 @@ angular.module('app').controller('LiquidationCtrl', [
 
       $scope.savePreLiquidarTemp = function(){
           $scope.liquidationArray= [];
+          $scope.liquidationArrayA= [];
           $scope.liquidation_ = {};
 
 
@@ -349,19 +351,23 @@ angular.module('app').controller('LiquidationCtrl', [
               $scope.liquidation_.revenues = $scope.revenues(employe);
               $scope.liquidation_.discounts_ = $scope.discounts(employe);
               $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
-              $scope.liquidation_.status = 'preliquidation';
-              $scope.liquidation_.monthliquidation = $scope.monthSettlement;
-              $scope.liquidation_.sinceDate = $scope.sinceDate;
-              $scope.liquidation_.untilDate = $scope.untilDate;
+            //  $scope.liquidation_.status = 'preliquidation';
+            //  $scope.liquidation_.monthliquidation = $scope.monthSettlement;
+            //  $scope.liquidation_.sinceDate = $scope.sinceDate;
+            //  $scope.liquidation_.untilDate = $scope.untilDate;
               $scope.liquidation_.typeSettlement = $scope.typeSettlement;
-              $scope.liquidation_.mesSel = $scope.mesSel;
+            //  $scope.liquidation_.mesSel = $scope.mesSel;
 
               $scope.liquidationArray.push($scope.liquidation_);
+
+              //migu
               $scope.liquidation_ = {};
 
           });
 
-          server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
+          $scope.liquidationArrayA.push({'sinceDate': $scope.sinceDate, 'utilDate': $scope.untilDate,'typeSettlement': $scope.typeSettlement,  'monthliquidation': $scope.monthSettlement,'mesSel':$scope.mesSel , 'status': 'preliquidation','paymentRoles': $scope.liquidationArray});
+
+          server.save('paymenthRolesController', $scope.liquidationArrayA).success(function (data) {
               toastr[data.type]('Pre-Liquidación de Rol satisfactoria');
               $modalInstance.dismiss();
               $rootScope.$broadcast('cleanform', { clean: true });
@@ -382,6 +388,7 @@ angular.module('app').controller('LiquidationCtrl', [
               function(isConfirm){
                   if (isConfirm) {
                   $scope.liquidationArray= [];
+                  $scope.liquidationArrayA= [];
                   $scope.liquidation_ = {};
 
                   if($scope.typeSettlement=='monthly'){
@@ -418,12 +425,12 @@ angular.module('app').controller('LiquidationCtrl', [
                       $scope.liquidation_.revenues = $scope.revenues(employe);
                       $scope.liquidation_.discounts_ = $scope.discounts(employe);
                       $scope.liquidation_.totalToPay = $scope.totalToPay(employe);
-                      $scope.liquidation_.status = 'liquidation';
-                      $scope.liquidation_.monthliquidation = $scope.monthSettlement;
-                      $scope.liquidation_.sinceDate = $scope.sinceDate;
-                      $scope.liquidation_.untilDate = $scope.untilDate;
-                      $scope.liquidation_.typeSettlement = $scope.typeSettlement;
-                      $scope.liquidation_.mesSel = $scope.mesSel;
+                     // $scope.liquidation_.status = 'liquidation';
+                    //  $scope.liquidation_.monthliquidation = $scope.monthSettlement;
+                    //  $scope.liquidation_.sinceDate = $scope.sinceDate;
+                    //  $scope.liquidation_.untilDate = $scope.untilDate;
+                    //  $scope.liquidation_.typeSettlement = $scope.typeSettlement;
+                    //  $scope.liquidation_.mesSel = $scope.mesSel;
 
                       $scope.liquidationArray.push($scope.liquidation_);
 
@@ -449,7 +456,9 @@ angular.module('app').controller('LiquidationCtrl', [
 
                   });
 
-                  server.save('paymenthRolesController', $scope.liquidationArray).success(function (data) {
+                  $scope.liquidationArrayA.push({'sinceDate': $scope.sinceDate, 'utilDate': $scope.untilDate, 'typeSettlement': $scope.typeSettlement, 'monthliquidation': $scope.monthSettlement,'mesSel':$scope.mesSel , 'status': 'liquidation','paymentRoles': $scope.liquidationArray});
+
+                  server.save('paymenthRolesController', $scope.liquidationArrayA).success(function (data) {
 
                       if (data.type == 'success') {
                           toastr[data.type]('Liquidación de Rol satisfactoria');
@@ -485,13 +494,8 @@ angular.module('app').controller('LiquidationCtrl', [
                   if (isConfirm) {
                       angular.forEach(($scope.employeSelections), function (employe) {
 
-                          $scope.liquidation_.status = 'liquidation';
                           employe.status = 'liquidation';
 
-                          server.update('paymenthRolesController', $scope.liquidation_, employe._id).success(function (data) {
-
-
-                          });
                           $scope.employeesLiquidar = _($scope.employees).where({'identification': employe.identification});
                           $scope.employeesLiquidar[0].paymentRole = _($scope.employeesLiquidar[0]).has('paymentRole') ? $scope.employeesLiquidar[0].paymentRole : [];
 
@@ -514,6 +518,11 @@ angular.module('app').controller('LiquidationCtrl', [
 
                           $scope.employeesLiquidar='';
 
+                      });
+
+                      $scope.liquidation_.status = 'liquidation'; //ojo
+
+                      server.update('paymenthRolesController', $scope.liquidation_, $scope.idpaymentRoles).success(function (data) {
                       });
 
                       toastr.success('Liquidación de Rol satisfactoria');

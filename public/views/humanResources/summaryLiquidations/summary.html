@@ -23,7 +23,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="paymenthroles in resumenpaymenthrolesLiq track by $index"  class="cursorPointer" ng-click="openLiquidarModal(paymenthroles.DatePreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Liq')" ng-controller="liquidationSelectionCtrl">
+      <tr ng-repeat="paymenthroles in resumenpaymenthrolesLiq track by $index"  class="cursorPointer" ng-click="openLiquidarModal(paymenthroles.DataPreLiq,paymenthroles.Mes, paymenthroles.Tipo,'Liq')" ng-controller="liquidationSelectionCtrl">
         <td>{{ $index+1 }}</td>
         <td>{{ paymenthroles.Fecha}}</td>
         <td>{{ paymenthroles.Cantidad}}</td>
