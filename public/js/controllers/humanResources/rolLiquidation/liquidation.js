@@ -556,7 +556,7 @@ angular.module('app').controller('LiquidationCtrl', [
                   if (isConfirm) {
                       $scope.serverProcess = true;
                       angular.forEach(($scope.employeSelections), function(employeSelections){
-                          server.delete('paymenthRolesController', employeSelections._id).success(function(result){
+                          server.delete('paymenthRolesController', $scope.idpaymentRoles).success(function(result){
                               SweetAlert.swal("Eliminado!", result.msg, result.type);
                            })
                       });
