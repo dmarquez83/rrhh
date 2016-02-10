@@ -1,11 +1,29 @@
 'use strict';
+
+angular.module('app').directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                scope.$apply(function () {
+                    scope.fileread = changeEvent.target.files[0];
+                    // or all selected files:
+                    // scope.fileread = changeEvent.target.files;
+                });
+            });
+        }
+    }
+}]);
+
 angular.module('app').controller('MassiveArrearsLoadCtrl', [
   '$scope',
   '$state',
   'documentValidate',
   'server',
   'XLSXReaderService','FactorysubtractHours','FactoryArrears','FactoryaddingHours',
-  function ($scope, $state, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears,FactoryaddingHours) {
+  function ($scope, $state, documentValidate, server, XLSXReaderService,FactorysubtractHours,FactoryArrears,FactoryaddingHours, fileread) {
 
     $scope.showPreview = false;
     $scope.showJSONPreview = true;
@@ -27,6 +45,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.employeeFile = [];
     $scope.assignedDiscounts = {};
     $scope.descuento = 0.00;
+    $scope.archivo = null;
+    $scope.procesar = true;
     var countsheets = 0;
     var quantitycol = 0;
     var col1 = '';
@@ -66,20 +86,20 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       });
 
 
-    $scope.fileChanged = function(files) {
-      $scope.namefile = (files[0].name);
+    $scope.fileChanged = function() {
+      $scope.namefile = ($scope.archivo.name);
       $scope.typefile = $scope.namefile.split('.')[1];
       if (($scope.typefile == 'xls')  || ($scope.typefile == 'xlsx') ){
         $scope.isProcessing = true;
         $scope.sheets = [];
-        $scope.excelFile = files[0];
+        $scope.excelFile = $scope.archivo;
         XLSXReaderService.readFile($scope.excelFile, $scope.showPreview, $scope.showJSONPreview).then(function(xlsxData) {
           $scope.sheets = xlsxData.sheets;
           $scope.isProcessing = false;
           countsheets = (Object.keys($scope.sheets).length);
           if(countsheets > 1){
             toastr.error('Error', 'El archivo Excel tiene mas de 1 Hoja de trabajo');
-            $state.reload();
+            $scope.procesar = true;
           }else{
             angular.forEach($scope.sheets, function (sheetData, sheetName) {
               angular.forEach(sheetData, function (row) {
@@ -99,9 +119,10 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
               });
               if ($scope.validated) {
                 $scope.datafile = sheetData;
+                $scope.procesar = false;
               }else{
                 toastr.error('Error', message);
-                $state.reload();
+                $scope.procesar = true;
               }
             });
           }
@@ -109,7 +130,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
       }else
       {
         toastr.error('Error', 'El Tipo de archivo permitido es .xls o .xlsx');
-        $state.reload();
+        $scope.procesar = true;
       }
      // console.log($scope.datafile);
     };

@@ -101,12 +101,15 @@ angular.module('app').controller('LiquidationCtrl', [
                    month = objDate.toLocaleString(locale, { month: "2-digit" });
                //console.log('mes',parseInt(month),parseInt($scope.monthSettlement),'frecuencia',datos.frequency);
                if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
-                   return acumulador = acumulador + datos.bonus.value;
+                   if(datos.bonus != undefined)
+                    return acumulador = acumulador + datos.bonus.value;
                }else{
                    if(datos.frequency=='monthly'){
-                       return acumulador = acumulador + datos.bonus.value;
+                      if(datos.bonus != undefined)
+                        return acumulador = acumulador + datos.bonus.value;
                    }
-               } // acumulador = acumulador + datos.value;
+               }
+               return acumulador;
            });
 
        return acumulador;
@@ -119,10 +122,12 @@ angular.module('app').controller('LiquidationCtrl', [
                   locale = "en-us",
                   month = objDate.toLocaleString(locale, { month: "2-digit" });
               if(datos.frequency=='once' &&  (parseInt(month) == parseInt($scope.monthSettlement)) ){
-                  return acumulador = acumulador + datos.discount.value;
+                  if(datos.discount != undefined)
+                    return acumulador = acumulador + datos.discount.value;
               }else{
                   if(datos.frequency=='monthly'){
-                      return acumulador = acumulador + datos.discount.value;
+                      if(datos.discount != undefined)
+                        return acumulador = acumulador + datos.discount.value;
                   }
               }
           });
@@ -179,7 +184,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalBonus = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              acumulador = acumulador + $scope.addBonus(datos.bonus);
+              if(datos.bonus != undefined)
+                acumulador = acumulador + $scope.addBonus(datos.bonus);
             //  acumulador = acumulador + bonusEmp.value;
           });
           return acumulador;
@@ -246,7 +252,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalBonusS = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              acumulador = acumulador + datos.bonus;
+              if(datos.bonus != undefined)
+                acumulador = acumulador + datos.bonus;
               //  acumulador = acumulador + bonusEmp.value;
           });
           return acumulador;
@@ -271,7 +278,8 @@ angular.module('app').controller('LiquidationCtrl', [
       $scope.totalDiscountsS = function(){
           var acumulador = 0;
           angular.forEach(($scope.employeSelections), function(datos){
-              acumulador = acumulador + datos.discount;
+              if(datos.discount != undefined)
+                acumulador = acumulador + datos.discount;
           });
           return acumulador;
       };
@@ -562,22 +570,9 @@ angular.module('app').controller('LiquidationCtrl', [
       };
 
       $scope.cancel = function () {
-          SweetAlert.swal({
-                  title: "esta seguro que desea Cancelar? ",
-                  text: "se perderán los cambios",
-                  type: "warning",
-                  showCancelButton: false,
-                  confirmButtonColor: "#DD6B55",confirmButtonText: "Ok",
-                  cancelButtonText: "",
-                  closeOnConfirm: true,
-                  closeOnCancel: true },
-              function(isConfirm){
-                  if (isConfirm) {
-                      $modalInstance.dismiss();
-                      //$state.reload();
-                      $rootScope.$broadcast('cleanform', { clean: true });
-                  }
-              });
+        $modalInstance.dismiss();
+        //$state.reload();
+        $rootScope.$broadcast('cleanform', { clean: true });
       };
 
 

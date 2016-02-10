@@ -22,7 +22,7 @@ class BellsController extends Controller {
     public function store()
     {
         $bells = Input::all();
-        Bells::where('countBell', '>', 0)->delete();
+        Bells::where('_id', '<>', "")->delete();
         foreach($bells as $bell){
             Bells::create($bell);        }
         return ResultMsgMaker::saveSuccess();

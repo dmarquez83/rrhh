@@ -32,7 +32,7 @@
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
                                 Examinar...
-                                <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' ng-model="archivo" name="excel_file" accept=".xlsx"  onchange='angular.element(this).scope().fileChanged(this.files);$("#upload-file-info").html($(this).val());' required="true" >
+                                <input type="file" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' fileread="archivo" name="excel_file" accept=".xlsx" required="true" >
                             </span>
                         </span>
                             <input type="text" class="form-control" ng-model="namefile" id="upload-file-info" readonly>
@@ -44,7 +44,8 @@
                 </div>
                 <div class="col-lg-4 col-md-4"><label class="control-label"></label>
                     <div class="form-group">
-                        <button class="btn btn-primary" type="botton" ng-click="send()" >Enviar</button>
+                        <button class="btn" type="botton" ng-click="fileChanged()" >Analizar Archivo</button>
+                        <button class="btn btn-primary" type="botton" ng-click="send()" ng-disabled="procesar" disabled="disabled">Procesar</button>
                     </div>
                 </div>
 
