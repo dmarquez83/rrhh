@@ -43,6 +43,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     $scope.employees = [];
     $scope.employeesFile =  [];
     $scope.employeeFile = [];
+    $scope.employeesDiscounts = [];
     $scope.assignedDiscounts = {};
     $scope.descuento = 0.00;
     $scope.archivo = null;
@@ -54,6 +55,9 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
     var col3 = '';
     var message='';
 
+    $scope.updateEmployeeDiscount = function() {
+      $scope.employeesDiscounts[$scope.employeeFile.code] = $scope.descuento;
+    }
 
     server.post('getBells').success(function(result){
       $scope.configuration = _.sortBy(result, 'countBell');
@@ -157,6 +161,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
                 angular.forEach(_.groupBy(Codigos, 'Codigo'), function (row) {
                     $scope.employees = _(result).where({'code': row[0].Codigo});
                     $scope.employeesFile.push($scope.employees[0]);
+                    $scope.employeesDiscounts[$scope.employees[0].code] = 0;
                 });
             });
 
@@ -255,32 +260,35 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         $scope.data.push({Fecha:data[0].Fecha, Columnas:$scope.columnas});
       });
 
-        var i = 0;
-        $scope.total = [];
-        angular.forEach(($scope.configuration), function(conf) {
-            var acumulador ='00:00';
-            angular.forEach($scope.data, function (data) {
-                angular.forEach(data.Columnas,function(col){
-                    if(col.Color == 'red'  && col.HoraConf==conf.hourBell){
-                        if(col.Type=='in'){
-                            var resultado = FactorysubtractHours.subtractHours(conf.hourBell,col.Hora);
-                        }else{
-                            var resultado = FactorysubtractHours.subtractHours(col.Hora,conf.hourBell);
-                        }
+      var i = 0;
+      $scope.total = [];
+      angular.forEach(($scope.configuration), function(conf) {
+          var acumulador ='00:00';
+          angular.forEach($scope.data, function (data) {
+              angular.forEach(data.Columnas,function(col){
+                  if(col.Color == 'red'  && col.HoraConf==conf.hourBell){
+                      if(col.Type=='in'){
+                          var resultado = FactorysubtractHours.subtractHours(conf.hourBell,col.Hora);
+                      }else{
+                          var resultado = FactorysubtractHours.subtractHours(col.Hora,conf.hourBell);
+                      }
 
-                        var resulacumulador = FactoryaddingHours.addingHours(acumulador,resultado);
-                        acumulador = resulacumulador;
-                    }
-                });
-            });
-            if(acumulador.substr(0,2)=='00'){
-                var tiempo = 'minutos';
-            }else {
-                var tiempo = 'horas';
-            }
-            $scope.total.push({Hora:conf.hourBell, Total: acumulador, Tiempo: tiempo});
-            i++;
-        });
+                      var resulacumulador = FactoryaddingHours.addingHours(acumulador,resultado);
+                      acumulador = resulacumulador;
+                  }
+              });
+          });
+          if(acumulador.substr(0,2)=='00'){
+              var tiempo = 'minutos';
+          }else {
+              var tiempo = 'horas';
+          }
+          $scope.total.push({Hora:conf.hourBell, Total: acumulador, Tiempo: tiempo});
+          i++;
+      });
+
+      $scope.descuento = $scope.employeesDiscounts[$scope.employeeFile.code];
+
     };
 
      var validarDescuento = function(){
@@ -295,6 +303,8 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         $scope.monthSearch = '';
         $scope.archivo = '';
         $scope.employeeFile=[];
+        $scope.employeesFile =[];
+        $scope.employeesDiscounts =[];
         $scope.descuento='';
         $scope.data=[];
         $scope.datafile=[];
@@ -302,6 +312,7 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
         $scope.endheader = false;
         $scope.namefile='';
         $scope.total=[];
+        $scope.procesar = true;
       };
 
 
@@ -309,18 +320,23 @@ angular.module('app').controller('MassiveArrearsLoadCtrl', [
 
         /*que si ta tiene el descuento no lo vuelva asignar preguntar al cliente*/
 
-        if(validarDescuento()){
-            $scope.employeeFile.discounts = _($scope.employeeFile).has('discounts') ? $scope.employeeFile.discounts : [];
-            $scope.assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.descuento)}};
-            $scope.assignedDiscounts.date = moment().format();
-            $scope.assignedDiscounts.frequency = 'once';
-            $scope.employeeFile.discounts.push($scope.assignedDiscounts);
-            var discounts = { 'discounts': angular.copy($scope.employeeFile.discounts) };
-            //console.log(discounts);
-            server.update('employee', discounts, $scope.employeeFile._id).success(function (data) {
-                toastr[data.type](data.msg);
-                $scope.clean();
+        if(true){
+
+            angular.forEach(($scope.employeesFile), function(employee) {
+              if($scope.employeesDiscounts[employee.code] > 0){
+                employee.discounts = _(employee).has('discounts') ? employee.discounts : [];
+                var assignedDiscounts = {'discount': {type:'Valor',code:'descuento00000', name:'Delay',value:parseFloat($scope.employeesDiscounts[employee.code])}};
+                assignedDiscounts.date = moment().format();
+                assignedDiscounts.frequency = 'once';
+                employee.discounts.push(assignedDiscounts);
+                var discounts = { 'discounts': angular.copy(employee.discounts) };
+                //console.log(discounts);
+                server.update('employee', discounts, employee._id).success(function (data) {
+                });
+              }
             });
+            toastr.success("Se guardaron los descuentos asignados");
+            $scope.clean();
         }else{
             toastr.warning("Debe Ingresar un descuento");
         }
